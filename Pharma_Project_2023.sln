@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pharma_Project_2023.Server", "Pharma_Project_2023.Server\Pharma_Project_2023.Server.csproj", "{FC9E225C-AE95-43BB-872E-BF7EF2672CAD}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "pharma_project_2023.client", "pharma_project_2023.client\pharma_project_2023.client.esproj", "{A37EB1EB-D96D-4457-B479-6D6C487B8239}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FC9E225C-AE95-43BB-872E-BF7EF2672CAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC9E225C-AE95-43BB-872E-BF7EF2672CAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC9E225C-AE95-43BB-872E-BF7EF2672CAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC9E225C-AE95-43BB-872E-BF7EF2672CAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A37EB1EB-D96D-4457-B479-6D6C487B8239}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A37EB1EB-D96D-4457-B479-6D6C487B8239}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A37EB1EB-D96D-4457-B479-6D6C487B8239}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A37EB1EB-D96D-4457-B479-6D6C487B8239}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A37EB1EB-D96D-4457-B479-6D6C487B8239}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A37EB1EB-D96D-4457-B479-6D6C487B8239}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {11E50EB2-D4DB-485C-B700-5A3F52B0C17E}
+	EndGlobalSection
+EndGlobal

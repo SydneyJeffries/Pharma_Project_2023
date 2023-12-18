@@ -1,0 +1,19 @@
+{
+  "name": "package.json",
+  "version": "1.0.0",
+  "description": "Node Js package",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sydneyJeffries/Pharma_Project_2023.git"
+  },
+  "author": "sydney",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sydneyJeffries/Pharma_Project_2023/issues"
+  },
+  "homepage": "https://github.com/sydneyJeffries/Pharma_Project_2023#readme"
+}
