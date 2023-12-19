@@ -1,17 +1,30 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Pharma_Project_2023.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class migration2 : Migration
+    public partial class migration3 : Migration
     {
         /// <inheritdoc />
-
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+
+            migrationBuilder.CreateTable(
+           name: "States",
+           columns: table => new
+           {
+               StateCode = table.Column<string>(type: "nvarchar(2)", nullable: false),
+               StateName = table.Column<string>(type: "nvarchar(450)", nullable: false),
+           },
+           constraints: table =>
+           {
+               table.PrimaryKey("PK_State", x => x.StateCode);
+
+           });
+
+
             migrationBuilder.CreateTable(
                 name: "Pharmacies",
                 columns: table => new
@@ -33,19 +46,8 @@ namespace Pharma_Project_2023.Server.Migrations
                     table.ForeignKey(name: "FK_Pharmacies_States_StateCode", column: x => x.StateCode, principalTable: "States", principalColumn: "StateCode", onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "States",
-                columns: table => new
-                {
-                    StateCode = table.Column<string>(type: "nvarchar(2)", nullable: false),
-                    StateName = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_State", x => x.StateCode);
 
-                });
-
+            migrationBuilder.Sql(@"INSERT INTO States (StateName, StateCode) VALUES('Alabama', 'AL'),('Alaska', 'AK'),('Arizona', 'AZ'),('Arkansas', 'AR'),('California', 'CA'),('Colorado', 'CO'),('Connecticut', 'CT'),('Delaware', 'DE'),('Florida', 'FL'),('Georgia', 'GA'),('Hawaii', 'HI'),('Idaho', 'ID'),('Illinois', 'IL'),('Indiana', 'IN'),('Iowa', 'IA'),('Kansas', 'KS'),('Kentucky', 'KY'),('Louisiana', 'LA'),('Maine', 'ME'),('Maryland', 'MD'),('Massachusetts', 'MA'),('Michigan', 'MI'),('Minnesota', 'MN'),('Mississippi', 'MS'),('Missouri', 'MO'),('Montana', 'MT'),('Nebraska', 'NE'),('Nevada', 'NV'),('New Hampshire', 'NH'),('New Jersey', 'NJ'),('New Mexico', 'NM'),('New York', 'NY'),('North Carolina', 'NC'),('North Dakota', 'ND'),('Ohio', 'OH'),('Oklahoma', 'OK'),('Oregon', 'OR'),('Pennsylvania', 'PA'),('Rhode Island', 'RI'),('South Carolina', 'SC'),('South Dakota', 'SD'),('Tennessee', 'TN'),('Texas', 'TX'),('Utah', 'UT'),('Vermont', 'VT'),('Virginia', 'VA'),('Washington', 'WA'),('West Virginia', 'WV'),('Wisconsin', 'WI'),('Wyoming', 'WY');");
 
             migrationBuilder.Sql(
           @"
@@ -58,7 +60,6 @@ namespace Pharma_Project_2023.Server.Migrations
                 ('Target pharmacy', 'Glade Rd', 'Colleyville', 'TX', 76001, 0, GETDATE())
                 ");
 
-            migrationBuilder.Sql(@"INSERT INTO States (StateName, StateCode) VALUES('Alabama', 'AL'),('Alaska', 'AK'),('Arizona', 'AZ'),('Arkansas', 'AR'),('California', 'CA'),('Colorado', 'CO'),('Connecticut', 'CT'),('Delaware', 'DE'),('Florida', 'FL'),('Georgia', 'GA'),('Hawaii', 'HI'),('Idaho', 'ID'),('Illinois', 'IL'),('Indiana', 'IN'),('Iowa', 'IA'),('Kansas', 'KS'),('Kentucky', 'KY'),('Louisiana', 'LA'),('Maine', 'ME'),('Maryland', 'MD'),('Massachusetts', 'MA'),('Michigan', 'MI'),('Minnesota', 'MN'),('Mississippi', 'MS'),('Missouri', 'MO'),('Montana', 'MT'),('Nebraska', 'NE'),('Nevada', 'NV'),('New Hampshire', 'NH'),('New Jersey', 'NJ'),('New Mexico', 'NM'),('New York', 'NY'),('North Carolina', 'NC'),('North Dakota', 'ND'),('Ohio', 'OH'),('Oklahoma', 'OK'),('Oregon', 'OR'),('Pennsylvania', 'PA'),('Rhode Island', 'RI'),('South Carolina', 'SC'),('South Dakota', 'SD'),('Tennessee', 'TN'),('Texas', 'TX'),('Utah', 'UT'),('Vermont', 'VT'),('Virginia', 'VA'),('Washington', 'WA'),('West Virginia', 'WV'),('Wisconsin', 'WI'),('Wyoming', 'WY');");
 
         }
 
@@ -71,5 +72,6 @@ namespace Pharma_Project_2023.Server.Migrations
             migrationBuilder.DropTable(
                 name: "Pharmacies");
         }
+
     }
 }

@@ -1,15 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Pharma_Project_2023.Server.Models;
+using Pharma_Project_2023.Core.Objects;
 
-namespace Pharma_Project_2023.Server
+namespace Pharma_Project_2023.Core
 {
-    public class  AppSettingsDbContext : DbContext
+    public class AppSettingsDbContext : DbContext
     {
         public DbSet<Pharmacy> Pharmacy { get; set; }
 
         public DbSet<State> State { get; set; }
 
-        public AppSettingsDbContext() :base() { }
+        public AppSettingsDbContext() : base() { }
 
         public AppSettingsDbContext(DbContextOptions<AppSettingsDbContext> options) : base(options)
         {

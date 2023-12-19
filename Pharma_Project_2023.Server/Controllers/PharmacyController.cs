@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Pharma_Project_2023.Server.Models;
+using Pharma_Project_2023.Core;
+using Pharma_Project_2023.Core.Interfaces;
+using Pharma_Project_2023.Core.Objects;
 
 namespace Pharma_Project_2023.Server.Controllers
 {
@@ -9,21 +10,36 @@ namespace Pharma_Project_2023.Server.Controllers
     public class PharmacyController : ControllerBase
     {
         private readonly ILogger<PharmacyController> _logger;
-        private readonly AppSettingsDbContext _dbContext;
+        private IPharmacyService _pharmacyService { get; set; }
 
-        public PharmacyController(AppSettingsDbContext dbContext, ILogger<PharmacyController> logger)
+        public PharmacyController(ILogger<PharmacyController> logger)
         {
-            _dbContext = dbContext;
+
             _logger = logger;
         }
 
-        //public async  Task<IEnumerable<Pharmacy>> GetPharmacies()
+        //public async Task<List<Pharmacy>> GetPharmacies()
         //{
+        //   List<Pharmacy> results = await _pharmacyService.GetPharmacies();
 
-        //    return await _dbContext.Pharmacy.(); 
         //}
- 
 
-      
+        //public async Task<Pharmacy?> GetPharmacyById(int pharmacyId)
+        //{
+        //    Pharmacy result = await _pharmacyService.GetPharmacyById(pharmacyId);
+        //}
+
+        //public async Task<Pharmacy> UpdatePharmacy(Pharmacy pharmacy)
+        //{     
+
+        //    await _pharmacyService.UpdatePharmacy(pharmacy);
+
+        //}
+
+        //public async Task<List<State>> GetStates()
+        //{
+        //    List<State> results = await _pharmacyService.GetStates();
+        //}
+
     }
 }

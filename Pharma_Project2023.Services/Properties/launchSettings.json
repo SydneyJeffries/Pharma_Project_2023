@@ -1,0 +1,11 @@
+﻿{
+  "profiles": {
+    "Pharma_Project2023.Services": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

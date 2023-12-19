@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Pharma_Project_2023.Core.Interfaces;
 using Pharma_Project_2023.Server;
+using Pharma_Project_2023.Services;
+using Pharma_Project_2023.Core;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,10 +15,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 string connectionString = builder.Configuration.GetConnectionString("AppSettingsDbContext");
 
-
-//builder.Services.data
 builder.Services.AddDbContext<AppSettingsDbContext>(options =>
-            options.UseSqlServer(connectionString));
+            options.UseSqlServer(connectionString, b => b.MigrationsAssembly("Pharma_Project_2023.Server"))
+       );
+
+builder.Services.AddScoped<IPharmacyService, PharmacyService>();
 
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {

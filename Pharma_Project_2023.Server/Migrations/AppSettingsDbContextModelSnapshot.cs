@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Pharma_Project_2023.Server;
+using Pharma_Project_2023.Core;
 
 #nullable disable
 
@@ -22,7 +22,7 @@ namespace Pharma_Project_2023.Server.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Pharma_Project_2023.Server.Models.Pharmacy", b =>
+            modelBuilder.Entity("Pharma_Project_2023.Core.Objects.Pharmacy", b =>
                 {
                     b.Property<int>("PharmacyId")
                         .ValueGeneratedOnAdd()
@@ -64,7 +64,7 @@ namespace Pharma_Project_2023.Server.Migrations
                     b.ToTable("Pharmacies", (string)null);
                 });
 
-            modelBuilder.Entity("Pharma_Project_2023.Server.Models.State", b =>
+            modelBuilder.Entity("Pharma_Project_2023.Core.Objects.State", b =>
                 {
                     b.Property<string>("StateCode")
                         .HasColumnType("nvarchar(450)");
@@ -83,14 +83,14 @@ namespace Pharma_Project_2023.Server.Migrations
                     b.ToTable("States", (string)null);
                 });
 
-            modelBuilder.Entity("Pharma_Project_2023.Server.Models.State", b =>
+            modelBuilder.Entity("Pharma_Project_2023.Core.Objects.State", b =>
                 {
-                    b.HasOne("Pharma_Project_2023.Server.Models.Pharmacy", null)
+                    b.HasOne("Pharma_Project_2023.Core.Objects.Pharmacy", null)
                         .WithMany("States")
                         .HasForeignKey("PharmacyId");
                 });
 
-            modelBuilder.Entity("Pharma_Project_2023.Server.Models.Pharmacy", b =>
+            modelBuilder.Entity("Pharma_Project_2023.Core.Objects.Pharmacy", b =>
                 {
                     b.Navigation("States");
                 });
