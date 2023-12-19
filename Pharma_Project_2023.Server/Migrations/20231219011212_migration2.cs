@@ -6,9 +6,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Pharma_Project_2023.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class migration1 : Migration
+    public partial class migration2 : Migration
     {
         /// <inheritdoc />
+
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -21,7 +22,7 @@ namespace Pharma_Project_2023.Server.Migrations
                     FilledPerscriptions = table.Column<int>(type: "int", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StateCode = table.Column<string>(type: "nvarchar(1)", nullable: false),
+                    StateCode = table.Column<string>(type: "nvarchar(2)", nullable: false),
                     Zip = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     UpdatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
@@ -35,19 +36,19 @@ namespace Pharma_Project_2023.Server.Migrations
                 name: "States",
                 columns: table => new
                 {
-                    StateCode = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    StateName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StateCode = table.Column<string>(type: "nvarchar(2)", nullable: false),
+                    StateName = table.Column<string>(type: "nvarchar(450)", nullable: false),
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_State", x => x.StateCode);
-             
+
                 });
 
 
-                migrationBuilder.Sql(
-               @"
-                INSERT INTO Pharmacy (Name, Address, City, StateCode, Zip, FilledPerscriptions, CreatedDate)
+            migrationBuilder.Sql(
+          @"
+                INSERT INTO Pharmacies (Name, Address, City, StateCode, Zip, FilledPerscriptions, CreatedDate)
                 VALUES
                 ('Walgreens', '123 Main St.', 'Dallas', 'TX', 75201, 0, GETDATE()),
                 ('Sydney''s Pharmacy', '123 Juniper Rd', 'Plano', 'TX', 75074, 0, GETDATE()),
@@ -56,7 +57,7 @@ namespace Pharma_Project_2023.Server.Migrations
                 ('Target pharmacy', 'Glade Rd', 'Colleyville', 'TX', 76001, 0, GETDATE())
                 ");
 
-            migrationBuilder.Sql("@INSERT INTO States (stateName, stateCode) VALUES('Alabama', 'AL'),('Alaska', 'AK'),('Arizona', 'AZ'),('Arkansas', 'AR'),('California', 'CA'),('Colorado', 'CO'),('Connecticut', 'CT'),('Delaware', 'DE'),('Florida', 'FL'),('Georgia', 'GA'),('Hawaii', 'HI'),('Idaho', 'ID'),('Illinois', 'IL'),('Indiana', 'IN'),('Iowa', 'IA'),('Kansas', 'KS'),('Kentucky', 'KY'),('Louisiana', 'LA'),('Maine', 'ME'),('Maryland', 'MD'),('Massachusetts', 'MA'),('Michigan', 'MI'),('Minnesota', 'MN'),('Mississippi', 'MS'),('Missouri', 'MO'),('Montana', 'MT'),('Nebraska', 'NE'),('Nevada', 'NV'),('New Hampshire', 'NH'),('New Jersey', 'NJ'),('New Mexico', 'NM'),('New York', 'NY'),('North Carolina', 'NC'),('North Dakota', 'ND'),('Ohio', 'OH'),('Oklahoma', 'OK'),('Oregon', 'OR'),('Pennsylvania', 'PA'),('Rhode Island', 'RI'),('South Carolina', 'SC'),('South Dakota', 'SD'),('Tennessee', 'TN'),('Texas', 'TX'),('Utah', 'UT'),('Vermont', 'VT'),('Virginia', 'VA'),('Washington', 'WA'),('West Virginia', 'WV'),('Wisconsin', 'WI'),('Wyoming', 'WY');");
+            migrationBuilder.Sql(@"INSERT INTO States (StateName, StateCode) VALUES('Alabama', 'AL'),('Alaska', 'AK'),('Arizona', 'AZ'),('Arkansas', 'AR'),('California', 'CA'),('Colorado', 'CO'),('Connecticut', 'CT'),('Delaware', 'DE'),('Florida', 'FL'),('Georgia', 'GA'),('Hawaii', 'HI'),('Idaho', 'ID'),('Illinois', 'IL'),('Indiana', 'IN'),('Iowa', 'IA'),('Kansas', 'KS'),('Kentucky', 'KY'),('Louisiana', 'LA'),('Maine', 'ME'),('Maryland', 'MD'),('Massachusetts', 'MA'),('Michigan', 'MI'),('Minnesota', 'MN'),('Mississippi', 'MS'),('Missouri', 'MO'),('Montana', 'MT'),('Nebraska', 'NE'),('Nevada', 'NV'),('New Hampshire', 'NH'),('New Jersey', 'NJ'),('New Mexico', 'NM'),('New York', 'NY'),('North Carolina', 'NC'),('North Dakota', 'ND'),('Ohio', 'OH'),('Oklahoma', 'OK'),('Oregon', 'OR'),('Pennsylvania', 'PA'),('Rhode Island', 'RI'),('South Carolina', 'SC'),('South Dakota', 'SD'),('Tennessee', 'TN'),('Texas', 'TX'),('Utah', 'UT'),('Vermont', 'VT'),('Virginia', 'VA'),('Washington', 'WA'),('West Virginia', 'WV'),('Wisconsin', 'WI'),('Wyoming', 'WY');");
 
         }
 
@@ -64,10 +65,10 @@ namespace Pharma_Project_2023.Server.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "State");
+                name: "States");
 
             migrationBuilder.DropTable(
-                name: "Pharmacy");
+                name: "Pharmacies");
         }
     }
 }

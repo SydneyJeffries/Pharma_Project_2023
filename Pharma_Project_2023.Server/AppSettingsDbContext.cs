@@ -19,9 +19,9 @@ namespace Pharma_Project_2023.Server
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Pharmacy>().HasKey(x => x.PharmacyId);
-            modelBuilder.Entity<Pharmacy>().ToTable("Pharmacy");
+            modelBuilder.Entity<Pharmacy>().ToTable("Pharmacies");
             modelBuilder.Entity<State>().HasKey(x => x.StateCode);
-            modelBuilder.Entity<State>().ToTable("State");
+            modelBuilder.Entity<State>().ToTable("States");
         }
 
     }

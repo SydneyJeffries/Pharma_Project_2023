@@ -11,6 +11,6 @@
         public string Zip { get; set; }
         public List<State> States { get; set; }
         public DateTimeOffset CreatedDate {get; set; }
-        public DateTimeOffset UpdatedDate { get; set;  }
+        public DateTimeOffset? UpdatedDate { get; set;  }
     }
 }
