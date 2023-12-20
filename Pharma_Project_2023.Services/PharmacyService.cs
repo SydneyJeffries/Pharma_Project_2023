@@ -14,7 +14,7 @@ namespace Pharma_Project_2023.Services
             _dbContext = context;
         }
 
-        public async Task<List<Pharmacy>> GetPharmacies()
+        public async Task<List<Pharmacy>> GetPharmacyList()
         {
             return await _dbContext.Pharmacy.ToListAsync();
         }
@@ -32,7 +32,7 @@ namespace Pharma_Project_2023.Services
             return pharmacy;
         }
 
-        public async Task<List<State>> GetStates()
+        public async Task<List<State>> GetStateList()
         {
             return await _dbContext.State.ToListAsync();
         }

@@ -11,8 +11,8 @@ namespace Pharma_Project_2023.Objects.Interfaces
     public interface IPharmacyService
     {
         Task<Pharmacy?> GetPharmacyById(int id);
-        Task<List<Pharmacy>> GetPharmacies();
+        Task<List<Pharmacy>> GetPharmacyList();
         Task<Pharmacy> SavePharmacy(Pharmacy pharmacy);
-        Task<List<State>> GetStates();
+        Task<List<State>> GetStateList();
     }
 }

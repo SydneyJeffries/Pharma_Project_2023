@@ -17,14 +17,14 @@ namespace Pharma_Project_2023.Server.Controllers
             _logger = logger;
         }
 
-        [HttpGet(Name ="GetPharmacies")]
+        [HttpGet(Name ="GetPharmacyList")]
         [ProducesResponseType<Pharmacy>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetPharmacies()
+        public async Task<IActionResult> GetPharmacyList()
         {
             try
             {
-                List<Pharmacy> results = await _pharmacyService.GetPharmacies();
+                List<Pharmacy> results = await _pharmacyService.GetPharmacyList();
 
                 return Ok(results);
             }
@@ -72,14 +72,14 @@ namespace Pharma_Project_2023.Server.Controllers
      
         }
 
-        [HttpGet("GetStates")]
+        [HttpGet("GetStateList")]
         [ProducesResponseType<Pharmacy>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetStates()
+        public async Task<IActionResult> GetStateList()
         {
             try
             {
-                List<State> results = await _pharmacyService.GetStates();
+                List<State> results = await _pharmacyService.GetStateList();
 
                 return new JsonResult(results);
 
