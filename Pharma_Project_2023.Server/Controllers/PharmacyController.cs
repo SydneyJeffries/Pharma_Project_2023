@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Pharma_Project_2023.Objects;
 using Pharma_Project_2023.Objects.Interfaces;
 using Pharma_Project_2023.Objects.Models;
-using Newtonsoft;
+
 namespace Pharma_Project_2023.Server.Controllers
 {
     [ApiController]
