@@ -1,6 +1,0 @@
-@Pharma_Porject_2023.Core_HostAddress = http://localhost:5120
-
-GET {{Pharma_Porject_2023.Core_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
