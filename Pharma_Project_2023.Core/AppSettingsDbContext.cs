@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Pharma_Project_2023.Core.Objects;
+using Pharma_Project_2023.Objects.Models;
 
-namespace Pharma_Project_2023.Core
+namespace Pharma_Project_2023.Objects
 {
     public class AppSettingsDbContext : DbContext
     {

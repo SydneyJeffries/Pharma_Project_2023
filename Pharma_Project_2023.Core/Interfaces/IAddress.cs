@@ -1,6 +1,6 @@
-﻿using Pharma_Project_2023.Core.Objects;
+﻿using Pharma_Project_2023.Objects.Models;
 
-namespace Pharma_Project_2023.Core.Interfaces
+namespace Pharma_Project_2023.Objects.Interfaces
 {
     public interface IAddress
     {
@@ -8,7 +8,7 @@ namespace Pharma_Project_2023.Core.Interfaces
         public string City { get; set; }
         public char StateCode { get; set; }
         public string Zip { get; set; }
-        public List<Pharma_Project_2023.Core.Objects.State> States{ get; set; }
+        public List<State> States{ get; set; }
 
     }
 }

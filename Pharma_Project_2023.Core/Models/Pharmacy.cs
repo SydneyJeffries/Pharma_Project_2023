@@ -1,6 +1,6 @@
-﻿using Pharma_Project_2023.Core.Interfaces;
+﻿using Pharma_Project_2023.Objects.Interfaces;
 
-namespace Pharma_Project_2023.Core.Objects
+namespace Pharma_Project_2023.Objects.Models
 {
     public class Pharmacy : IAddress
     {

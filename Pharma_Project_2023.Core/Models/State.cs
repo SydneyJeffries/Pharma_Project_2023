@@ -1,4 +1,5 @@
-﻿namespace Pharma_Project_2023.Server.Models
+﻿
+namespace Pharma_Project_2023.Objects.Models
 {
     public class State
     {

@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Pharma_Project_2023.Core;
-using Pharma_Project_2023.Core.Interfaces;
-using Pharma_Project_2023.Core.Objects;
-
+using Pharma_Project_2023.Objects;
+using Pharma_Project_2023.Objects.Interfaces;
+using Pharma_Project_2023.Objects.Models;
+using Newtonsoft;
 namespace Pharma_Project_2023.Server.Controllers
 {
     [ApiController]
@@ -10,36 +10,45 @@ namespace Pharma_Project_2023.Server.Controllers
     public class PharmacyController : ControllerBase
     {
         private readonly ILogger<PharmacyController> _logger;
-        private IPharmacyService _pharmacyService { get; set; }
+        private readonly IPharmacyService _pharmacyService;
 
-        public PharmacyController(ILogger<PharmacyController> logger)
+        public PharmacyController(IPharmacyService pharmacyService , ILogger<PharmacyController> logger)
         {
-
+            _pharmacyService = pharmacyService;
             _logger = logger;
         }
 
-        //public async Task<List<Pharmacy>> GetPharmacies()
-        //{
-        //   List<Pharmacy> results = await _pharmacyService.GetPharmacies();
+        [HttpGet]
+        public async Task<JsonResult> GetPharmacies()
+        {
+            List<Pharmacy> results = await _pharmacyService.GetPharmacies();
 
-        //}
+            return new JsonResult(results);
+        }
 
-        //public async Task<Pharmacy?> GetPharmacyById(int pharmacyId)
-        //{
-        //    Pharmacy result = await _pharmacyService.GetPharmacyById(pharmacyId);
-        //}
+        [HttpGet("GetPharmacyById/{pharmacyId}")]
+        public async Task<JsonResult> GetPharmacyById(int pharmacyId)
+        {
+            Pharmacy? result = await _pharmacyService.GetPharmacyById(pharmacyId);
 
-        //public async Task<Pharmacy> UpdatePharmacy(Pharmacy pharmacy)
-        //{     
+            return new JsonResult(result);
+        }
 
-        //    await _pharmacyService.UpdatePharmacy(pharmacy);
+        [HttpPost("SavePharmacy/{pharmacy}")]
+        public async Task<JsonResult> SavePharmacy(Pharmacy pharmacy)
+        {
+            await _pharmacyService.SavePharmacy(pharmacy);
 
-        //}
+            return new JsonResult(pharmacy);
+        }
 
-        //public async Task<List<State>> GetStates()
-        //{
-        //    List<State> results = await _pharmacyService.GetStates();
-        //}
+        [HttpGet("GetStates")]
+        public async Task<JsonResult> GetStates()
+        {
+            List<State> results = await _pharmacyService.GetStates();
+
+            return new JsonResult(results);
+        }
 
     }
 }

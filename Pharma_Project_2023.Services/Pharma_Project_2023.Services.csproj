@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Pharma_Project_2023.Core\Pharma_Project_2023.Core.csproj" />
+    <ProjectReference Include="..\Pharma_Project_2023.Core\Pharma_Project_2023.Objects.csproj" />
   </ItemGroup>
 
 </Project>

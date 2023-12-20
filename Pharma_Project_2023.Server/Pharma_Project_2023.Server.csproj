@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy">
       <Version>8.*-*</Version>
     </PackageReference>
@@ -29,7 +30,7 @@
     <ProjectReference Include="..\pharma_project_2023.client\pharma_project_2023.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\Pharma_Project_2023.Core\Pharma_Project_2023.Core.csproj" />
+    <ProjectReference Include="..\Pharma_Project_2023.Core\Pharma_Project_2023.Objects.csproj" />
     <ProjectReference Include="..\Pharma_Project_2023.Services\Pharma_Project_2023.Services.csproj" />
   </ItemGroup>
 

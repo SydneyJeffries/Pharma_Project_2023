@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Pharma_Project_2023.Core.Interfaces;
+using Pharma_Project_2023.Objects.Interfaces;
 using Pharma_Project_2023.Server;
 using Pharma_Project_2023.Services;
-using Pharma_Project_2023.Core;
+using Pharma_Project_2023.Objects;
+//using Newtonsoft.Json.Serialization;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,11 @@ builder.Services.AddDbContext<AppSettingsDbContext>(options =>
 
 builder.Services.AddScoped<IPharmacyService, PharmacyService>();
 
+//builder.Services.AddCors(c =>
+//{
+//    c.AddPolicy("AllowOrgin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+//});
+
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
     options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en-US");
@@ -30,12 +36,16 @@ var app = builder.Build();
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
+app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
+//Json Serializer
+//builder.Services.AddControllersWithViews().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore).AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    //app.UseSwagger();
-    //app.UseSwaggerUI();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 
