@@ -18,36 +18,79 @@ namespace Pharma_Project_2023.Server.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
-        public async Task<JsonResult> GetPharmacies()
+        [HttpGet(Name ="GetPharmacies")]
+        [ProducesResponseType<Pharmacy>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetPharmacies()
         {
-            List<Pharmacy> results = await _pharmacyService.GetPharmacies();
+            try
+            {
+                List<Pharmacy> results = await _pharmacyService.GetPharmacies();
 
-            return new JsonResult(results);
+                return Ok(results);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("GetPharmacyById/{pharmacyId}")]
-        public async Task<JsonResult> GetPharmacyById(int pharmacyId)
+        [ProducesResponseType<Pharmacy>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetPharmacyById(int pharmacyId)
         {
-            Pharmacy? result = await _pharmacyService.GetPharmacyById(pharmacyId);
-
-            return new JsonResult(result);
+            try
+            {
+                Pharmacy? result = await _pharmacyService.GetPharmacyById(pharmacyId);
+                return result == null ? NotFound() : Ok(result);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("SavePharmacy/{pharmacy}")]
-        public async Task<JsonResult> SavePharmacy(Pharmacy pharmacy)
+        [ProducesResponseType<Pharmacy>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> SavePharmacy(Pharmacy pharmacy)
         {
-            await _pharmacyService.SavePharmacy(pharmacy);
+            try
+            {
+                await _pharmacyService.SavePharmacy(pharmacy);
 
-            return new JsonResult(pharmacy);
+                return Ok(pharmacy);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
+     
         }
 
         [HttpGet("GetStates")]
-        public async Task<JsonResult> GetStates()
+        [ProducesResponseType<Pharmacy>(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetStates()
         {
-            List<State> results = await _pharmacyService.GetStates();
+            try
+            {
+                List<State> results = await _pharmacyService.GetStates();
 
-            return new JsonResult(results);
+                return new JsonResult(results);
+
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        
         }
 
     }
