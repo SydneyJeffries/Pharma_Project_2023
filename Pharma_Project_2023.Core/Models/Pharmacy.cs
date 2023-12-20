@@ -12,7 +12,7 @@ namespace Pharma_Project_2023.Objects.Models
         public char StateCode { get; set; }
         public string Zip { get; set; } = string.Empty;
         public List<State> States { get; set; } = new List<State>();
-        public DateTimeOffset CreatedDate {get; set; }
-        public DateTimeOffset? UpdatedDate { get; set;  }
+        public DateTimeOffset  CreatedDate { get; }
+        public  DateTimeOffset? UpdatedDate { get; set;  }
     }
 }
