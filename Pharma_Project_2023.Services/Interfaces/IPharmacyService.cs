@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Pharma_Project_2023.Objects.Models;
 
 
-namespace Pharma_Project_2023.Objects.Interfaces
+namespace Pharma_Project_2023.Services.Interfaces
 {
     public interface IPharmacyService
     {

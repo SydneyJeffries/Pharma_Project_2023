@@ -2,6 +2,7 @@
 using Pharma_Project_2023.Objects.Interfaces;
 using Pharma_Project_2023.Objects;
 using Microsoft.EntityFrameworkCore;
+using Pharma_Project_2023.Services.Interfaces;
 
 namespace Pharma_Project_2023.Services
 {
@@ -21,12 +22,12 @@ namespace Pharma_Project_2023.Services
 
         public async Task<Pharmacy?> GetPharmacyById(int pharmacyId)
         {
-            return await _dbContext.Pharmacy.Where(x => x.PharmacyId == pharmacyId).FirstOrDefaultAsync();
+            return await _dbContext.Pharmacy.FirstOrDefaultAsync(x => x.PharmacyId == pharmacyId);
         }
 
         public async Task<Pharmacy> SavePharmacy(Pharmacy pharmacy)
         {
-            pharmacy.UpdatedDate = DateTimeOffset.Now;
+            pharmacy.UpdatedDate = DateTime.Now;
             _dbContext.Update(pharmacy);
             await _dbContext.SaveChangesAsync();
             return pharmacy;

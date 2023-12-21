@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Pharma_Project_2023.Objects.Interfaces;
+using Pharma_Project_2023.Services.Interfaces;
 using Pharma_Project_2023.Objects.Models;
 
 namespace Pharma_Project_2023.Server.Controllers
@@ -17,7 +17,7 @@ namespace Pharma_Project_2023.Server.Controllers
             _logger = logger;
         }
 
-        [HttpGet(Name ="GetPharmacyList")]
+        [HttpGet]
         [ProducesResponseType<Pharmacy>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetPharmacyList()
@@ -35,7 +35,7 @@ namespace Pharma_Project_2023.Server.Controllers
             }
         }
 
-        [HttpGet("GetPharmacyById/{pharmacyId}")]
+        [HttpGet("{Id}")]
         [ProducesResponseType<Pharmacy>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -53,7 +53,7 @@ namespace Pharma_Project_2023.Server.Controllers
             }
         }
 
-        [HttpPost("SavePharmacy/{pharmacy}")]
+        [HttpPost]
         [ProducesResponseType<Pharmacy>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> SavePharmacy(Pharmacy pharmacy)
@@ -81,7 +81,7 @@ namespace Pharma_Project_2023.Server.Controllers
             {
                 List<State> results = await _pharmacyService.GetStateList();
 
-                return new JsonResult(results);
+                return  Ok(results);
 
             }
             catch(Exception ex)
