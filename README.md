@@ -40,9 +40,9 @@ Tables contain the necessary data / records to support this exercise’s require
 
 BONUS OBJECTIVES
 
-Use a dependency injection pattern – leveraging interfaces and initial configuration injection
-Use standard authentication, authorization and/or routing attributes
-Setup of a SQL database using code-first migrations.
-Incorporate Entity Framework
-Create a UI that leverages these functions
+Use a dependency injection pattern – leveraging interfaces and initial configuration injection,
+Use standard authentication, authorization and/or routing attributes,
+Setup of a SQL database using code-first migrations,
+Incorporate Entity Framework,
+Create a UI that leverages these functions,
 Unit Test coverage - OR - Automated API Test Coverage (ex: using a Jasmine-like test harness).
