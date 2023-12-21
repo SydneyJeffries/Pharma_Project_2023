@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Pharma_Project_2023.Objects.Models;
-using Pharma_Project_2023.Objects.Interfaces;
+using PharmaProject.Objects.Models;
+using PharmaProject.Objects.Interfaces;
 
-namespace Pharma_Project_2023.Objects
+namespace PharmaProject.Objects
 {
     public class AppSettingsDbContext : DbContext,  IAppSettingsDbContext
     {

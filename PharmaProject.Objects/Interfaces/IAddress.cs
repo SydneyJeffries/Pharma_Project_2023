@@ -1,6 +1,6 @@
-﻿using Pharma_Project_2023.Objects.Models;
+﻿using PharmaProject.Objects.Models;
 
-namespace Pharma_Project_2023.Objects.Interfaces
+namespace PharmaProject.Objects.Interfaces
 {
     public interface IAddress
     {

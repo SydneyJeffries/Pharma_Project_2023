@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Pharma_Project_2023.Server.Migrations
+namespace PharmaProject.Server.Migrations
 {
     /// <inheritdoc />
     public partial class migration3 : Migration

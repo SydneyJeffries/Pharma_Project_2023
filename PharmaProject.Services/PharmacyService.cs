@@ -1,10 +1,10 @@
-﻿using Pharma_Project_2023.Objects.Models;
-using Pharma_Project_2023.Objects.Interfaces;
-using Pharma_Project_2023.Objects;
+﻿using PharmaProject.Objects.Models;
+using PharmaProject.Objects.Interfaces;
+using PharmaProject.Objects;
 using Microsoft.EntityFrameworkCore;
-using Pharma_Project_2023.Services.Interfaces;
+using PharmaProject.Services.Interfaces;
 
-namespace Pharma_Project_2023.Services
+namespace PharmaProject.Services
 {
     public class PharmacyService : IPharmacyService { 
 

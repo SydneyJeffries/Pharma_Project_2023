@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Pharma_Project_2023.Server;
-using Pharma_Project_2023.Objects;
+using PharmaProject.Server;
+using PharmaProject.Objects;
 
 #nullable disable
 
-namespace Pharma_Project_2023.Server.Migrations
+namespace PharmaProject.Server.Migrations
 {
     [DbContext(typeof(AppSettingsDbContext))]
     [Migration("20231216043605_migration1")]
@@ -26,7 +26,7 @@ namespace Pharma_Project_2023.Server.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Pharma_Project_2023.Server.Models.Pharmacy", b =>
+            modelBuilder.Entity("PharmaProject.Server.Models.Pharmacy", b =>
                 {
                     b.Property<int>("PharmacyId")
                         .ValueGeneratedOnAdd()
@@ -68,7 +68,7 @@ namespace Pharma_Project_2023.Server.Migrations
                     b.ToTable("Pharmacy", (string)null);
                 });
 
-            modelBuilder.Entity("Pharma_Project_2023.Server.Models.State", b =>
+            modelBuilder.Entity("PharmaProject.Server.Models.State", b =>
                 {
                     b.Property<string>("StateCode")
                         .HasColumnType("nvarchar(450)");
@@ -87,14 +87,14 @@ namespace Pharma_Project_2023.Server.Migrations
                     b.ToTable("State", (string)null);
                 });
 
-            modelBuilder.Entity("Pharma_Project_2023.Server.Models.State", b =>
+            modelBuilder.Entity("PharmaProject.Server.Models.State", b =>
                 {
-                    b.HasOne("Pharma_Project_2023.Server.Models.Pharmacy", null)
+                    b.HasOne("PharmaProject.Server.Models.Pharmacy", null)
                         .WithMany("States")
                         .HasForeignKey("PharmacyId");
                 });
 
-            modelBuilder.Entity("Pharma_Project_2023.Server.Models.Pharmacy", b =>
+            modelBuilder.Entity("PharmaProject.Server.Models.Pharmacy", b =>
                 {
                     b.Navigation("States");
                 });

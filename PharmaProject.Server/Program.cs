@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Pharma_Project_2023.Services.Interfaces;
-using Pharma_Project_2023.Server;
-using Pharma_Project_2023.Services;
-using Pharma_Project_2023.Objects;
+using PharmaProject.Services.Interfaces;
+using PharmaProject.Server;
+using PharmaProject.Services;
+using PharmaProject.Objects;
 //using Newtonsoft.Json.Serialization;
 
 
@@ -18,7 +18,7 @@ builder.Services.AddSwaggerGen();
 string connectionString = builder.Configuration.GetConnectionString("AppSettingsDbContext");
 
 builder.Services.AddDbContext<AppSettingsDbContext>(options =>
-            options.UseSqlServer(connectionString, b => b.MigrationsAssembly("Pharma_Project_2023.Objects"))
+            options.UseSqlServer(connectionString, b => b.MigrationsAssembly("PharmaProject.Objects"))
        );
 
 builder.Services.AddScoped<IPharmacyService, PharmacyService>();

@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Pharma_Project_2023.Services.Interfaces;
-using Pharma_Project_2023.Objects.Models;
+using PharmaProject.Services.Interfaces;
+using PharmaProject.Objects.Models;
 
-namespace Pharma_Project_2023.Server.Controllers
+namespace PharmaProject.Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]

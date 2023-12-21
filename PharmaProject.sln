@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pharma_Project_2023.Server", "Pharma_Project_2023.Server\Pharma_Project_2023.Server.csproj", "{FC9E225C-AE95-43BB-872E-BF7EF2672CAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PharmaProject.Server", "PharmaProject.Server\PharmaProject.Server.csproj", "{FC9E225C-AE95-43BB-872E-BF7EF2672CAD}"
 EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "pharma_project_2023.client", "pharma_project_2023.client\pharma_project_2023.client.esproj", "{A37EB1EB-D96D-4457-B479-6D6C487B8239}"
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "PharmaProject.client", "PharmaProject.client\PharmaProject.client.esproj", "{A37EB1EB-D96D-4457-B479-6D6C487B8239}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pharma_Project_2023.Services", "Pharma_Project_2023.Services\Pharma_Project_2023.Services.csproj", "{EF982CA2-62A2-4C90-9E8B-988CBEC34471}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PharmaProject.Services", "PharmaProject.Services\PharmaProject.Services.csproj", "{EF982CA2-62A2-4C90-9E8B-988CBEC34471}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pharma_Project_2023.Objects", "Pharma_Project_2023.Objects\Pharma_Project_2023.Objects.csproj", "{CB3F059B-4E75-4750-8AA0-929D50381367}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PharmaProject.Objects", "PharmaProject.Objects\PharmaProject.Objects.csproj", "{CB3F059B-4E75-4750-8AA0-929D50381367}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

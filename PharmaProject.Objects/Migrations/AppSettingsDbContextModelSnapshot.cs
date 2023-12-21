@@ -3,21 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Pharma_Project_2023.Server;
-using Pharma_Project_2023.Objects;
+using PharmaProject.Objects;
 
 #nullable disable
 
-namespace Pharma_Project_2023.Server.Migrations
+namespace PharmaProject.Server.Migrations
 {
     [DbContext(typeof(AppSettingsDbContext))]
-    [Migration("20231219011212_migration2")]
-    partial class migration2
+    partial class AppSettingsDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,7 +22,7 @@ namespace Pharma_Project_2023.Server.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Pharma_Project_2023.Server.Models.Pharmacy", b =>
+            modelBuilder.Entity("PharmaProject.Core.Objects.Pharmacy", b =>
                 {
                     b.Property<int>("PharmacyId")
                         .ValueGeneratedOnAdd()
@@ -68,7 +64,7 @@ namespace Pharma_Project_2023.Server.Migrations
                     b.ToTable("Pharmacies", (string)null);
                 });
 
-            modelBuilder.Entity("Pharma_Project_2023.Server.Models.State", b =>
+            modelBuilder.Entity("PharmaProject.Core.Objects.State", b =>
                 {
                     b.Property<string>("StateCode")
                         .HasColumnType("nvarchar(450)");
@@ -87,14 +83,14 @@ namespace Pharma_Project_2023.Server.Migrations
                     b.ToTable("States", (string)null);
                 });
 
-            modelBuilder.Entity("Pharma_Project_2023.Server.Models.State", b =>
+            modelBuilder.Entity("PharmaProject.Core.Objects.State", b =>
                 {
-                    b.HasOne("Pharma_Project_2023.Server.Models.Pharmacy", null)
+                    b.HasOne("PharmaProject.Core.Objects.Pharmacy", null)
                         .WithMany("States")
                         .HasForeignKey("PharmacyId");
                 });
 
-            modelBuilder.Entity("Pharma_Project_2023.Server.Models.Pharmacy", b =>
+            modelBuilder.Entity("PharmaProject.Core.Objects.Pharmacy", b =>
                 {
                     b.Navigation("States");
                 });

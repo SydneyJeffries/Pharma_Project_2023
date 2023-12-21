@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Pharma_Project_2023.Objects.Models;
+using PharmaProject.Objects.Models;
 
 
-namespace Pharma_Project_2023.Services.Interfaces
+namespace PharmaProject.Services.Interfaces
 {
     public interface IPharmacyService
     {
