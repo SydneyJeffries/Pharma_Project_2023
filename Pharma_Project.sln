@@ -9,7 +9,7 @@ Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "pharma_project_2023.client"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pharma_Project_2023.Services", "Pharma_Project_2023.Services\Pharma_Project_2023.Services.csproj", "{EF982CA2-62A2-4C90-9E8B-988CBEC34471}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pharma_Project_2023.Objects", "Pharma_Project_2023.Core\Pharma_Project_2023.Objects.csproj", "{CB3F059B-4E75-4750-8AA0-929D50381367}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pharma_Project_2023.Objects", "Pharma_Project_2023.Objects\Pharma_Project_2023.Objects.csproj", "{CB3F059B-4E75-4750-8AA0-929D50381367}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

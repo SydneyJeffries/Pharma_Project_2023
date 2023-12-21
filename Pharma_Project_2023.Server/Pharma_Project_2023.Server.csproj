@@ -28,10 +28,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\pharma_project_2023.client\pharma_project_2023.client.esproj">
+    <ProjectReference Include="..\pharma_project_2023.client\pharma_project.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\Pharma_Project_2023.Core\Pharma_Project_2023.Objects.csproj" />
+    <ProjectReference Include="..\Pharma_Project_2023.Objects\Pharma_Project_2023.Objects.csproj" />
     <ProjectReference Include="..\Pharma_Project_2023.Services\Pharma_Project_2023.Services.csproj" />
   </ItemGroup>
 

@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Pharma_Project_2023.Core\Pharma_Project_2023.Objects.csproj" />
+    <ProjectReference Include="..\Pharma_Project_2023.Objects\Pharma_Project_2023.Objects.csproj" />
   </ItemGroup>
 
 </Project>
