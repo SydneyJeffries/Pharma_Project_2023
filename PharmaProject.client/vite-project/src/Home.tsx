@@ -2,13 +2,12 @@ import { Link } from "react-router-dom";
 //import Pharmacy from "./Pharmacy";
 import useFetch from "./UseFetch"
 import IPharmacy from '../Interfaces/IPharmacy'
-
+import '../node_modules/bootstrap-icons/icons/pencil-square.svg'
 function Home() {
     // const [count, setCount] = useState(0)
     const fetchUrl = '';
 
     const { data, isLoading, error }: { data: IPharmacy[] | null, isLoading: boolean, error: boolean } = useFetch<IPharmacy[]>(fetchUrl);
-
 
     return (
         <>
@@ -37,16 +36,13 @@ function Home() {
                             <td>{pharma.updateDate.toLocaleDateString()}</td>
                             <td>
                                 <Link to={`./Pharmacy/${pharma.pharmacyId}`}>
-                                    <span>edit</span>
+                                    <span>edit <i className="bi bi-pencil-square"></i></span>
                                 </Link>
                             </td>
                         </tr>
                     ))}
-
                     </tbody>
                 </table>
-
-
             </div>}
         </>
     );
