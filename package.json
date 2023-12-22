@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/sydneyJeffries/Pharma_Project_2023/issues"
   },
-  "homepage": "https://github.com/sydneyJeffries/Pharma_Project_2023#readme"
+  "homepage": "https://github.com/sydneyJeffries/Pharma_Project_2023#readme",
+  "dependencies": {
+    "bootstrap": "^5.3.2"
+  }
 }
