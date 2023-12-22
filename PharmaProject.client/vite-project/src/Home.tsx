@@ -28,7 +28,8 @@ function Home() {
                     <tbody>{data.map((pharma: IPharmacy) => (
                         <tr key={pharma.pharmacyId}>
                             <td scope="row">{pharma.name}</td>
-                            <td> <div> {pharma.address}</div>
+                            <td>
+                                <div> {pharma.address}</div>
                                 <div> {pharma.city}, {pharma.stateCode} {pharma.zip} </div>
                             </td>
                             <td>{pharma.filledPerscriptions}</td>
