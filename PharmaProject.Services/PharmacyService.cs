@@ -27,7 +27,7 @@ namespace PharmaProject.Services
 
         public async Task<Pharmacy> SavePharmacy(Pharmacy pharmacy)
         {
-            pharmacy.UpdatedDate = DateTime.Now;
+            pharmacy.UpdatedDate = DateTimeOffset.Now;
             _dbContext.Update(pharmacy);
             await _dbContext.SaveChangesAsync();
             return pharmacy;

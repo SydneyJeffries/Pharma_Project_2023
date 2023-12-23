@@ -15,14 +15,14 @@ namespace PharmaProject.Server.Migrations
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
-#pragma warning disable 612, 618
+            #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("PharmaProject.Core.Objects.Pharmacy", b =>
+            modelBuilder.Entity("PharmaProject.Objects.Models.Pharmacy", b =>
                 {
                     b.Property<int>("PharmacyId")
                         .ValueGeneratedOnAdd()
@@ -50,27 +50,25 @@ namespace PharmaProject.Server.Migrations
 
                     b.Property<string>("StateCode")
                         .IsRequired()
-                        .HasColumnType("nvarchar(1)");
+                        .HasColumnType("nvarchar(2)");
 
                     b.Property<DateTimeOffset?>("UpdatedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("Zip")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("CreatedBy")
+                     .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
 
                     b.HasKey("PharmacyId");
 
                     b.ToTable("Pharmacies", (string)null);
                 });
 
-            modelBuilder.Entity("PharmaProject.Core.Objects.State", b =>
+            modelBuilder.Entity("PharmaProject.Objects.Models.State", b =>
                 {
                     b.Property<string>("StateCode")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("PharmacyId")
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(2)");
 
                     b.Property<string>("StateName")
                         .IsRequired()
@@ -78,19 +76,16 @@ namespace PharmaProject.Server.Migrations
 
                     b.HasKey("StateCode");
 
-                    b.HasIndex("PharmacyId");
-
                     b.ToTable("States", (string)null);
                 });
 
-            modelBuilder.Entity("PharmaProject.Core.Objects.State", b =>
+            modelBuilder.Entity("PharmaProject.Objects.Models.State", b =>
                 {
-                    b.HasOne("PharmaProject.Core.Objects.Pharmacy", null)
-                        .WithMany("States")
-                        .HasForeignKey("PharmacyId");
+                    b.HasOne("PharmaProject.Objects.Models.Pharmacy", null)
+                        .WithMany("States");
                 });
 
-            modelBuilder.Entity("PharmaProject.Core.Objects.Pharmacy", b =>
+            modelBuilder.Entity("PharmaProject.Objects.Models.Pharmacy", b =>
                 {
                     b.Navigation("States");
                 });

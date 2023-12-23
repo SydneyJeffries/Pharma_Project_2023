@@ -12,12 +12,13 @@ const Pharmacy = () => {
     //@ts-expect-error ignore
     //Todo: get urls for api
     const { id } = useParams
-    const fetchUrl = '' + id;
+    const fetchUrl = 'https://localhost:7137' + '/Pharmacy/' + '?pharmacyId=' + id;
     const { data, isLoading, error }: { data: IPharmacy | null, isLoading: boolean, error: boolean } = useFetch<IPharmacy>(fetchUrl);
     const [pharmacy, setPharmacy] = useState<IPharmacy | null>(null);
-    const stateFetchUrl = '';
+    const stateFetchUrl = 'https://localhost:7137' + '/Pharmacy/GetStateList';
     const { data: statesData } = useFetch<IState[]>(stateFetchUrl);
     const history = useHistory();
+    const [errorSaving, setErrorSaving]  = useState(false);
 
     useEffect(() => {
         if (data) {
@@ -34,22 +35,40 @@ const Pharmacy = () => {
         }));
     }
 
-
-    function saveForm(e: React.FormEvent<HTMLFormElement>) {
+    async function saveForm(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
+        const savePharmacyUrl = window.location.origin + '/Pharmacy/';
+        try {
+            const response = await fetch(savePharmacyUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(pharmacy),
+            });
 
-        //Todo: write save logic
-        history.push('/')
+            if (response.ok) {
+                history.push('/')
+
+            } else {
+                const errorMessage = await response.text();
+                setErrorSaving(true);
+                console.error('Failed to save pharmacy:', errorMessage);
+            }
+        } catch (error) {
+            setErrorSaving(true);
+            console.error('An error occurred:', error);
+        }
     }
 
     return (
         <>
-            /
             {error && <div> Error loading the page. </div>}
             {isLoading && <div> Loading... </div>}
+            {errorSaving && <div> Error saving the information. </div> }
             {data &&
-            //Todo: include uneditable fields such as created by and date and last edited by 
-             // Todo: make styles for error, and isloading
+                //Todo: include uneditable fields such as created by and date and last edited by 
+                // Todo: make styles for error, and isloading in a component.
                 <form key={data.pharmacyId} className="container" onSubmit={(e) => saveForm(e)} >
                     <div className="mb-3 row">
                         <div className="col-md-8">

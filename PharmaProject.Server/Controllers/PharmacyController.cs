@@ -20,13 +20,14 @@ namespace PharmaProject.Server.Controllers
         [HttpGet]
         [ProducesResponseType<Pharmacy>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Produces("application/json")]
         public async Task<IActionResult> GetPharmacyList()
         {
             try
             {
                 List<Pharmacy> results = await _pharmacyService.GetPharmacyList();
 
-                return Ok(results);
+                return new JsonResult(results);
             }
             catch (Exception ex)
             {
@@ -35,16 +36,17 @@ namespace PharmaProject.Server.Controllers
             }
         }
 
-        [HttpGet("{Id}")]
+        [HttpGet("{pharmacyId}")]
         [ProducesResponseType<Pharmacy>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Produces("application/json")]
         public async Task<IActionResult> GetPharmacyById(int pharmacyId)
         {
             try
             {
                 Pharmacy? result = await _pharmacyService.GetPharmacyById(pharmacyId);
-                return result == null ? NotFound() : Ok(result);
+                return result == null ? NotFound() : new JsonResult(result);
             }
             catch(Exception ex)
             {
@@ -56,13 +58,14 @@ namespace PharmaProject.Server.Controllers
         [HttpPost]
         [ProducesResponseType<Pharmacy>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Produces("application/json")]
         public async Task<IActionResult> SavePharmacy(Pharmacy pharmacy)
         {
             try
             {
                 await _pharmacyService.SavePharmacy(pharmacy);
 
-                return Ok(pharmacy);
+                return new JsonResult(pharmacy);
             }
             catch(Exception ex)
             {
@@ -75,13 +78,14 @@ namespace PharmaProject.Server.Controllers
         [HttpGet("GetStateList")]
         [ProducesResponseType<Pharmacy>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Produces("application/json")]
         public async Task<IActionResult> GetStateList()
         {
             try
             {
                 List<State> results = await _pharmacyService.GetStateList();
 
-                return  Ok(results);
+                return new JsonResult(results);
 
             }
             catch(Exception ex)
