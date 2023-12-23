@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PharmaProject.Services.Interfaces;
 using PharmaProject.Objects.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace PharmaProject.Server.Controllers
 {
@@ -27,7 +28,7 @@ namespace PharmaProject.Server.Controllers
             {
                 List<Pharmacy> results = await _pharmacyService.GetPharmacyList();
 
-                return new JsonResult(results);
+                return  Ok(results);
             }
             catch (Exception ex)
             {
@@ -46,7 +47,7 @@ namespace PharmaProject.Server.Controllers
             try
             {
                 Pharmacy? result = await _pharmacyService.GetPharmacyById(pharmacyId);
-                return result == null ? NotFound() : new JsonResult(result);
+                return result == null ? NotFound() : Ok(result);
             }
             catch(Exception ex)
             {
@@ -65,7 +66,7 @@ namespace PharmaProject.Server.Controllers
             {
                 await _pharmacyService.SavePharmacy(pharmacy);
 
-                return new JsonResult(pharmacy);
+                return Ok(pharmacy);
             }
             catch(Exception ex)
             {
@@ -85,7 +86,7 @@ namespace PharmaProject.Server.Controllers
             {
                 List<State> results = await _pharmacyService.GetStateList();
 
-                return new JsonResult(results);
+                return Ok(results);
 
             }
             catch(Exception ex)

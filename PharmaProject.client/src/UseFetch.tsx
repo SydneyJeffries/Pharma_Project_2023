@@ -11,14 +11,14 @@ function useFetch<T>(url: string) {
     useEffect(() => {
         debugger;
         const abortCon = new AbortController();
-        
+
         fetch(url, { signal: abortCon.signal })
             .then(res => {
                 if (!res.ok) {
-                    setError(true);                   
+                    setError(true);
                 }
                 return res.json();
-               
+
             })
             .then(data => {
                 setData(data);
@@ -28,9 +28,13 @@ function useFetch<T>(url: string) {
             .catch(err => {
                 if (err.name == "AbortError") {
                     console.log('fetch aborted')
+                    setIsLoading(true);
+                    setError(false);
+                } else {
+                    setIsLoading(false);
+                    setError(true);
                 }
-                setIsLoading(false);
-                setError(true);
+
                 console.log(err.message)
             })
         return () => abortCon.abort();

@@ -5,10 +5,14 @@ html {
 
 body {
     background-color: #f8f9fa;
+    background-image: url('/public/pills.png');
+    background-repeat: no-repeat;
+    background-position: 98% 3%;
+    background-size: 180px 180px;
 }
 
+
 #root {
-/*    max-width: 1480px;*/
     margin: 0 auto;
     padding: 2rem;
 }
@@ -22,14 +26,35 @@ body {
 }
 
 table.cols-lg td, table.cols-lg th {
-    min-width: 250px
+    min-width: 230px
 }
 
 table.cols-lg td.cols-sm, table.cols-lg th.cols-sm {
-    min-width: 80px;
+    min-width: 90px;
 }
 
 table tr:last-of-type:not(thead tr:last-of-type) {
     border-color: white;
 }
 
+.btn {
+    padding-left: 3.5rem;
+    padding-right: 3.5rem;
+}
+
+.link-primary {
+    background-color: inherit;
+    border: none;
+}
+
+.back {
+    position: absolute;
+    top: 10%;
+    left: 20%;
+}
+
+@media (max-width: 800px) {
+        .back {
+            display: none;
+        }
+}

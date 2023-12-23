@@ -6,19 +6,18 @@ import IPharmacy from "../Interfaces/IPharmacy";
 import { useState, useEffect } from 'react';
 import IState from "../Interfaces/IState";
 import { useHistory } from 'react-router-dom';
+import { orgin } from './ConnectionString'
 
 const Pharmacy = () => {
-    // const [count, setCount] = useState(0)
-    //@ts-expect-error ignore
-    //Todo: get urls for api
-    const { id } = useParams
-    const fetchUrl = 'https://localhost:7137' + '/Pharmacy/' + '?pharmacyId=' + id;
+
+    const { id } = useParams();
+    const fetchUrl = orgin + '/Pharmacy/' + id;
     const { data, isLoading, error }: { data: IPharmacy | null, isLoading: boolean, error: boolean } = useFetch<IPharmacy>(fetchUrl);
     const [pharmacy, setPharmacy] = useState<IPharmacy | null>(null);
-    const stateFetchUrl = 'https://localhost:7137' + '/Pharmacy/GetStateList';
+    const stateFetchUrl = orgin + '/Pharmacy/GetStateList';
     const { data: statesData } = useFetch<IState[]>(stateFetchUrl);
     const history = useHistory();
-    const [errorSaving, setErrorSaving]  = useState(false);
+    const [errorSaving, setErrorSaving] = useState(false);
 
     useEffect(() => {
         if (data) {
@@ -35,9 +34,14 @@ const Pharmacy = () => {
         }));
     }
 
+    function backButton() {
+        history.go(-1);
+    }
+
     async function saveForm(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        const savePharmacyUrl = window.location.origin + '/Pharmacy/';
+        debugger;
+        const savePharmacyUrl = orgin + '/Pharmacy/';
         try {
             const response = await fetch(savePharmacyUrl, {
                 method: 'POST',
@@ -63,35 +67,37 @@ const Pharmacy = () => {
 
     return (
         <>
+            <div className="back-link mb-4">
+                <button onClick={backButton} className="link-primary back"> Back </button>
+            </div>
             {error && <div> Error loading the page. </div>}
             {isLoading && <div> Loading... </div>}
-            {errorSaving && <div> Error saving the information. </div> }
-            {data &&
-                //Todo: include uneditable fields such as created by and date and last edited by 
-                // Todo: make styles for error, and isloading in a component.
-                <form key={data.pharmacyId} className="container" onSubmit={(e) => saveForm(e)} >
-                    <div className="mb-3 row">
+            <div className="container mb-3">  {errorSaving && <span className="text-danger"> Error saving the information. </span>}&nbsp; </div>
+            {pharmacy &&
+
+                <form key={pharmacy.pharmacyId} className="container" onSubmit={(e) => saveForm(e)} >
+                    <div className="mb-3 row g-3">
                         <div className="col-md-8">
-                            <label htmlFor={data.name} className="form-label">Name</label>
-                            <input type="text" className="form-control" value={data.name} required onChange={(e) => handleFieldChange(e, 'name')} />
+                            <label htmlFor={pharmacy.name} className="form-label">Name</label>
+                            <input type="text" className="form-control" value={pharmacy.name} required onChange={(e) => handleFieldChange(e, 'name')} />
                         </div>
                         <div className="col-md-4">
-                            <label htmlFor={data.filledPerscriptions.toString()} className="form-label">Number of Filled Prescriptions</label>
-                            <input type="number" className="form-control" value={data.filledPerscriptions} required onChange={(e) => handleFieldChange(e, 'filledPerscriptions')} />
+                            <label className="form-label">Number of Filled Prescriptions</label>
+                            <input type="number" className="form-control" value={pharmacy.filledPerscriptions} required onChange={(e) => handleFieldChange(e, 'filledPerscriptions')} />
                         </div>
                     </div>
-                    <div className="mb-3 row">
+                    <div className="mb-5 row g-3">
                         <div className="col-lg-3 col-md-6">
-                            <label htmlFor={data.address} className="form-label">Address</label>
-                            <input type="text" className="form-control" value={data.address} required onChange={(e) => handleFieldChange(e, 'address')} />
+                            <label htmlFor={pharmacy.address} className="form-label">Address</label>
+                            <input type="text" className="form-control" value={pharmacy.address} required onChange={(e) => handleFieldChange(e, 'address')} />
                         </div>
                         <div className="col-lg-3 col-md-6">
-                            <label htmlFor={data.city} className="form-label">City</label>
-                            <input type="text" className="form-control" value={data.address} required onChange={(e) => handleFieldChange(e, 'city')} />
+                            <label htmlFor={pharmacy.city} className="form-label">City</label>
+                            <input type="text" className="form-control" value={pharmacy.city} required onChange={(e) => handleFieldChange(e, 'city')} />
                         </div>
                         <div className="col-lg-3 col-md-6">
-                            <label htmlFor={data.city} className="form-label">State</label>
-                            <select value={data.stateCode || ''} required onChange={(e) => handleFieldChange(e, 'stateCode')}>
+                            <label htmlFor={pharmacy.city} className="form-label">State</label>
+                            <select value={pharmacy.stateCode || ''} required onChange={(e) => handleFieldChange(e, 'stateCode')} className="form-select " >
                                 <option value="">Select a state</option>
                                 {statesData &&
                                     statesData.map((state: IState) => (
@@ -100,15 +106,24 @@ const Pharmacy = () => {
                                         </option>
                                     ))}
                             </select>
-                            <input type="text" className="form-control" value={data.address} required onChange={(e) => handleFieldChange(e, 'state')} />
                         </div>
-                        <div className="col-lg-3 col-md-6">
-                            <label htmlFor={data.zip} className="form-label">Zip</label>
-                            <input type="text" className="form-control" value={data.address} required onChange={(e) => handleFieldChange(e, 'zip')} />
+                        <div className="col-lg-3 col-md-6 ">
+                            <label htmlFor={pharmacy.zip} className="form-label">Zip</label>
+                            <input type="text" className="form-control" value={pharmacy.zip} required onChange={(e) => handleFieldChange(e, 'zip')} />
                         </div>
                     </div>
-                    <div className="mb-3">
-                        <button className="btn btn-primary mx-auto inline-block" type="submit"> Save </button>
+                    <div className="mb-3 row g-3">
+                        <br></br>
+                        <div className="col-md-3">
+                            <button className="btn btn-primary sm-w-100 md-w-50 w-100" type="submit"> Save </button>
+                        </div>
+                        <div className="col-md-3">
+                            <button className="btn btn-primary sm-w-100 md-w-50 w-100" type="submit"> Cancel </button>
+                        </div>
+                    </div>
+                    <div className="mb-3 text-center d-block d-md-none">
+                        <br></br>
+                        <button onClick={backButton} className="link-primary "> Back </button>
                     </div>
                 </form>
 
