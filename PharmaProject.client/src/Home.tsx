@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import useFetch from "./UseFetch"
 import IPharmacy from '../Interfaces/IPharmacy'
 import { orgin } from './ConnectionString'
-
+import Loader from './Loader'
 function Home() {
 
     const fetchUrl = orgin + '/Pharmacy';
@@ -11,10 +11,10 @@ function Home() {
     return (
         <>
             {error && <div> Error loading the page. </div>}
-            {isLoading && <div> Loading... </div>}
+            {isLoading && <Loader></Loader>}
             {data &&
                 <div className="p-4 bg-white">
-                    <table className="table table-hover table striped cols-lg text-center ">
+                    <table className="table table striped cols-lg text-center ">
                         <thead>
                             <tr>
                                 <th scope="col" className="text-start col-lg" >Name</th>

@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import IState from "../Interfaces/IState";
 import { useHistory } from 'react-router-dom';
 import { orgin } from './ConnectionString'
-
+import Loader from './Loader'
 const Pharmacy = () => {
 
     const { id } = useParams();
@@ -76,7 +76,7 @@ const Pharmacy = () => {
                 <button onClick={backButton} className="link-primary p-0"> Back </button>
             </div>
             {error && <div> Error loading the page. </div>}
-            {isLoading && <div> Loading... </div>}
+            {isLoading && <Loader></Loader>}
             <div className="container mb-3">  {errorSaving && <span className="text-danger"> Error saving the information. </span>}&nbsp; </div>
             {pharmacy &&
                 <form key={pharmacy.pharmacyId} className="container" onSubmit={(e) => saveForm(e)} >

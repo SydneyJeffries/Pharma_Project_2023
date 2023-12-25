@@ -7,6 +7,7 @@ import 'bootstrap/js/dist/dropdown.js'
 import './App.css'
 import Pharmacy from './Pharmacy'
 
+
 function App() {
 
     return (
