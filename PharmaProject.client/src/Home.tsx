@@ -1,13 +1,11 @@
 import { Link } from "react-router-dom";
-//import Pharmacy from "./Pharmacy";
 import useFetch from "./UseFetch"
 import IPharmacy from '../Interfaces/IPharmacy'
 import { orgin } from './ConnectionString'
 
 function Home() {
-    // const [count, setCount] = useState(0)
-    const fetchUrl = orgin + '/Pharmacy';
 
+    const fetchUrl = orgin + '/Pharmacy';
     const { data, isLoading, error }: { data: IPharmacy[] | null, isLoading: boolean, error: boolean } = useFetch<IPharmacy[]>(fetchUrl);
 
     return (
@@ -36,7 +34,7 @@ function Home() {
                                 </td>
                                 <td>{pharma.filledPerscriptions}</td>
                                 <td>{new Date(pharma.createdDate).toLocaleDateString()}</td>
-                                <td>{pharma.updateDate ? new Date(pharma.updateDate).toLocaleDateString() : 'N/A'}</td>
+                                <td>{pharma.updatedDate ? new Date(pharma.updatedDate).toLocaleDateString() : 'N/A'}</td>
                                 <td className="text-end cols-sm">
                                     <Link to={`./Pharmacy/${pharma.pharmacyId}`} className="link-primary">
                                         <span>Edit <i className="bi bi-pencil-square"></i></span>

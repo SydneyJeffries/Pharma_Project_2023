@@ -38,7 +38,7 @@ function useFetch<T>(url: string) {
                 console.log(err.message)
             })
         return () => abortCon.abort();
-    }, [url])
+    }, [])
 
     return { data, isLoading, error }
 

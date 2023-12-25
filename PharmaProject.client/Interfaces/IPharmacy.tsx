@@ -8,7 +8,7 @@ interface IPharmacy {
     stateCode: string;
     zip: string;
     createdDate: Date;
-    updateDate: Date;
+    updatedDate: Date;
     createdBy: string;
 }
 

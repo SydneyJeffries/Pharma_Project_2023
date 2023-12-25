@@ -11,7 +11,7 @@ import { orgin } from './ConnectionString'
 const Pharmacy = () => {
 
     const { id } = useParams();
-    const fetchUrl = orgin + '/Pharmacy/' + id;
+    const fetchUrl = orgin + '/Pharmacy/' + id; 
     const { data, isLoading, error }: { data: IPharmacy | null, isLoading: boolean, error: boolean } = useFetch<IPharmacy>(fetchUrl);
     const [pharmacy, setPharmacy] = useState<IPharmacy | null>(null);
     const stateFetchUrl = orgin + '/Pharmacy/GetStateList';
@@ -21,13 +21,13 @@ const Pharmacy = () => {
 
     useEffect(() => {
         if (data) {
+            debugger;
             setPharmacy(data);
         }
     }, [data]);
 
     function handleFieldChange(e: any, fieldName: any) {
         const value = e.target.value;
-        debugger;
         setPharmacy((prevPharmacy) => ({
             ...prevPharmacy!,
             [fieldName]: value,
@@ -74,7 +74,6 @@ const Pharmacy = () => {
             {isLoading && <div> Loading... </div>}
             <div className="container mb-3">  {errorSaving && <span className="text-danger"> Error saving the information. </span>}&nbsp; </div>
             {pharmacy &&
-
                 <form key={pharmacy.pharmacyId} className="container" onSubmit={(e) => saveForm(e)} >
                     <div className="mb-3 row g-3">
                         <div className="col-md-8">
