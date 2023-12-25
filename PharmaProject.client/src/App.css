@@ -50,7 +50,7 @@ table tr:last-of-type:not(thead tr:last-of-type) {
 .back {
     position: absolute;
     top: 10%;
-    left: 20%;
+
 }
 
 @media (max-width: 800px) {

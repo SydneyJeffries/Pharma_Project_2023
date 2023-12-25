@@ -72,8 +72,8 @@ const Pharmacy = () => {
 
     return (
         <>
-            <div className="back-link mb-4">
-                <button onClick={backButton} className="link-primary back"> Back </button>
+            <div className="back  mb-4 container">
+                <button onClick={backButton} className="link-primary p-0"> Back </button>
             </div>
             {error && <div> Error loading the page. </div>}
             {isLoading && <div> Loading... </div>}
