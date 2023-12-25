@@ -34,6 +34,11 @@ const Pharmacy = () => {
         }));
     }
 
+    function RevertChanges(e: MouseEvent ) {
+        e.preventDefault()
+        setPharmacy(data);
+    }
+
     function backButton() {
         history.go(-1);
     }
@@ -114,10 +119,10 @@ const Pharmacy = () => {
                     <div className="mb-3 row g-3">
                         <br></br>
                         <div className="col-md-3">
-                            <button className="btn btn-primary sm-w-100 md-w-50 w-100" type="submit"> Save </button>
+                            <button className="btn btn-primary sm-w-100 md-w-50 w-100" type="submit" > Save </button>
                         </div>
                         <div className="col-md-3">
-                            <button className="btn btn-primary sm-w-100 md-w-50 w-100" type="submit"> Cancel </button>
+                            <a className="btn btn-primary sm-w-100 md-w-50 w-100" onClick={(e) =>RevertChanges(e) }> Cancel </a>
                         </div>
                     </div>
                     <div className="mb-3 text-center d-block d-md-none">
