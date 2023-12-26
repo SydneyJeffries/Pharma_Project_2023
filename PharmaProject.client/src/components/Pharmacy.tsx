@@ -1,4 +1,3 @@
-/* eslint-disable no-debugger */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useParams } from "react-router-dom";
 import useFetch from "../UseFetch";
@@ -19,21 +18,20 @@ const Pharmacy = () => {
     const dispatch = useDispatch();
     const pharmacyData: IPharmacy = useSelector(getPharmacyData);
     const pharmacyStatus : string = useSelector(getPharmacyStatus);
-    const pharmacyError = useSelector(getPharmacyError);
+    const pharmacyError : string = useSelector(getPharmacyError);
     const [pharmacy, setPharmacy] = useState<IPharmacy>(pharmacyData);
     const savePharmacyRef = useRef(false);
 
 
     useEffect(() => {
         dispatch(fetchPharmacyById(id));
-
     }, [])
 
     useEffect(() => {
         setPharmacy(pharmacyData);
     }, [pharmacyData]);
 
-    function handleFieldChange(e: any, fieldName: any) {
+    function handleFieldChange(e: any, fieldName: string) {
         const value = e.target.value;
         setPharmacy((prevPharmacy) => ({
             ...prevPharmacy!,
@@ -41,7 +39,7 @@ const Pharmacy = () => {
         }));
     }
 
-    function RevertChanges(e: MouseEvent ) {
+    function RevertChanges(e: MouseEvent) {
         e.preventDefault();
         setPharmacy(pharmacyData);
     }
