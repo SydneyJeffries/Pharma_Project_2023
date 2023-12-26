@@ -1,22 +1,21 @@
 import { Link } from "react-router-dom";
 //import useFetch from "./UseFetch";
-import IPharmacy from './Interfaces/IPharmacy';
+import IPharmacy from '../Interfaces/IPharmacy';
 //import { orgin } from './ConnectionString';
 import Loader from './Loader';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPharmacyList, getPharmacyListStatus, getPharmacyListError, fetchPharmacyList } from './features/PharmacyListSlice';
+import { getPharmacyList, getPharmacyListStatus, getPharmacyListError, fetchPharmacyList } from '../features/PharmacyListSlice';
 import { useEffect } from 'react';
 
  const  Home = () => {
 
     const dispatch = useDispatch();
-
     const pharmacyList = useSelector(getPharmacyList);
     const pharmacyListStatus = useSelector(getPharmacyListStatus);
     const pharmacyListError = useSelector(getPharmacyListError);
 
      useEffect(() => {
-             pharmacyList
+             
              dispatch(fetchPharmacyList());
         
     }, [])

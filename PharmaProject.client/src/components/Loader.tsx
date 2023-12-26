@@ -1,4 +1,4 @@
-import './styles/Loader.css'
+import '../styles/Loader.css';
 
 function Loader() {
     return (
@@ -6,4 +6,4 @@ function Loader() {
     );
 }
 
-export default Loader
+export default Loader;

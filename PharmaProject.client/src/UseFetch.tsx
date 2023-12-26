@@ -1,5 +1,4 @@
 /* eslint-disable no-debugger */
-
 import { useState, useEffect } from 'react';
 
 function useFetch<T>(url: string) {

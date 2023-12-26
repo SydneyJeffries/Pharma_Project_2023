@@ -1,14 +1,14 @@
 /* eslint-disable no-debugger */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useParams } from "react-router-dom";
-import useFetch from "./UseFetch";
-import IPharmacy from "./Interfaces/IPharmacy";
+import useFetch from "../UseFetch";
+import IPharmacy from "../Interfaces/IPharmacy";
 import { useState, useEffect } from 'react';
-import IState from "./Interfaces/IState";
+import IState from "../Interfaces/IState";
 import { useHistory } from 'react-router-dom';
-import { orgin } from './ConnectionString'
+import { orgin } from '../ConnectionString'
 import Loader from './Loader';
-import { getPharmacyStatus, getPharmacyError, getPharmacyData, fetchPharmacyById } from './features/PharmacySlice';
+import { getPharmacyStatus, getPharmacyError, getPharmacyData, fetchPharmacyById } from '../features/PharmacySlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Pharmacy = () => {
@@ -45,7 +45,7 @@ const Pharmacy = () => {
 
     function RevertChanges(e: MouseEvent ) {
         e.preventDefault();
-        setPharmacy(pharmacy);
+        setPharmacy(pharmacyData);
     }
 
     function backButton() {
@@ -87,7 +87,7 @@ const Pharmacy = () => {
             {pharmacyError && <div> Error loading the page. </div>}
             {pharmacyStatus == "loading" && <Loader></Loader>}
             <div className="container mb-3">  {errorSaving && <span className="text-danger"> Error saving the information. </span>} &nbsp; </div>
-            {pharmacyData && pharmacyStatus == "succeeded" &&
+            {pharmacy && pharmacyStatus == "succeeded" &&
                 <form key={pharmacy?.pharmacyId} className="container" onSubmit={(e) => saveForm(e)} >
                     <div className="mb-3 row g-3">
                         <div className="col-md-8">
