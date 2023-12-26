@@ -1,13 +1,14 @@
 /* eslint-disable no-debugger */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useParams } from "react-router-dom";
-import useFetch from "./UseFetch"
-import IPharmacy from "../Interfaces/IPharmacy";
+import useFetch from "./UseFetch";
+import IPharmacy from "./Interfaces/IPharmacy";
 import { useState, useEffect } from 'react';
-import IState from "../Interfaces/IState";
+import IState from "./Interfaces/IState";
 import { useHistory } from 'react-router-dom';
 import { orgin } from './ConnectionString'
-import Loader from './Loader'
+import Loader from './Loader';
+
 const Pharmacy = () => {
 
     const { id } = useParams();
@@ -35,7 +36,7 @@ const Pharmacy = () => {
     }
 
     function RevertChanges(e: MouseEvent ) {
-        e.preventDefault()
+        e.preventDefault();
         setPharmacy(data);
     }
 
@@ -57,7 +58,7 @@ const Pharmacy = () => {
             });
 
             if (response.ok) {
-                history.push('/')
+                history.push('/');
 
             } else {
                 const errorMessage = await response.text();
@@ -136,4 +137,4 @@ const Pharmacy = () => {
     );
 }
 
-export default Pharmacy
+export default Pharmacy;

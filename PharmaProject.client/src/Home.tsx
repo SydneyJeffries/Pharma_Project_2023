@@ -1,18 +1,34 @@
 import { Link } from "react-router-dom";
-import useFetch from "./UseFetch"
-import IPharmacy from '../Interfaces/IPharmacy'
-import { orgin } from './ConnectionString'
-import Loader from './Loader'
-function Home() {
+//import useFetch from "./UseFetch";
+import IPharmacy from './Interfaces/IPharmacy';
+//import { orgin } from './ConnectionString';
+import Loader from './Loader';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPharmacyList, getPharmacyListStatus, getPharmacyListError, fetchPharmacyList } from './features/PharmacyListSlice';
+import { useEffect } from 'react';
 
-    const fetchUrl = orgin + '/Pharmacy';
-    const { data, isLoading, error }: { data: IPharmacy[] | null, isLoading: boolean, error: boolean } = useFetch<IPharmacy[]>(fetchUrl);
+ const  Home = () => {
+
+    const dispatch = useDispatch();
+
+    const pharmacyList = useSelector(getPharmacyList);
+    const pharmacyListStatus = useSelector(getPharmacyListStatus);
+    const pharmacyListError = useSelector(getPharmacyListError);
+
+     useEffect(() => {
+         if (pharmacyListStatus == 'idle') {
+             dispatch(fetchPharmacyList());
+        }
+    }, [pharmacyListStatus, dispatch])
+
+    //const fetchUrl = orgin + '/Pharmacy';
+     // const { data, isLoading, error }: { data: IPharmacy[] | null, isLoading: boolean, error: boolean } = useFetch<IPharmacy[]>(fetchUrl);
 
     return (
         <>
-            {error && <div> Error loading the page. </div>}
-            {isLoading && <Loader></Loader>}
-            {data &&
+            {pharmacyListError && <div> Error loading the page. </div>}
+            {pharmacyListStatus == 'loading' && <Loader></Loader>}
+            {pharmacyList.length > 0 &&
                 <div className="p-4 bg-white">
                     <table className="table table striped cols-lg text-center ">
                         <thead>
@@ -25,7 +41,7 @@ function Home() {
                                 <th scope="col" className="cols-sm"></th>
                             </tr>
                         </thead>
-                        <tbody>{data.map((pharma: IPharmacy) => (
+                        <tbody>{pharmacyList.map((pharma: IPharmacy) => (
                             <tr key={pharma.pharmacyId}>
                                 <td scope="row " className="text-start " >{pharma.name}</td>
                                 <td>
@@ -50,4 +66,4 @@ function Home() {
     );
 }
 
-export default Home
+export default Home;

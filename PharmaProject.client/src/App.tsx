@@ -1,10 +1,9 @@
 import Home from './Home'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import './bootstrap.css'
+import './styles/bootstrap.css'
 import '../node_modules/bootstrap-icons/font/bootstrap-icons.min.css';
 import '../node_modules/bootstrap/dist/js/bootstrap.min.js'
-import 'bootstrap/js/dist/dropdown.js'
-import './App.css'
+import './styles/App.css'
 import Pharmacy from './Pharmacy'
 
 
