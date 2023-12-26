@@ -3,7 +3,7 @@
 import { useParams } from "react-router-dom";
 import useFetch from "../UseFetch";
 import IPharmacy from "../Interfaces/IPharmacy";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import IState from "../Interfaces/IState";
 import { useHistory } from 'react-router-dom';
 import { orgin } from '../ConnectionString'
@@ -14,17 +14,15 @@ import { useDispatch, useSelector } from 'react-redux';
 const Pharmacy = () => {
 
     const { id } = useParams();
- //   const fetchUrl = orgin + '/Pharmacy/' + id; 
- //   const { data, isLoading, error }: { data: IPharmacy | null, isLoading: boolean, error: boolean } = useFetch<IPharmacy>(fetchUrl);
     const stateFetchUrl = orgin + '/Pharmacy/GetStateList';
     const { data: statesData } = useFetch<IState[]>(stateFetchUrl);
     const history = useHistory();
-    //const [errorSaving, setErrorSaving] = useState(false);
     const dispatch = useDispatch();
     const pharmacyData: IPharmacy = useSelector(getPharmacyData);
     const pharmacyStatus : string = useSelector(getPharmacyStatus);
     const pharmacyError = useSelector(getPharmacyError);
     const [pharmacy, setPharmacy] = useState<IPharmacy>(pharmacyData);
+    const savePharmacyRef = useRef(false);
 
     useEffect(() => {
             dispatch(fetchPharmacyById(id));
@@ -55,10 +53,15 @@ const Pharmacy = () => {
     async function saveForm(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         dispatch(savePharmacy(pharmacy));
-        if (pharmacyStatus == 'succeeded') {
+        savePharmacyRef.current = true;
+    }
+
+    useEffect(() => {
+        // route back to home menu if save worked.
+        if (pharmacyStatus == 'succeeded' && savePharmacyRef.current == true) {
             history.push('/');
         }
-    }
+    }, [pharmacyStatus])
 
     return (
         <>
@@ -67,8 +70,8 @@ const Pharmacy = () => {
             </div>
             {pharmacyError == "loading" && <div> Error loading the page. </div>}
             {pharmacyStatus == "loading" && <Loader></Loader>}
-            <div className="container mb-3">  {pharmacyError == 'saving' && <span className="text-danger"> Error saving the information. </span>} &nbsp; </div>
-            {pharmacy && pharmacyStatus == "succeeded" &&
+            <div className="container mb-3">  {pharmacyError == 'saving' && savePharmacyRef.current == true && <span className="text-danger"> Error saving the information. </span>} &nbsp; </div>
+            {pharmacy  &&
                 <form key={pharmacy?.pharmacyId} className="container" onSubmit={(e) => saveForm(e)} >
                     <div className="mb-3 row g-3">
                         <div className="col-md-8">

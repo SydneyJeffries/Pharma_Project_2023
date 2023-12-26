@@ -25,8 +25,8 @@ import { useEffect } from 'react';
 
     return (
         <>
-            {pharmacyListError == 'loading' && <div> Error loading the page. </div>}
-            {pharmacyListStatus == 'loading' && <Loader></Loader>}
+            {pharmacyListError == "loading" && <div className="text-danger"> Error loading the page. </div>}
+            {pharmacyListStatus == "loading" && <Loader></Loader>}
             {pharmacyList.length > 0 &&
                 <div className="p-4 bg-white">
                     <table className="table table striped cols-lg text-center ">
