@@ -1,7 +1,7 @@
 import IPharmacy from './IPharmacy';
 
 interface IPharmacyState {
-    pharmacys: IPharmacy[] | IPharmacy;
+    data: IPharmacy[] | IPharmacy;
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: boolean;
 }

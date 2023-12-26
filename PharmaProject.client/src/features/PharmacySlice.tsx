@@ -6,6 +6,7 @@ import { orgin } from '../ConnectionString';
 import axios from 'axios';
 import IPharmacyState from '../Interfaces/IPharmacyState';
 
+
 const getPharmacyListUrl = orgin + '/Pharmacy';
 const getPharmacyByIdUrl = orgin + '/Pharmacy/'
 
@@ -36,7 +37,7 @@ export const fetchPharmacyById = createAsyncThunk('phamacys/fetchPharmacyById',
             const response = await axios.get(`${getPharmacyByIdUrl + pharmacyId}`, {
                 cancelToken: source.token,
             })
-            debugger;
+
             return response.data
 
         } catch (err: any) {

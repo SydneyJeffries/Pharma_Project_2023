@@ -8,24 +8,32 @@ import IState from "./Interfaces/IState";
 import { useHistory } from 'react-router-dom';
 import { orgin } from './ConnectionString'
 import Loader from './Loader';
+import { getPharmacyStatus, getPharmacyError, getPharmacyData, fetchPharmacyById } from './features/PharmacySlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Pharmacy = () => {
 
     const { id } = useParams();
-    const fetchUrl = orgin + '/Pharmacy/' + id; 
-    const { data, isLoading, error }: { data: IPharmacy | null, isLoading: boolean, error: boolean } = useFetch<IPharmacy>(fetchUrl);
-    const [pharmacy, setPharmacy] = useState<IPharmacy | null>(null);
+ //   const fetchUrl = orgin + '/Pharmacy/' + id; 
+ //   const { data, isLoading, error }: { data: IPharmacy | null, isLoading: boolean, error: boolean } = useFetch<IPharmacy>(fetchUrl);
     const stateFetchUrl = orgin + '/Pharmacy/GetStateList';
     const { data: statesData } = useFetch<IState[]>(stateFetchUrl);
     const history = useHistory();
     const [errorSaving, setErrorSaving] = useState(false);
+    const dispatch = useDispatch();
+    const pharmacyData: IPharmacy = useSelector(getPharmacyData);
+    const pharmacyStatus : string = useSelector(getPharmacyStatus);
+    const pharmacyError = useSelector(getPharmacyError);
+    const [pharmacy, setPharmacy] = useState<IPharmacy | null>(pharmacyData);
 
     useEffect(() => {
-        if (data) {
-            debugger;
-            setPharmacy(data);
-        }
-    }, [data]);
+            dispatch(fetchPharmacyById(id));
+    }, [])
+
+    useEffect(() => {
+        setPharmacy(pharmacyData);
+    }, [pharmacyData]);
+
 
     function handleFieldChange(e: any, fieldName: any) {
         const value = e.target.value;
@@ -37,7 +45,7 @@ const Pharmacy = () => {
 
     function RevertChanges(e: MouseEvent ) {
         e.preventDefault();
-        setPharmacy(data);
+        setPharmacy(pharmacy);
     }
 
     function backButton() {
@@ -76,33 +84,33 @@ const Pharmacy = () => {
             <div className="back  mb-4 container">
                 <button onClick={backButton} className="link-primary p-0"> Back </button>
             </div>
-            {error && <div> Error loading the page. </div>}
-            {isLoading && <Loader></Loader>}
-            <div className="container mb-3">  {errorSaving && <span className="text-danger"> Error saving the information. </span>}&nbsp; </div>
-            {pharmacy &&
-                <form key={pharmacy.pharmacyId} className="container" onSubmit={(e) => saveForm(e)} >
+            {pharmacyError && <div> Error loading the page. </div>}
+            {pharmacyStatus == "loading" && <Loader></Loader>}
+            <div className="container mb-3">  {errorSaving && <span className="text-danger"> Error saving the information. </span>} &nbsp; </div>
+            {pharmacyData && pharmacyStatus == "succeeded" &&
+                <form key={pharmacy?.pharmacyId} className="container" onSubmit={(e) => saveForm(e)} >
                     <div className="mb-3 row g-3">
                         <div className="col-md-8">
-                            <label htmlFor={pharmacy.name} className="form-label">Name</label>
-                            <input type="text" className="form-control" value={pharmacy.name} required onChange={(e) => handleFieldChange(e, 'name')} />
+                            <label htmlFor={pharmacy?.name} className="form-label">Name</label>
+                            <input type="text" className="form-control" value={pharmacy?.name} required onChange={(e) => handleFieldChange(e, 'name')} />
                         </div>
                         <div className="col-md-4">
                             <label className="form-label">Number of Filled Prescriptions</label>
-                            <input type="number" className="form-control" value={pharmacy.filledPerscriptions} required onChange={(e) => handleFieldChange(e, 'filledPerscriptions')} />
+                            <input type="number" className="form-control" value={pharmacy?.filledPerscriptions} required onChange={(e) => handleFieldChange(e, 'filledPerscriptions')} />
                         </div>
                     </div>
                     <div className="mb-5 row g-3">
                         <div className="col-lg-3 col-md-6">
-                            <label htmlFor={pharmacy.address} className="form-label">Address</label>
-                            <input type="text" className="form-control" value={pharmacy.address} required onChange={(e) => handleFieldChange(e, 'address')} />
+                            <label htmlFor={pharmacy?.address} className="form-label">Address</label>
+                            <input type="text" className="form-control" value={pharmacy?.address} required onChange={(e) => handleFieldChange(e, 'address')} />
                         </div>
                         <div className="col-lg-3 col-md-6">
-                            <label htmlFor={pharmacy.city} className="form-label">City</label>
-                            <input type="text" className="form-control" value={pharmacy.city} required onChange={(e) => handleFieldChange(e, 'city')} />
+                            <label htmlFor={pharmacy?.city} className="form-label">City</label>
+                            <input type="text" className="form-control" value={pharmacy?.city} required onChange={(e) => handleFieldChange(e, 'city')} />
                         </div>
                         <div className="col-lg-3 col-md-6">
-                            <label htmlFor={pharmacy.city} className="form-label">State</label>
-                            <select value={pharmacy.stateCode || ''} required onChange={(e) => handleFieldChange(e, 'stateCode')} className="form-select " >
+                            <label htmlFor={pharmacy?.stateCode} className="form-label">State</label>
+                            <select value={pharmacy?.stateCode || ''} required onChange={(e) => handleFieldChange(e, 'stateCode')} className="form-select " >
                                 <option value="">Select a state</option>
                                 {statesData &&
                                     statesData.map((state: IState) => (
@@ -113,8 +121,8 @@ const Pharmacy = () => {
                             </select>
                         </div>
                         <div className="col-lg-3 col-md-6 ">
-                            <label htmlFor={pharmacy.zip} className="form-label">Zip</label>
-                            <input type="text" className="form-control" value={pharmacy.zip} required onChange={(e) => handleFieldChange(e, 'zip')} />
+                            <label htmlFor={pharmacy?.zip} className="form-label">Zip</label>
+                            <input type="text" className="form-control" value={pharmacy?.zip} required onChange={(e) => handleFieldChange(e, 'zip')} />
                         </div>
                     </div>
                     <div className="mb-3 row g-3">
