@@ -12,7 +12,6 @@ import { getPharmacyStatus, getPharmacyError, getPharmacyData, fetchPharmacyById
 import { useDispatch, useSelector } from 'react-redux';
 
 const Pharmacy = () => {
-
     const { id } = useParams();
     const stateFetchUrl = orgin + '/Pharmacy/GetStateList';
     const { data: statesData } = useFetch<IState[]>(stateFetchUrl);
@@ -24,14 +23,15 @@ const Pharmacy = () => {
     const [pharmacy, setPharmacy] = useState<IPharmacy>(pharmacyData);
     const savePharmacyRef = useRef(false);
 
+
     useEffect(() => {
-            dispatch(fetchPharmacyById(id));
+        dispatch(fetchPharmacyById(id));
+
     }, [])
 
     useEffect(() => {
         setPharmacy(pharmacyData);
     }, [pharmacyData]);
-
 
     function handleFieldChange(e: any, fieldName: any) {
         const value = e.target.value;
@@ -68,9 +68,9 @@ const Pharmacy = () => {
             <div className="back  mb-4 container">
                 <button onClick={backButton} className="link-primary p-0"> Back </button>
             </div>
-            {pharmacyError == "loading" && <div> Error loading the page. </div>}
+            {pharmacyError == "loading" && <div className="text-danger"> Error loading the page. </div>}
             {pharmacyStatus == "loading" && <Loader></Loader>}
-            <div className="container mb-3">  {pharmacyError == 'saving' && savePharmacyRef.current == true && <span className="text-danger"> Error saving the information. </span>} &nbsp; </div>
+            <div className="container mb-3">  {pharmacyError == 'saving'  && <span className="text-danger"> Error saving the information. </span>} &nbsp; </div>
             {pharmacy  &&
                 <form key={pharmacy?.pharmacyId} className="container" onSubmit={(e) => saveForm(e)} >
                     <div className="mb-3 row g-3">
@@ -123,7 +123,6 @@ const Pharmacy = () => {
                         <button onClick={backButton} className="link-primary "> Back </button>
                     </div>
                 </form>
-
             }
         </>
     );

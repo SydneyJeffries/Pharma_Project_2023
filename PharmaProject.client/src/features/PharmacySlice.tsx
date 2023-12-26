@@ -7,7 +7,6 @@ import axios from 'axios';
 import IPharmacyState from '../Interfaces/IPharmacyState';
 import IPharmacy from '../Interfaces/IPharmacy';
 
-
 const getPharmacyListUrl = orgin + '/Pharmacy';
 const getPharmacyByIdUrl = orgin + '/Pharmacy/'
 const savePharmacyUrl = orgin + '/Pharmacy/';
@@ -17,7 +16,6 @@ const initialState: IPharmacyState = {
     status: 'idle',
     error: '',
 };
-
 
 export const fetchPharmacyList = createAsyncThunk('pharmacy/fetchPharmacyList', async (_, { signal }) => {
     const source = axios.CancelToken.source();
@@ -33,7 +31,6 @@ export const fetchPharmacyList = createAsyncThunk('pharmacy/fetchPharmacyList', 
 });
 
 export const savePharmacy = createAsyncThunk('pharmacy/savePharmacy', async (updatedPharmacyData: IPharmacy) => {
-
     const response = await axios.post(savePharmacyUrl, updatedPharmacyData);
     return response.data;
 });
@@ -62,10 +59,12 @@ export const PharmacySlice = createSlice({
         builder
             .addCase(fetchPharmacyList.pending, (state) => {
                 state.status = 'loading';
+                state.error = '';
             })
             .addCase(fetchPharmacyList.fulfilled, (state, action) => {
                 state.status = 'succeeded'
                 state.data = action.payload;
+                state.error = '';
             })
             .addCase(fetchPharmacyList.rejected, (state, action) => {
                 state.status = 'failed'
@@ -74,10 +73,12 @@ export const PharmacySlice = createSlice({
             })
             .addCase(fetchPharmacyById.pending, (state) => {
                 state.status = 'loading';
+                state.error = '';
             })
             .addCase(fetchPharmacyById.fulfilled, (state, action) => {
                 state.status = 'succeeded'
                 state.data = action.payload;
+                state.error = '';
             })
             .addCase(fetchPharmacyById.rejected, (state, action) => {
                 state.status = 'failed'
@@ -86,9 +87,11 @@ export const PharmacySlice = createSlice({
             })
             .addCase(savePharmacy.pending, (state) => {
                 state.status = 'loading';
+                state.error = '';
             })
             .addCase(savePharmacy.fulfilled, (state) => {
                 state.status = 'succeeded'
+                state.error = '';
             })
             .addCase(savePharmacy.rejected, (state, action) => {
                 state.status = 'failed'
@@ -99,10 +102,8 @@ export const PharmacySlice = createSlice({
     }
 })
 
-
 export const getPharmacyData = (state: any) => state.pharmacy.data;
 export const getPharmacyStatus = (state: any) => state.pharmacy.status;
 export const getPharmacyError = (state: any) => state.pharmacy.error;
-
 
 export default PharmacySlice.reducer;
