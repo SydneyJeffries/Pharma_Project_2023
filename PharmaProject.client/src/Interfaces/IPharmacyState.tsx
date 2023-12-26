@@ -3,7 +3,7 @@ import IPharmacy from './IPharmacy';
 interface IPharmacyState {
     data: IPharmacy[] | IPharmacy;
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
-    error: boolean;
+    error: 'loading' | 'saving';
 }
 
 export default IPharmacyState;

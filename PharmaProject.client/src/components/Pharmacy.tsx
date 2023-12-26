@@ -8,7 +8,7 @@ import IState from "../Interfaces/IState";
 import { useHistory } from 'react-router-dom';
 import { orgin } from '../ConnectionString'
 import Loader from './Loader';
-import { getPharmacyStatus, getPharmacyError, getPharmacyData, fetchPharmacyById } from '../features/PharmacySlice';
+import { getPharmacyStatus, getPharmacyError, getPharmacyData, fetchPharmacyById, savePharmacy } from '../features/PharmacySlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Pharmacy = () => {
@@ -19,12 +19,12 @@ const Pharmacy = () => {
     const stateFetchUrl = orgin + '/Pharmacy/GetStateList';
     const { data: statesData } = useFetch<IState[]>(stateFetchUrl);
     const history = useHistory();
-    const [errorSaving, setErrorSaving] = useState(false);
+    //const [errorSaving, setErrorSaving] = useState(false);
     const dispatch = useDispatch();
     const pharmacyData: IPharmacy = useSelector(getPharmacyData);
     const pharmacyStatus : string = useSelector(getPharmacyStatus);
     const pharmacyError = useSelector(getPharmacyError);
-    const [pharmacy, setPharmacy] = useState<IPharmacy | null>(pharmacyData);
+    const [pharmacy, setPharmacy] = useState<IPharmacy>(pharmacyData);
 
     useEffect(() => {
             dispatch(fetchPharmacyById(id));
@@ -54,28 +54,9 @@ const Pharmacy = () => {
 
     async function saveForm(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        debugger;
-        const savePharmacyUrl = orgin + '/Pharmacy/';
-        try {
-            const response = await fetch(savePharmacyUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(pharmacy),
-            });
-
-            if (response.ok) {
-                history.push('/');
-
-            } else {
-                const errorMessage = await response.text();
-                setErrorSaving(true);
-                console.error('Failed to save pharmacy:', errorMessage);
-            }
-        } catch (error) {
-            setErrorSaving(true);
-            console.error('An error occurred:', error);
+        dispatch(savePharmacy(pharmacy));
+        if (pharmacyStatus == 'succeeded') {
+            history.push('/');
         }
     }
 
@@ -84,9 +65,9 @@ const Pharmacy = () => {
             <div className="back  mb-4 container">
                 <button onClick={backButton} className="link-primary p-0"> Back </button>
             </div>
-            {pharmacyError && <div> Error loading the page. </div>}
+            {pharmacyError == "loading" && <div> Error loading the page. </div>}
             {pharmacyStatus == "loading" && <Loader></Loader>}
-            <div className="container mb-3">  {errorSaving && <span className="text-danger"> Error saving the information. </span>} &nbsp; </div>
+            <div className="container mb-3">  {pharmacyError == 'saving' && <span className="text-danger"> Error saving the information. </span>} &nbsp; </div>
             {pharmacy && pharmacyStatus == "succeeded" &&
                 <form key={pharmacy?.pharmacyId} className="container" onSubmit={(e) => saveForm(e)} >
                     <div className="mb-3 row g-3">
@@ -122,7 +103,7 @@ const Pharmacy = () => {
                         </div>
                         <div className="col-lg-3 col-md-6 ">
                             <label htmlFor={pharmacy?.zip} className="form-label">Zip</label>
-                            <input type="text" className="form-control" value={pharmacy?.zip} required onChange={(e) => handleFieldChange(e, 'zip')} />
+                            <input type="text" className="form-control" pattern=".{5}" title="Please enter exactly 5 characters for the ZIP code." value={pharmacy?.zip} required onChange={(e) => handleFieldChange(e, 'zip')} />
                         </div>
                     </div>
                     <div className="mb-3 row g-3">
