@@ -43,7 +43,7 @@ import { useEffect } from 'react';
                         </thead>
                         <tbody>{pharmacyList.map((pharma: IPharmacy) => (
                             <tr key={pharma.pharmacyId}>
-                                <td scope="row " className="text-start " >{pharma.name}</td>
+                                <td scope="row " className="text-start" >{pharma.name}</td>
                                 <td>
                                     <div> {pharma.address}</div>
                                     <div> {pharma.city}, {pharma.stateCode} {pharma.zip} </div>
