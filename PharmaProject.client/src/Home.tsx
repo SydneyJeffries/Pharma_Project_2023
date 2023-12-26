@@ -16,10 +16,10 @@ import { useEffect } from 'react';
     const pharmacyListError = useSelector(getPharmacyListError);
 
      useEffect(() => {
-         if (pharmacyListStatus == 'idle') {
+             pharmacyList
              dispatch(fetchPharmacyList());
-        }
-    }, [pharmacyListStatus, dispatch])
+        
+    }, [])
 
     //const fetchUrl = orgin + '/Pharmacy';
      // const { data, isLoading, error }: { data: IPharmacy[] | null, isLoading: boolean, error: boolean } = useFetch<IPharmacy[]>(fetchUrl);

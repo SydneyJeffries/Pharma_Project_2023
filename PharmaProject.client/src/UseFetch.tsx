@@ -9,7 +9,7 @@ function useFetch<T>(url: string) {
     const [error, setError] = useState(false);
 
     useEffect(() => {
-        debugger;
+
         const abortCon = new AbortController();
 
         fetch(url, { signal: abortCon.signal })

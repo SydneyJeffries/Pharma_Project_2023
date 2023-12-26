@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit"
-import PharmacySlice from "./features/PharmacyListSlice"
+import PharmacyListSlice from "./features/PharmacyListSlice"
+import PharmacySlice from "./features/PharmacySlice"
 
 export const store = configureStore({
     reducer: {
-        pharmacys: PharmacySlice,
+        pharmacys: PharmacyListSlice,
+        pharmacy: PharmacySlice
     }
 
 });
