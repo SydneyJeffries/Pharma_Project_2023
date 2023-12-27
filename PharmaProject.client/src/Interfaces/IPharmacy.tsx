@@ -1,5 +1,5 @@
 
-interface IPharmacy {
+export interface IPharmacy {
     pharmacyId: number
     name: string;
     filledPerscriptions: number;

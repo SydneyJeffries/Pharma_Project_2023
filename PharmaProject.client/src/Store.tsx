@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import PharmacySlice from "./features/PharmacySlice";
+import PharmacySlice from "./slicers/PharmacySlice";
 
 export const store = configureStore({
     reducer: {

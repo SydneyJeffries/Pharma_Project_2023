@@ -1,15 +1,11 @@
 /* eslint-disable no-debugger */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
-import { orgin } from '../ConnectionString';
-import axios from 'axios';
+import { pharmacyService } from "../api/PharmacyService";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import IPharmacyState from '../Interfaces/IPharmacyState';
 import IPharmacy from '../Interfaces/IPharmacy';
-
-const getPharmacyListUrl = orgin + '/Pharmacy';
-const getPharmacyByIdUrl = orgin + '/Pharmacy/'
-const savePharmacyUrl = orgin + '/Pharmacy/';
+import axios from 'axios'
 
 const initialState: IPharmacyState = {
     data: [],
@@ -17,37 +13,23 @@ const initialState: IPharmacyState = {
     error: '',
 };
 
-export const fetchPharmacyList = createAsyncThunk('pharmacy/fetchPharmacyList', async (_, { signal }) => {
-    const source = axios.CancelToken.source();
+export const fetchPharmacyList = createAsyncThunk<IPharmacy[]>('pharmacy/fetchList', async (_ , { signal }) => {
+    const source = axios.CancelToken.source()
     signal.addEventListener('abort', () => {
-        source.cancel();
+        source.cancel()
     })
 
-    const response = await axios.get(getPharmacyListUrl, {
-        cancelToken: source.token,
-    })
-
-    return [...response.data];
+    const pharmacyList = await pharmacyService.getPharmacyList();
+    return [...pharmacyList];
 });
 
-export const savePharmacy = createAsyncThunk('pharmacy/savePharmacy', async (updatedPharmacyData: IPharmacy) => {
-    const response = await axios.post(savePharmacyUrl, updatedPharmacyData);
-    return response.data;
-});
 
-export const fetchPharmacyById = createAsyncThunk('phamacy/fetchPharmacyById',
-    async (pharmacyId: string, { signal }) => {
-        const source = axios.CancelToken.source();
-        signal.addEventListener('abort', () => {
-            source.cancel();
-        })
+export const savePharmacy = createAsyncThunk<IPharmacy | Response, IPharmacy>('pharmacy/savePharmacy',  async (pharmacy: IPharmacy) => {
+        const updatedPharmacy = await pharmacyService.savePharmacy(pharmacy);
+        return updatedPharmacy;
+    }
+);
 
-        const response = await axios.get(`${getPharmacyByIdUrl + pharmacyId}`, {
-            cancelToken: source.token,
-        })
-
-        return response.data;
- });
 
 export const PharmacySlice = createSlice({
     name: 'pharmacy',
@@ -71,20 +53,20 @@ export const PharmacySlice = createSlice({
                 state.error = 'loading';
                 console.log(action.error.message)
             })
-            .addCase(fetchPharmacyById.pending, (state) => {
-                state.status = 'loading';
-                state.error = '';
-            })
-            .addCase(fetchPharmacyById.fulfilled, (state, action) => {
-                state.status = 'succeeded'
-                state.data = action.payload;
-                state.error = '';
-            })
-            .addCase(fetchPharmacyById.rejected, (state, action) => {
-                state.status = 'failed'
-                state.error = 'loading';
-                console.log(action.error.message)
-            })
+            //.addCase(fetchPharmacyById.pending, (state) => {
+            //    state.status = 'loading';
+            //    state.error = '';
+            //})
+            //.addCase(fetchPharmacyById.fulfilled, (state, action) => {
+            //    state.status = 'succeeded'
+            //    state.data = action.payload;
+            //    state.error = '';
+            //})
+            //.addCase(fetchPharmacyById.rejected, (state, action) => {
+            //    state.status = 'failed'
+            //    state.error = 'loading';
+            //    console.log(action.error.message)
+            //})
             .addCase(savePharmacy.pending, (state) => {
                 state.status = 'loading';
                 state.error = '';

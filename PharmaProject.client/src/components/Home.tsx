@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import IPharmacy from '../Interfaces/IPharmacy';
 import Loader from './Loader';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPharmacyData, getPharmacyStatus, getPharmacyError, fetchPharmacyList } from '../features/PharmacySlice';
+import { getPharmacyData, getPharmacyStatus, getPharmacyError, fetchPharmacyList } from '../slicers/PharmacySlice';
 import { useEffect, useRef } from 'react';
 
 const Home = () => {
