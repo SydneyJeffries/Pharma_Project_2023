@@ -29,6 +29,7 @@ const Pharmacy = () => {
 
     useEffect(() => {
         setPharmacy(pharmacyData);
+
     }, [pharmacyData]);
 
     function handleFieldChange(e: any, fieldName: string) {
