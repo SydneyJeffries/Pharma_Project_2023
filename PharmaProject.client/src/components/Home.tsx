@@ -1,61 +1,62 @@
-import { Link } from "react-router-dom";
-import IPharmacy from '../Interfaces/IPharmacy';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/*import { Link } from "react-router-dom";*/
+//import IPharmacy from '../Interfaces/IPharmacy';
 import Loader from './Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPharmacyData, getPharmacyStatus, getPharmacyError, fetchPharmacyList } from '../slicers/PharmacySlice';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
+//import Table from "@mui/material/Table";
+//import TableBody from "@mui/material/Table";
+//import TableCell from "@mui/material/TableCell";
+//import TableContainer from "@mui/material/TableContainer";
+//import TableHead from "@mui/material/TableHead";
+//import TableRow from "@mui/material/TableRow";
+//import Paper from "@mui/material/Paper";
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import IPharmacy from '../Interfaces/IPharmacy';
 
 const Home = () => {
     const dispatch = useDispatch();
     const pharmacyList = useSelector(getPharmacyData);
     const pharmacyListStatus = useSelector(getPharmacyStatus);
     const pharmacyListError = useSelector(getPharmacyError);
-    const loadPharmacy = useRef(false);
+
 
     useEffect(() => {
-         loadPharmacy.current = true;
         dispatch(fetchPharmacyList());
+        console.log(pharmacyList)
     }, [])
+
+    const columns: GridColDef[] = [
+        { field: "name", headerName: "Name", editable: true, hideable: true, width: 200 },
+        { field: "address", headerName: "Address", editable: true, hideable: true, width: 200 },
+        { field: "city", headerName: "City", editable: true, hideable: true, width: 150 },
+        { field: "stateCode", headerName: "State", editable: true, hideable: true, width: 150 },
+        { field: "filledPerscriptions", headerName: "Prescriptions Filled", editable: true, hideable: true, width: 150, type: 'number' },
+        {
+            field: "createdDate", headerName: "Created Date", editable: false, hideable: true, width: 170, type: 'date', 
+            valueGetter: (params: IPharmacy) => {
+                return new Date(params.createdDate)
+            }
+        },
+        {
+            field: "updatedDate", headerName: "Updated Date", editable: false, hideable: true, width: 170, type: 'date', valueGetter: (params: IPharmacy) => {
+           return new Date(params.updatedDate);
+            }
+        }
+    ]
+
 
 
     return (
         <>
-            {pharmacyListError == "loading" && <div className="text-danger"> Error loading the page. </div>}
-            {pharmacyListStatus == "loading" && <Loader></Loader>}
-            {pharmacyList.length > 0 &&
-                <div className="p-4 bg-white">
-                    <table className="table table striped cols-lg text-center ">
-                        <thead>
-                            <tr>
-                                <th scope="col" className="text-start col-lg" >Name</th>
-                                <th scope="col">Address</th>
-                                <th scope="col">Filled Prescriptions</th>
-                                <th scope="col">Created Date</th>
-                                <th scope="col">Updated Date</th>
-                                <th scope="col" className="cols-sm"></th>
-                            </tr>
-                        </thead>
-                        <tbody>{pharmacyList.map((pharma: IPharmacy) => (
-                            <tr key={pharma.pharmacyId}>
-                                <td scope="row " className="text-start" >{pharma.name}</td>
-                                <td>
-                                    <div> {pharma.address}</div>
-                                    <div> {pharma.city}, {pharma.stateCode} {pharma.zip} </div>
-                                </td>
-                                <td>{pharma.filledPerscriptions}</td>
-                                <td>{new Date(pharma.createdDate).toLocaleDateString()}</td>
-                                <td>{pharma.updatedDate ? new Date(pharma.updatedDate).toLocaleDateString() : 'N/A'}</td>
-                                <td className="text-end cols-sm">
-                                    <Link to={`./Pharmacy/${pharma.pharmacyId}`} className="link-primary">
-                                        <span>Edit <i className="bi bi-pencil-square"></i></span>
-                                    </Link>
-                                </td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
-                </div>
-            }
+            {pharmacyListError === "loading" && <div className="text-danger">Error loading the page.</div>}
+            {pharmacyListStatus === "loading" && <Loader></Loader>}
+            {pharmacyList.length > 0 && (
+
+                <DataGrid  rows={pharmacyList} columns={columns} getRowId={(row) => row.pharmacyId} />
+       
+            )}
         </>
     );
 }

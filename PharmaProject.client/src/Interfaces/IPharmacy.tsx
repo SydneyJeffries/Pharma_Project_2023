@@ -10,6 +10,7 @@ export interface IPharmacy {
     createdDate: Date;
     updatedDate: Date;
     createdBy: string;
+    id: number;
 }
 
 

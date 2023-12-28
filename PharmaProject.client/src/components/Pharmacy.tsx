@@ -7,7 +7,7 @@ import IState from "../Interfaces/IState";
 import { useHistory } from 'react-router-dom';
 import { orgin } from '../ConnectionString'
 import Loader from './Loader';
-import { getPharmacyStatus, getPharmacyError, getPharmacyData, fetchPharmacyById, savePharmacy } from '../features/PharmacySlice';
+import { getPharmacyStatus, getPharmacyError, getPharmacyData, fetchPharmacyById, savePharmacy } from '../slicers/PharmacySlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Pharmacy = () => {

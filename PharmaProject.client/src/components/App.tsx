@@ -13,9 +13,6 @@ function App() {
                   <Route exact path="/">
                     <Home/> 
                   </Route>
-                  <Route path="/pharmacy/:id">
-                      <Pharmacy></Pharmacy>
-                  </Route>
               </Switch>
           </Router>
         </div>
