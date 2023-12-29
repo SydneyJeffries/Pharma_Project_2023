@@ -16,13 +16,11 @@ const savePharmacyUrl =  '/Pharmacy/';
 export const pharmacyService = {
 
     async getPharmacyList(): Promise<IPharmacy[]> {
-
         const response: AxiosResponse<IPharmacy[]> = await axios.get(getPharmacyListUrl, requestConfig);
         return response.data;
     },
 
     async savePharmacy(pharmacy: IPharmacy): Promise<IPharmacy> {
-
         const response: AxiosResponse<IPharmacy> = await axios.post(savePharmacyUrl, pharmacy, requestConfig);
         return response.data;
     }

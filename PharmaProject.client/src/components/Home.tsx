@@ -14,8 +14,8 @@ import { AlertProps } from '@mui/material';
 const Home = () => {
     const dispatch = useDispatch();
     const pharmacyList = useSelector(getPharmacyData);
-    const pharmacyListStatus = useSelector(getPharmacyStatus);
-    const pharmacyListError = useSelector(getPharmacyError);
+    const pharmacyStatus = useSelector(getPharmacyStatus);
+    const pharmacyError = useSelector(getPharmacyError);
     const [rows, setRows] = React.useState(pharmacyList);
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
     const validationErrorsRef = React.useRef<{ [key: string]: { [key: string]: boolean } }>({});
@@ -23,6 +23,7 @@ const Home = () => {
     useEffect(() => {
         setRows(pharmacyList);
     }, [pharmacyList]);
+
 
     useEffect(() => {
         dispatch(fetchPharmacyList());
@@ -34,12 +35,14 @@ const Home = () => {
     };
 
     const handleSaveClick = (id: GridRowId) => () => {
-        //  const hasValidationError = document.querySelector('#pharmacys .Mui-error');
         const rowValidationErrors = validationErrorsRef.current[id];
-        const hasRowError = Object.values(rowValidationErrors).some(hasError => hasError);
-
-        if (!hasRowError) {
+        if (rowValidationErrors == undefined) {
             setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+        } else {
+            const hasRowError = Object.values(rowValidationErrors).filter(hasError => hasError === true);
+            if (hasRowError.length == 0) {
+                setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+            }
         }
     };
 
@@ -114,7 +117,7 @@ const Home = () => {
         {
             field: "filledPerscriptions", headerName: "Prescriptions Filled", editable: true, hideable: true, width: 200, type: "number", headerAlign: "center", align: "center",
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
-                const hasError = params.props.value < 0;
+                const hasError = params.props.value < 0 || params.props.value == null;
                 validationErrorsRef.current[params.id] = {
                     ...validationErrorsRef.current[params.id],
                     filledPerscriptions: hasError,
@@ -182,16 +185,17 @@ const Home = () => {
 
     const processRowUpdate = async (newRow: GridRowModel) => {
         const returnedPharmacy = await dispatch(savePharmacy(newRow));
-        debugger;
+
         return returnedPharmacy.payload
     };
 
     return (
         <>
-            {pharmacyListError === 'loading' && (
+            {pharmacyError === 'loading' && (
                 <div className="text-danger">Error loading the page.</div>
             )}
-            {pharmacyListStatus === 'loading' && <Loader></Loader>}
+            <div className="">  {pharmacyError == 'saving' && <span className="text-danger"> Error saving the information. If the error persists, please call technical support. </span>} &nbsp; </div>
+            {pharmacyStatus === 'loading' && <Loader></Loader>}
             {pharmacyList.length > 0 && (
                 <div id="pharmacys">
                     <DataGrid
@@ -201,7 +205,6 @@ const Home = () => {
                         processRowUpdate={(updatedRow) => processRowUpdate(updatedRow)}
                         hideFooterPagination={true}
                         hideFooterSelectedRowCount={true}
-                        loading={pharmacyListStatus === 'loading'}
                         disableColumnMenu={false}
                         editMode="row"
                         rowModesModel={rowModesModel}

@@ -70,14 +70,17 @@ export const PharmacySlice = createSlice({
             //    console.log(action.error.message)
             //})
             .addCase(savePharmacy.pending, (state) => {
+                debugger;
                 state.status = 'loading';
                 state.error = '';
             })
             .addCase(savePharmacy.fulfilled, (state) => {
+                debugger;
                 state.status = 'succeeded'
                 state.error = '';
             })
             .addCase(savePharmacy.rejected, (state, action) => {
+                debugger;
                 state.status = 'failed'
                 state.error = 'saving';
                 console.log(action.error.message)
