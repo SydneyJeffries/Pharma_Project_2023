@@ -14,7 +14,6 @@ const initialState: IPharmacyState = {
 };
 
 export const fetchPharmacyList = createAsyncThunk<IPharmacy[]>('pharmacy/fetchList', async (_, { signal }) => {
-
     const source = axios.CancelToken.source()
     signal.addEventListener('abort', () => {
         source.cancel()
@@ -24,14 +23,12 @@ export const fetchPharmacyList = createAsyncThunk<IPharmacy[]>('pharmacy/fetchLi
     return [...pharmacyList];
 });
 
-
 export const savePharmacy = createAsyncThunk<IPharmacy>( 'pharmacy/savePharmacy',
     async (pharmacy: IPharmacy) => {
         const updatedPharmacy = await pharmacyService.savePharmacy(pharmacy);
         return updatedPharmacy;
     }
 );
-
 
 export const PharmacySlice = createSlice({
     name: 'pharmacy',

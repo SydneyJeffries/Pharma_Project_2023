@@ -9,7 +9,8 @@ import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import Snackbar from '@mui/material/Snackbar';
-import { AlertProps } from '@mui/material';
+import { Alert, AlertProps } from '@mui/material';
+
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -57,17 +58,11 @@ const Home = () => {
             setRows(rows.filter((row) => row.id !== id));
         }
     }
-
     /*    renderHeader: () => (<strong>{'Pharmacist'}</strong>), width: 75, flex: 1}*/
-
     const [snackbar, setSnackbar] = React.useState<Pick<
         AlertProps,
         'children' | 'severity'> | null>(null);
 
-
-    const handleProcessRowUpdateError = React.useCallback((error: Error) => {
-        setSnackbar({ children: error.message, severity: 'error' });
-    }, []);
 
     const columns: GridColDef[] = [
         {
@@ -183,18 +178,33 @@ const Home = () => {
         }
     };
 
-    const processRowUpdate = async (newRow: GridRowModel) => {
-        const returnedPharmacy = await dispatch(savePharmacy(newRow));
+    //const processRowUpdate = async (newRow: GridRowModel) => {
+    //    const returnedPharmacy = await dispatch(savePharmacy(newRow));
+    //    setSnackbar({ children: 'User successfully saved', severity: 'success' });
+    //    return returnedPharmacy.payload
+    //};
+    const processRowUpdate = React.useCallback(
+        async (newRow: GridRowModel) => {
+            // Make the HTTP request to save in the backend
+            const returnedPharmacy = await dispatch(savePharmacy(newRow));
+            setSnackbar({ children: 'User successfully saved', severity: 'success' });
+            return returnedPharmacy.payload;
+        },
+        [dispatch(savePharmacy)],
+    );
 
-        return returnedPharmacy.payload
-    };
+    const handleProcessRowUpdateError = React.useCallback(() => {
+        setSnackbar({ children: "Error saving the information. If the error persists, please call technical support.", severity: 'error' });
+    }, []);
+
+    const handleCloseSnackbar = () => setSnackbar(null);
+
 
     return (
         <>
             {pharmacyError === 'loading' && (
-                <div className="text-danger">Error loading the page.</div>
+                <div className="text-danger text-center">Error loading the page.</div>
             )}
-            <div className="">  {pharmacyError == 'saving' && <span className="text-danger"> Error saving the information. If the error persists, please call technical support. </span>} &nbsp; </div>
             {pharmacyStatus === 'loading' && <Loader></Loader>}
             {pharmacyList.length > 0 && (
                 <div id="pharmacys">
@@ -214,6 +224,16 @@ const Home = () => {
                             toolbar: { setRows, setRowModesModel },
                         }}
                     />
+                    {!!snackbar && (
+                        <Snackbar
+                            open
+                            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                            onClose={handleCloseSnackbar}
+                            autoHideDuration={6000}
+                        >
+                            <Alert {...snackbar} onClose={handleCloseSnackbar} />
+                        </Snackbar>
+                    )}
                 </div>
 
             )}

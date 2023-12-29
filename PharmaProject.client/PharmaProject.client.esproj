@@ -8084,4 +8084,10 @@
     <None Include="node_modules\bootstrap\scss\_variables-dark.scss" />
     <None Include="node_modules\bootstrap\scss\_variables.scss" />
   </ItemGroup>
+  <ItemGroup>
+    <TypeScriptConfiguration Remove="node_modules\ajv\ansi-regex\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="node_modules\ajv\ansi-regex\**" />
+  </ItemGroup>
 </Project>

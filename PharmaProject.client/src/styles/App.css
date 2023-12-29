@@ -148,6 +148,3 @@ table tr:last-of-type:not(thead tr:last-of-type) {
     border-bottom: 2px solid red !important;
 }
 
-.text-danger {
-    color: #eb0000;
-}
