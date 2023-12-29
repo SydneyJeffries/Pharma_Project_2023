@@ -1,23 +1,22 @@
 /* eslint-disable no-debugger */
 import { useState, useEffect } from 'react';
 
-function useFetch<T>(url: string) {
+const baseURL = import.meta.env.VITE_BASE_URL;
 
+function useFetch<T>(url: string) {
     const [data, setData] = useState<T | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(false);
 
     useEffect(() => {
-
         const abortCon = new AbortController();
 
-        fetch(url, { signal: abortCon.signal })
+        fetch(baseURL + url, { signal: abortCon.signal })
             .then(res => {
                 if (!res.ok) {
                     setError(true);
                 }
                 return res.json();
-
             })
             .then(data => {
                 setData(data);
@@ -33,14 +32,12 @@ function useFetch<T>(url: string) {
                     setIsLoading(false);
                     setError(true);
                 }
-
                 console.log(err.message);
             })
         return () => abortCon.abort();
     }, [url])
 
     return { data, isLoading, error }
-
 }
 
 export default useFetch;

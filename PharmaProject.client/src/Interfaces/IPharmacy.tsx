@@ -1,4 +1,3 @@
-
 export interface IPharmacy {
     pharmacyId: number
     name: string;
@@ -13,7 +12,5 @@ export interface IPharmacy {
     createdBy: string;
     id: number;
 }
-
-
 
 export default IPharmacy;

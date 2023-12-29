@@ -10,10 +10,8 @@ import CancelIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import Snackbar from '@mui/material/Snackbar';
 import { Alert, AlertProps } from '@mui/material';
-import useFetch from '../UseFetch'
-import { orgin } from '../ConnectionString'
+import useFetch from '../UseFetch';
 import IState from '../Interfaces/IState';
-
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -23,9 +21,9 @@ const Home = () => {
     const [rows, setRows] = React.useState(pharmacyList);
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
     const validationErrorsRef = React.useRef<{ [key: string]: { [key: string]: boolean } }>({});
-    const stateFetchUrl = orgin + '/Pharmacy/GetStateList';
+    const stateFetchUrl = '/Pharmacy/GetStateList';
     const { data: statesData } = useFetch<IState[]>(stateFetchUrl);
-    const [stateKeys, setStateKeys] = React.useState<string[]>([])
+    const [stateKeys, setStateKeys] = React.useState<string[]>([]);
 
     useEffect(() => {
         setRows(pharmacyList);
@@ -33,7 +31,6 @@ const Home = () => {
 
     useEffect(() => {
         if (statesData) {
-            debugger;
             const stateCodes = statesData.map(item  => item.stateCode);
             setStateKeys([...stateCodes]);
         }
@@ -66,7 +63,6 @@ const Home = () => {
             ...rowModesModel,
             [id]: { mode: GridRowModes.View, ignoreModifications: true },
         });
-
         const editedRow = rows.find((row) => row.id === id);
         if (editedRow!.isNew) {
             setRows(rows.filter((row) => row.id !== id));
@@ -76,7 +72,6 @@ const Home = () => {
     const [snackbar, setSnackbar] = React.useState<Pick<
         AlertProps,
         'children' | 'severity'> | null>(null);
-
 
     const columns: GridColDef[] = [
         {
@@ -192,14 +187,8 @@ const Home = () => {
         }
     };
 
-    //const processRowUpdate = async (newRow: GridRowModel) => {
-    //    const returnedPharmacy = await dispatch(savePharmacy(newRow));
-    //    setSnackbar({ children: 'User successfully saved', severity: 'success' });
-    //    return returnedPharmacy.payload
-    //};
     const processRowUpdate = React.useCallback(
         async (newRow: GridRowModel) => {
-            // Make the HTTP request to save in the backend
             const returnedPharmacy = await dispatch(savePharmacy(newRow));
             setSnackbar({ children: 'User successfully saved', severity: 'success' });
             return returnedPharmacy.payload;
@@ -213,7 +202,6 @@ const Home = () => {
 
     const handleCloseSnackbar = () => setSnackbar(null);
 
-
     return (
         <>
             {pharmacyError === 'loading' && (
@@ -221,7 +209,7 @@ const Home = () => {
             )}
             {pharmacyStatus === 'loading' && <Loader></Loader>}
             {pharmacyList.length > 0 && (
-                <div id="pharmacys" style={{ height: 350, width: '100%' }}>
+                <div id="pharmacys" >
                     <DataGrid
                         rows={pharmacyList}
                         columns={columns}
@@ -243,13 +231,12 @@ const Home = () => {
                             open
                             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                             onClose={handleCloseSnackbar}
-                            autoHideDuration={6000}
-                        >
-                            <Alert {...snackbar} onClose={handleCloseSnackbar} />
+                            autoHideDuration={6000}  >
+                            <Alert {...snackbar}
+                                onClose={handleCloseSnackbar} />
                         </Snackbar>
                     )}
                 </div>
-
             )}
         </>
     );
