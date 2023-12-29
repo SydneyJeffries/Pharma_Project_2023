@@ -37,7 +37,7 @@ function useFetch<T>(url: string) {
         return () => abortCon.abort();
     }, [url])
 
-    return { data, isLoading, error }
+    return { data, isLoading, error };
 }
 
 export default useFetch;

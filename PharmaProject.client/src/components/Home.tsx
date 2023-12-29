@@ -69,9 +69,7 @@ const Home = () => {
         }
     }
     /*    renderHeader: () => (<strong>{'Pharmacist'}</strong>), width: 75, flex: 1}*/
-    const [snackbar, setSnackbar] = React.useState<Pick<
-        AlertProps,
-        'children' | 'severity'> | null>(null);
+    const [snackbar, setSnackbar] = React.useState<Pick<AlertProps,  'children' | 'severity'> | null>(null);
 
     const columns: GridColDef[] = [
         {
