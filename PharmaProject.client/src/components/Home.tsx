@@ -10,6 +10,9 @@ import CancelIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import Snackbar from '@mui/material/Snackbar';
 import { Alert, AlertProps } from '@mui/material';
+import useFetch from '../UseFetch'
+import { orgin } from '../ConnectionString'
+import IState from '../Interfaces/IState';
 
 
 const Home = () => {
@@ -20,11 +23,22 @@ const Home = () => {
     const [rows, setRows] = React.useState(pharmacyList);
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
     const validationErrorsRef = React.useRef<{ [key: string]: { [key: string]: boolean } }>({});
+    const stateFetchUrl = orgin + '/Pharmacy/GetStateList';
+    const { data: statesData } = useFetch<IState[]>(stateFetchUrl);
+    const [stateKeys, setStateKeys] = React.useState<string[]>([])
 
     useEffect(() => {
         setRows(pharmacyList);
     }, [pharmacyList]);
 
+    useEffect(() => {
+        if (statesData) {
+            debugger;
+            const stateCodes = statesData.map(item  => item.stateCode);
+            setStateKeys([...stateCodes]);
+        }
+
+    }, [statesData]);
 
     useEffect(() => {
         dispatch(fetchPharmacyList());
@@ -99,7 +113,7 @@ const Home = () => {
             },
         },
         {
-            field: "stateCode", headerName: "State", editable: true, hideable: true, width: 100, headerAlign: "center", align: "center", type: "singleSelect", valueOptions: ["TX"],
+            field: "stateCode", headerName: "State", editable: true, hideable: true, width: 100, headerAlign: "center", align: "center", type: "singleSelect", valueOptions: [...stateKeys],
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
                 const hasError = params.props.value.length == 0;
                 validationErrorsRef.current[params.id] = {
@@ -207,7 +221,7 @@ const Home = () => {
             )}
             {pharmacyStatus === 'loading' && <Loader></Loader>}
             {pharmacyList.length > 0 && (
-                <div id="pharmacys">
+                <div id="pharmacys" style={{ height: 350, width: '100%' }}>
                     <DataGrid
                         rows={pharmacyList}
                         columns={columns}
