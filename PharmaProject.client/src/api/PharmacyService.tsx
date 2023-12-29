@@ -21,10 +21,9 @@ export const pharmacyService = {
         return response.data;
     },
 
-    async savePharmacy(pharmacy: IPharmacy): Promise<IPharmacy | IResponse> {
-        const response: AxiosResponse<IPharmacy | IResponse> = await axios.post(savePharmacyUrl, pharmacy, requestConfig);
+    async savePharmacy(pharmacy: IPharmacy): Promise<IPharmacy> {
+
+        const response: AxiosResponse<IPharmacy> = await axios.post(savePharmacyUrl, pharmacy, requestConfig);
         return response.data;
     }
-
-
 }

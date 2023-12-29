@@ -64,9 +64,9 @@ namespace PharmaProject.Server.Controllers
         {
             try
             {
-                await _pharmacyService.SavePharmacy(pharmacy);
+                Pharmacy result = await _pharmacyService.SavePharmacy(pharmacy);
 
-                return Ok(pharmacy);
+                return Ok(result);
             }
             catch(Exception ex)
             {

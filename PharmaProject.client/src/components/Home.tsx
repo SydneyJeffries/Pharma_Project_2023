@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import Loader from './Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPharmacyData, getPharmacyStatus, getPharmacyError, fetchPharmacyList, savePharmacy } from '../slicers/PharmacySlice';
-import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowModesModel, GridRowModes, GridEventListener, GridRowEditStopReasons, GridRowModel } from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowModesModel, GridRowModes, GridEventListener, GridRowEditStopReasons, GridRowModel, GridPreProcessEditCellProps } from '@mui/x-data-grid';
 import IPharmacy from '../Interfaces/IPharmacy';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
@@ -18,6 +18,7 @@ const Home = () => {
     const pharmacyListError = useSelector(getPharmacyError);
     const [rows, setRows] = React.useState(pharmacyList);
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
+    const validationErrorsRef = React.useRef<{ [key: string]: { [key: string]: boolean } }>({});
 
     useEffect(() => {
         setRows(pharmacyList);
@@ -33,9 +34,14 @@ const Home = () => {
     };
 
     const handleSaveClick = (id: GridRowId) => () => {
-        setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-    };
+        //  const hasValidationError = document.querySelector('#pharmacys .Mui-error');
+        const rowValidationErrors = validationErrorsRef.current[id];
+        const hasRowError = Object.values(rowValidationErrors).some(hasError => hasError);
 
+        if (!hasRowError) {
+            setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+        }
+    };
 
     const handleCancelClick = (id: GridRowId) => () => {
         setRowModesModel({
@@ -49,6 +55,8 @@ const Home = () => {
         }
     }
 
+    /*    renderHeader: () => (<strong>{'Pharmacist'}</strong>), width: 75, flex: 1}*/
+
     const [snackbar, setSnackbar] = React.useState<Pick<
         AlertProps,
         'children' | 'severity'> | null>(null);
@@ -59,11 +67,61 @@ const Home = () => {
     }, []);
 
     const columns: GridColDef[] = [
-        { field: "name", headerName: "Name", editable: true, hideable: true, width: 200 },
-        { field: "address", headerName: "Address", editable: true, hideable: true, width: 200 },
-        { field: "city", headerName: "City", editable: true, hideable: true, width: 150 },
-        { field: "stateCode", headerName: "State", editable: true, hideable: true, width: 100, headerAlign: "center", align: "center" },
-        { field: "filledPerscriptions", headerName: "Prescriptions Filled", editable: true, hideable: true, width: 200, type: "number", headerAlign: "center", align: "center" },
+        {
+            field: "name", headerName: "Name", editable: true, hideable: true, width: 200,
+            preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
+                const hasError = params.props.value.length == 0;
+                validationErrorsRef.current[params.id] = {
+                    ...validationErrorsRef.current[params.id],
+                    name: hasError,
+                };
+                return { ...params.props, error: hasError };
+            },
+        },
+        {
+            field: "address", headerName: "Address", editable: true, hideable: true, width: 200,
+            preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
+                const hasError = params.props.value.length == 0;
+                validationErrorsRef.current[params.id] = {
+                    ...validationErrorsRef.current[params.id],
+                    address: hasError,
+                };
+                return { ...params.props, error: hasError };
+            },
+        },
+        {
+            field: "city", headerName: "City", editable: true, hideable: true, width: 150,
+            preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
+                const hasError = params.props.value.length == 0;
+                validationErrorsRef.current[params.id] = {
+                    ...validationErrorsRef.current[params.id],
+                    city: hasError,
+                };
+                return { ...params.props, error: hasError };
+            },
+        },
+        {
+            field: "stateCode", headerName: "State", editable: true, hideable: true, width: 100, headerAlign: "center", align: "center",
+            preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
+                const hasError = params.props.value.length == 0;
+                validationErrorsRef.current[params.id] = {
+                    ...validationErrorsRef.current[params.id],
+                    state: hasError,
+                };
+                return { ...params.props, error: hasError };
+            },
+        },
+        {
+            field: "filledPerscriptions", headerName: "Prescriptions Filled", editable: true, hideable: true, width: 200, type: "number", headerAlign: "center", align: "center",
+            preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
+                const hasError = params.props.value < 0;
+                validationErrorsRef.current[params.id] = {
+                    ...validationErrorsRef.current[params.id],
+                    filledPerscriptions: hasError,
+                };
+                return { ...params.props, error: hasError };
+            },
+        },
         {
             field: "createdDateTest", headerName: "Created Date", editable: false, hideable: true, width: 170, type: "date", headerAlign: "center", align: "center",
             valueGetter: (params: IPharmacy) => {
@@ -103,7 +161,6 @@ const Home = () => {
                         />,
                     ];
                 }
-
                 return [
                     <GridActionsCellItem
                         icon={<EditIcon />}
@@ -123,9 +180,10 @@ const Home = () => {
         }
     };
 
-    const processRowUpdate = (newRow: GridRowModel) => {
-        const updatedPharmacyRecord = dispatch(savePharmacy(newRow));
-        return updatedPharmacyRecord.arg;
+    const processRowUpdate = async (newRow: GridRowModel) => {
+        const returnedPharmacy = await dispatch(savePharmacy(newRow));
+        debugger;
+        return returnedPharmacy.payload
     };
 
     return (
@@ -135,23 +193,26 @@ const Home = () => {
             )}
             {pharmacyListStatus === 'loading' && <Loader></Loader>}
             {pharmacyList.length > 0 && (
-                <DataGrid
-                    rows={pharmacyList}
-                    columns={columns}
-                    getRowId={(row) => row.pharmacyId}
-                    processRowUpdate={(updatedRow) => processRowUpdate(updatedRow)}
-                    hideFooterPagination={true}
-                    hideFooterSelectedRowCount={true}
-                    loading={pharmacyListStatus === 'loading'}
-                    disableColumnMenu={false}
-                    editMode="row"
-                    rowModesModel={rowModesModel}
-                    onRowEditStop={handleRowEditStop}
-                    onProcessRowUpdateError={handleProcessRowUpdateError}
-                    slotProps={{
-                        toolbar: { setRows, setRowModesModel },
-                    }}
-                />
+                <div id="pharmacys">
+                    <DataGrid
+                        rows={pharmacyList}
+                        columns={columns}
+                        getRowId={(row) => row.pharmacyId}
+                        processRowUpdate={(updatedRow) => processRowUpdate(updatedRow)}
+                        hideFooterPagination={true}
+                        hideFooterSelectedRowCount={true}
+                        loading={pharmacyListStatus === 'loading'}
+                        disableColumnMenu={false}
+                        editMode="row"
+                        rowModesModel={rowModesModel}
+                        onRowEditStop={handleRowEditStop}
+                        onProcessRowUpdateError={handleProcessRowUpdateError}
+                        slotProps={{
+                            toolbar: { setRows, setRowModesModel },
+                        }}
+                    />
+                </div>
+
             )}
         </>
     );

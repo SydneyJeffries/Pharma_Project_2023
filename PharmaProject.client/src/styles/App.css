@@ -127,3 +127,23 @@ table tr:last-of-type:not(thead tr:last-of-type) {
             display: none;
         }
 }
+
+.css-ptkaw2-MuiDataGrid-root {
+    background-color: white;
+}
+
+.MuiDataGrid-cell.MuiDataGrid-cell--editing:focus-within {
+    outline: solid #1976d2 2px !important;
+}
+
+.MuiDataGrid-cell {
+    outline: none !important;
+}
+
+.MuiDataGrid-columnHeaderTitle {
+    font-weight: bold !important;
+}
+
+.MuiDataGrid-cell:has(.Mui-error) {
+    border-bottom: 2px solid red !important;
+}
