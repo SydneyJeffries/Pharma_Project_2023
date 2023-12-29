@@ -99,7 +99,7 @@ const Home = () => {
             },
         },
         {
-            field: "stateCode", headerName: "State", editable: true, hideable: true, width: 100, headerAlign: "center", align: "center",
+            field: "stateCode", headerName: "State", editable: true, hideable: true, width: 100, headerAlign: "center", align: "center", type: "singleSelect", valueOptions: ["TX"],
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
                 const hasError = params.props.value.length == 0;
                 validationErrorsRef.current[params.id] = {
