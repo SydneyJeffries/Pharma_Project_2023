@@ -16,12 +16,12 @@ namespace PharmaProject.Services
         }
         public async Task<List<Pharmacy>> GetPharmacyList()
         {
-            return await _dbContext.Pharmacy.ToListAsync();
+            return await _dbContext.Pharmacies.ToListAsync();
         }
 
         public async Task<Pharmacy?> GetPharmacyById(int pharmacyId)
         {
-            return await _dbContext.Pharmacy.FirstOrDefaultAsync(x => x.PharmacyId == pharmacyId);
+            return await _dbContext.Pharmacies.FirstOrDefaultAsync(x => x.PharmacyId == pharmacyId);
         }
 
         public async Task<Pharmacy> SavePharmacy(Pharmacy pharmacy)
@@ -34,7 +34,7 @@ namespace PharmaProject.Services
 
         public async Task<List<State>> GetStateList()
         {
-            return await _dbContext.State.ToListAsync();
+            return await _dbContext.States.ToListAsync();
         }
     }
 }

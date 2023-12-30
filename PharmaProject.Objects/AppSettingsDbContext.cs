@@ -4,11 +4,11 @@ using PharmaProject.Objects.Interfaces;
 
 namespace PharmaProject.Objects
 {
-    public class AppSettingsDbContext : DbContext,  IAppSettingsDbContext
+    public class AppSettingsDbContext : DbContext
     {
-        public DbSet<Pharmacy> Pharmacy { get; set; }
+        public DbSet<Pharmacy> Pharmacies { get; set; }
 
-        public DbSet<State> State { get; set; }
+        public DbSet<State> States { get; set; }
 
         public AppSettingsDbContext() : base() { }
 

@@ -89,7 +89,7 @@ namespace PharmaProject.Server.Migrations
                 {
                     b.Navigation("States");
                 });
-#pragma warning restore 612, 618
+                #pragma warning restore 612, 618
         }
     }
 }
