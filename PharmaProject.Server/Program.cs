@@ -18,8 +18,8 @@ builder.Services.AddSwaggerGen();
 string connectionString = builder.Configuration.GetConnectionString("AppSettingsDbContext");
 
 builder.Services.AddDbContext<AppSettingsDbContext>(options =>
-            options.UseSqlServer(connectionString)
-       );
+            options.UseSqlServer(connectionString, b => b.MigrationsAssembly("PharmaProject.Server"))
+    );
 
 builder.Services.AddScoped<IPharmacyService, PharmacyService>();
 

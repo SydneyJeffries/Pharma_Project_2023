@@ -9,11 +9,11 @@ using PharmaProject.Objects;
 
 #nullable disable
 
-namespace PharmaProject.Objects.Migrations
+namespace PharmaProject.Server.Migrations
 {
     [DbContext(typeof(AppSettingsDbContext))]
-    [Migration("20231216043605_migration1")]
-    partial class migration1
+    [Migration("20231231002714_migration4")]
+    partial class migration4
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace PharmaProject.Objects.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("PharmaProject.Server.Models.Pharmacy", b =>
+            modelBuilder.Entity("PharmaProject.Objects.Models.Pharmacy", b =>
                 {
                     b.Property<int>("PharmacyId")
                         .ValueGeneratedOnAdd()
@@ -41,6 +41,10 @@ namespace PharmaProject.Objects.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTimeOffset>("CreatedDate")
                         .HasColumnType("datetimeoffset");
 
@@ -53,9 +57,9 @@ namespace PharmaProject.Objects.Migrations
 
                     b.Property<string>("StateCode")
                         .IsRequired()
-                        .HasColumnType("nvarchar(1)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("UpdatedDate")
+                    b.Property<DateTimeOffset?>("UpdatedDate")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Zip")
@@ -64,16 +68,13 @@ namespace PharmaProject.Objects.Migrations
 
                     b.HasKey("PharmacyId");
 
-                    b.ToTable("Pharmacy", (string)null);
+                    b.ToTable("Pharmacies", (string)null);
                 });
 
-            modelBuilder.Entity("PharmaProject.Server.Models.State", b =>
+            modelBuilder.Entity("PharmaProject.Objects.Models.State", b =>
                 {
                     b.Property<string>("StateCode")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("PharmacyId")
-                        .HasColumnType("int");
 
                     b.Property<string>("StateName")
                         .IsRequired()
@@ -81,21 +82,7 @@ namespace PharmaProject.Objects.Migrations
 
                     b.HasKey("StateCode");
 
-                    b.HasIndex("PharmacyId");
-
-                    b.ToTable("State", (string)null);
-                });
-
-            modelBuilder.Entity("PharmaProject.Server.Models.State", b =>
-                {
-                    b.HasOne("PharmaProject.Server.Models.Pharmacy", null)
-                        .WithMany("States")
-                        .HasForeignKey("PharmacyId");
-                });
-
-            modelBuilder.Entity("PharmaProject.Server.Models.Pharmacy", b =>
-                {
-                    b.Navigation("States");
+                    b.ToTable("States", (string)null);
                 });
 #pragma warning restore 612, 618
         }

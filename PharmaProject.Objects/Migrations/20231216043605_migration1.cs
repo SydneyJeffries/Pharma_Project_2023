@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace PharmaProject.Server.Migrations
+namespace PharmaProject.Objects.Migrations
 {
     /// <inheritdoc />
     public partial class migration1 : Migration

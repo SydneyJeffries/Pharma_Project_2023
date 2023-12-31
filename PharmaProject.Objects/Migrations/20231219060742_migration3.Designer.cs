@@ -9,14 +9,14 @@ using PharmaProject.Objects;
 
 #nullable disable
 
-namespace PharmaProject.Server.Migrations
+namespace PharmaProjec.Objects.Migrations
 {
     [DbContext(typeof(AppSettingsDbContext))]
     [Migration("20231219060742_migration3")]
     partial class migration3
     {
         /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected  void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

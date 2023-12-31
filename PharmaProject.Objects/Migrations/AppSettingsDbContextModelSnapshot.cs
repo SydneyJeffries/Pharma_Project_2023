@@ -8,7 +8,7 @@ using PharmaProject.Objects;
 
 #nullable disable
 
-namespace PharmaProject.Server.Migrations
+namespace PharmaProject.Objects.Migrations
 {
     [DbContext(typeof(AppSettingsDbContext))]
     partial class AppSettingsDbContextModelSnapshot : ModelSnapshot

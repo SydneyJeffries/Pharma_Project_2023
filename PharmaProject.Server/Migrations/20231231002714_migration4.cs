@@ -1,28 +1,28 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace PharmaProject.Objects.Migrations
+namespace PharmaProject.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class migration3 : Migration
+    public partial class migration4 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-
             migrationBuilder.CreateTable(
-           name: "States",
-           columns: table => new
-           {
-               StateCode = table.Column<string>(type: "nvarchar(2)", nullable: false),
-               StateName = table.Column<string>(type: "nvarchar(450)", nullable: false),
-           },
-           constraints: table =>
-           {
-               table.PrimaryKey("PK_State", x => x.StateCode);
+             name: "States",
+             columns: table => new
+             {
+                 StateCode = table.Column<string>(type: "nvarchar(2)", nullable: false),
+                 StateName = table.Column<string>(type: "nvarchar(450)", nullable: false),
+             },
+             constraints: table =>
+             {
+                 table.PrimaryKey("PK_State", x => x.StateCode);
 
-           });
+             });
 
 
             migrationBuilder.CreateTable(
@@ -31,12 +31,12 @@ namespace PharmaProject.Objects.Migrations
                 {
                     PharmacyId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(250)", nullable: false),
                     FilledPerscriptions = table.Column<int>(type: "int", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(250)", nullable: false),
+                    City = table.Column<string>(type: "nvarchar(250)", nullable: false),
                     StateCode = table.Column<string>(type: "nvarchar(2)", nullable: false),
-                    Zip = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Zip = table.Column<string>(type: "nvarchar(5)", nullable: false),
                     CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     UpdatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(400)", nullable: false),

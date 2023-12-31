@@ -5,12 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using PharmaProject.Server;
 using PharmaProject.Objects;
 
 #nullable disable
 
-namespace PharmaProject.Server.Migrations
+namespace PharmaProject.Objects.Migrations
 {
     [DbContext(typeof(AppSettingsDbContext))]
     [Migration("20231219011212_migration2")]

@@ -63,6 +63,7 @@ const Home = () => {
             ...rowModesModel,
             [id]: { mode: GridRowModes.View, ignoreModifications: true },
         });
+        //@ts-ignore
         const editedRow = rows.find((row) => row.id === id);
         if (editedRow!.isNew) {
             setRows(rows.filter((row) => row.id !== id));
@@ -109,6 +110,17 @@ const Home = () => {
             field: "stateCode", headerName: "State", editable: true, hideable: true, width: 100, headerAlign: "center", align: "center", type: "singleSelect", valueOptions: [...stateKeys],
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
                 const hasError = params.props.value.length == 0;
+                validationErrorsRef.current[params.id] = {
+                    ...validationErrorsRef.current[params.id],
+                    state: hasError,
+                };
+                return { ...params.props, error: hasError };
+            },
+        },
+        {
+            field: "zip", headerName: "Zip Code", editable: true, hideable: true, width: 100, headerAlign: "center", align: "center", type: "singleSelect", valueOptions: [...stateKeys],
+            preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
+                const hasError = params.props.value == 0;
                 validationErrorsRef.current[params.id] = {
                     ...validationErrorsRef.current[params.id],
                     state: hasError,
@@ -187,10 +199,12 @@ const Home = () => {
 
     const processRowUpdate = React.useCallback(
         async (newRow: GridRowModel) => {
+            //@ts-expect-error
             const returnedPharmacy = await dispatch(savePharmacy(newRow));
             setSnackbar({ children: 'User successfully saved', severity: 'success' });
             return returnedPharmacy.payload;
         },
+        //@ts-expect-error
         [dispatch(savePharmacy)],
     );
 
