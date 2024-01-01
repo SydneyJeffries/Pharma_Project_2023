@@ -148,12 +148,12 @@ table tr:last-of-type:not(thead tr:last-of-type) {
 }
 
 .text-green {
-    color: #26b419;
+    color: #4da846;
 }
 
-.text-green:hover {
-    color: #26b419 ;
-}
+    .text-green:hover {
+        color: #4da846;
+    }
 
 .underline {
     text-decoration: underline
