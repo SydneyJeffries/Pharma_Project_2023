@@ -7,16 +7,16 @@ function App() {
 
     return (
         <div className="app  ">
-            <Header />
-            <div className="container-xxl ">
-                <Router>
+            <Router>
+                <Header />
+                <div className="container-xxl ">
                     <Switch>
                         <Route exact path="/">
                             <Home />
                         </Route>
                     </Switch>
-                </Router>
-            </div>
+                </div>
+            </Router>
             <Footer />
         </div>
     )
