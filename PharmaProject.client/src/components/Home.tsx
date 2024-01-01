@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import React, { useEffect } from 'react';
 import Loader from './Loader';
 import { useDispatch, useSelector } from 'react-redux';
@@ -96,7 +96,7 @@ const Home = () => {
             },
         },
         {
-            field: "city", headerName: "City", editable: true, hideable: true, width: 150,
+            field: "city", headerName: "City", editable: true, hideable: true, width: 100,
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
                 const hasError = params.props.value.length == 0;
                 validationErrorsRef.current[params.id] = {
@@ -118,12 +118,12 @@ const Home = () => {
             },
         },
         {
-            field: "zip", headerName: "Zip Code", editable: true, hideable: true, width: 100, headerAlign: "center", align: "center", type: "singleSelect", valueOptions: [...stateKeys],
+            field: "zip", headerName: "Zip Code", editable: true, hideable: true, width: 100, headerAlign: "center", align: "center",
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
-                const hasError = params.props.value == 0;
+                const hasError = params.props.value.length != 5;
                 validationErrorsRef.current[params.id] = {
                     ...validationErrorsRef.current[params.id],
-                    state: hasError,
+                    zip: hasError,
                 };
                 return { ...params.props, error: hasError };
             },
@@ -215,13 +215,14 @@ const Home = () => {
     const handleCloseSnackbar = () => setSnackbar(null);
 
     return (
-        <>
+        <div className="flex-col" >
+
             {pharmacyError === 'loading' && (
                 <div className="text-danger text-center">Error loading the page.</div>
             )}
             {pharmacyStatus === 'loading' && <Loader></Loader>}
             {pharmacyList.length > 0 && (
-                <div id="pharmacys" >
+                <>
                     <DataGrid
                         rows={pharmacyList}
                         columns={columns}
@@ -248,9 +249,9 @@ const Home = () => {
                                 onClose={handleCloseSnackbar} />
                         </Snackbar>
                     )}
-                </div>
+                </>
             )}
-        </>
+        </div>
     );
 };
 

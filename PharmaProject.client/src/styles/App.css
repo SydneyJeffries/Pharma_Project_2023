@@ -25,13 +25,7 @@ a {
         color: #2c4bb3;
     }
 
-body {
-    margin: 0;
-    display: flex;
-    place-items: center;
-    min-width: 320px;
-    min-height: 100vh;
-}
+
 
 h1 {
     font-size: 3.2em;
@@ -80,11 +74,18 @@ body {
     background-repeat: no-repeat;
     background-position: 98% 3%;
     background-size: 180px 180px;
+
 }
 
-#root {
-    margin: 0 auto;
-    padding: 2rem;
+.app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: space-between;
+}
+
+.flex-1 {
+    flex: 1;
 }
 
 .card {
@@ -148,5 +149,7 @@ table tr:last-of-type:not(thead tr:last-of-type) {
     border-bottom: 2px solid red !important;
 }
 
-
+.text-green {
+    color: #5f9b5a;
+}
 
