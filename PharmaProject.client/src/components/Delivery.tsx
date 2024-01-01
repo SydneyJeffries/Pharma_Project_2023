@@ -41,7 +41,7 @@ const Delivery = () => {
     const [selectedWarehouse, setSelectedWarehouse] = React.useState<number>(0);
 
     useEffect(() => {
-        setRows(deliveryList);
+        setRows([...deliveryList]);
     }, [deliveryList]);
 
     useEffect(() => {
@@ -100,7 +100,7 @@ const Delivery = () => {
 
     const columns: GridColDef[] = [
         {
-            field: "wareHouseId", headerName: "Warehouse", editable: true, hideable: true, width: 200, type: "singleSelect", valueOptions: [...warehouseKeys], sortable: false, filterable: false,
+            field: "wareHouseId", headerName: "Warehouse", editable: true,  width: 200, type: "singleSelect", valueOptions: [...warehouseKeys], sortable: false, filterable: false,
             getOptionLabel: (value: any) => {
                 return value?.label;
             },
@@ -123,7 +123,7 @@ const Delivery = () => {
                 return { ...params.row, warehouseId: params.value };
             },
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
-                debugger;
+
                 if (params.hasChanged == false) {
                     return { ...params.props, error: params.props.error };
                 }
@@ -136,7 +136,7 @@ const Delivery = () => {
             },
         },
         {
-            field: "pharmacyId", headerName: "Pharmacy", editable: true, hideable: true, width: 220, type: "singleSelect", valueOptions: [...pharmacyKeys], filterable: false,
+            field: "pharmacyId", headerName: "Pharmacy", editable: true,  width: 220, type: "singleSelect", valueOptions: [...pharmacyKeys], filterable: false,
             getOptionLabel: (value: any) => {
                 return value?.label;
             },
@@ -151,9 +151,9 @@ const Delivery = () => {
                 return value;
             },
             renderCell: (option) => {
-                const foundWarehouse: ValueOptions | undefined = pharmacyKeys.find((x: any) => x.value == option.row.warehouseId);
-                if (foundWarehouse) {
-                    return <span>{foundWarehouse?.label}</span>;
+                const foundPharma: ValueOptions | undefined = pharmacyKeys.find((x: any) => x.value == option.row.pharmacyId);
+                if (foundPharma) {
+                    return <span>{foundPharma?.label}</span>;
                 } else {
                     return <span> </span>;
                 }
@@ -171,7 +171,7 @@ const Delivery = () => {
             },
         },
         {
-            field: "drugId", headerName: "Drug", editable: true, hideable: true, width: 130, type: "singleSelect", valueOptions: [...drugKeys], sortable: false, filterable: false,
+            field: "drugId", headerName: "Drug", editable: true, width: 130, type: "singleSelect", valueOptions: [...drugKeys], sortable: false, filterable: false,
             getOptionLabel: (value: any) => {
                 return value?.label;
             },
@@ -198,7 +198,7 @@ const Delivery = () => {
             },
         },
         {
-            field: "unitCount", headerName: "Unit Count", editable: true, hideable: true, width: 120, type: "number", sortable: false, filterable: false, headerAlign: "center", align: "center",
+            field: "unitCount", headerName: "Unit Count", editable: true,  width: 120, type: "number", sortable: false, filterable: false, headerAlign: "center", align: "center",
             valueSetter: (params) => {
                 return { ...params.row, unitCount: params.value };
             },
@@ -216,7 +216,7 @@ const Delivery = () => {
             },
         },
         {
-            field: "unitPrice", headerName: "Unit Price", editable: true, hideable: true, width: 190, headerAlign: "center", align: "center", type: "number", sortable: false, filterable: false,
+            field: "unitPrice", headerName: "Unit Price", editable: true,  width: 190, headerAlign: "center", align: "center", type: "number", sortable: false, filterable: false,
             valueFormatter: (params) => formatCurrency(params.value),
             valueSetter: (params) => {
                 return { ...params.row, unitPrice: params.value };
@@ -234,10 +234,10 @@ const Delivery = () => {
             },
         },
         {
-            field: "totalPrice", headerName: "Total Price", editable: false, hideable: true, width: 150, headerAlign: "center", align: "center", type: "number", valueFormatter: (params) => formatCurrency(params.value), sortable: false, filterable: false,
+            field: "totalPrice", headerName: "Total Price", editable: false,  width: 150, headerAlign: "center", align: "center", type: "number", valueFormatter: (params) => formatCurrency(params.value), sortable: false, filterable: false,
         },
         {
-            field: "deliveryDate", headerName: "Delivery Date", editable: true, hideable: true, width: 170, type: "date", headerAlign: "center", align: "center", sortable: false, filterable: false,
+            field: "deliveryDate", headerName: "Delivery Date", editable: true, width: 170, type: "date", headerAlign: "center", align: "center", sortable: false, filterable: false,
             valueGetter: (params: any) => {
                 return new Date(params.row.deliveryDate)
             },
@@ -377,7 +377,7 @@ const Delivery = () => {
                         processRowUpdate={(updatedRow) => processRowUpdate(updatedRow)}
                         paginationModel={paginationModel}     
                         onPaginationModelChange={handlePaginationModelChange}
-                        disableColumnMenu={false}
+                        disableColumnMenu={true}
                         editMode="row"
                         rowModesModel={rowModesModel}
                         onRowEditStop={handleRowEditStop}
