@@ -3,6 +3,8 @@ using PharmaProject.Objects.Interfaces;
 using PharmaProject.Objects;
 using Microsoft.EntityFrameworkCore;
 using PharmaProject.Services.Interfaces;
+using Microsoft.Extensions.Caching.Memory;
+using System.Collections.Generic;
 
 namespace PharmaProject.Services
 {
@@ -10,13 +12,36 @@ namespace PharmaProject.Services
 
         private readonly AppSettingsDbContext _dbContext;
 
-        public PharmacyService(AppSettingsDbContext context)
+        private readonly TimeSpan _defaultCacheDuration = TimeSpan.FromMinutes(30);
+
+        private readonly IMemoryCache _cache;
+
+        public PharmacyService(AppSettingsDbContext context, IMemoryCache cache)
         {
             _dbContext = context;
+            _cache = cache;
         }
+
+        private MemoryCacheEntryOptions GetDefaultCacheOptions()
+        {
+            return new MemoryCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = _defaultCacheDuration
+            };
+        }
+
         public async Task<List<Pharmacy>> GetPharmacyList()
         {
-            return await _dbContext.Pharmacies.ToListAsync();
+            if (_cache.TryGetValue("GetPharmacyList", out List<Pharmacy> data))
+            {
+                return data;
+            }
+
+            data =  await _dbContext.Pharmacies.ToListAsync();
+
+            _cache.Set("GetPharmacyList", data, GetDefaultCacheOptions());
+
+            return data;
         }
 
         public async Task<Pharmacy?> GetPharmacyById(int pharmacyId)
@@ -29,12 +54,25 @@ namespace PharmaProject.Services
             pharmacy.UpdatedDate = DateTimeOffset.Now;
             _dbContext.Update(pharmacy);
             await _dbContext.SaveChangesAsync();
+
+            _cache.Remove("GetPharmacyList");
+
             return pharmacy;
         }
 
         public async Task<List<State>> GetStateList()
         {
-            return await _dbContext.States.ToListAsync();
+            if(_cache.TryGetValue("States", out  List <State> data))
+            {
+                return data;
+            }
+
+            data =  await _dbContext.States.ToListAsync();
+
+            _cache.Set("States", data, GetDefaultCacheOptions());
+
+            return data;
+
         }
     }
 }

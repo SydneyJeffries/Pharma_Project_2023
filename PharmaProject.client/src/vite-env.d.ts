@@ -1,1 +1,1 @@
-VITE_BASE_URL = https://localhost:7080
+VITE_BASE_URL = https://localhost:7080;
