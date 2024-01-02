@@ -3,11 +3,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { pharmacyService } from "../api/PharmacyService";
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import IPharmacyState from '../Interfaces/IPharmacyState';
+import ISharedState from '../Interfaces/ISharedState';
 import IPharmacy from '../Interfaces/IPharmacy';
 import axios from 'axios'
 
-const initialState: IPharmacyState = {
+const initialState: ISharedState = {
     data: [],
     status: 'idle',
     error: '',
@@ -24,7 +24,7 @@ export const fetchPharmacyList = createAsyncThunk<IPharmacy[]>('pharmacy/fetchLi
 });
 
 export const savePharmacy = createAsyncThunk<IPharmacy>( 'pharmacy/savePharmacy',
-    async (pharmacy: IPharmacy) => {
+    async (pharmacy: ISharedState) => {
         const updatedPharmacy = await pharmacyService.savePharmacy(pharmacy);
         return updatedPharmacy;
     }

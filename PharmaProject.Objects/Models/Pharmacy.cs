@@ -1,8 +1,7 @@
-﻿using PharmaProject.Objects.Interfaces;
-
+﻿
 namespace PharmaProject.Objects.Models
 {
-    public class Pharmacy : IAddress
+    public class Pharmacy 
     {
         public int  PharmacyId { get; set; } 
         public string  Name { get; set; } = string.Empty;

@@ -1,5 +1,4 @@
 ﻿using PharmaProject.Objects.Models;
-using PharmaProject.Objects.Interfaces;
 using PharmaProject.Objects;
 using Microsoft.EntityFrameworkCore;
 using PharmaProject.Services.Interfaces;

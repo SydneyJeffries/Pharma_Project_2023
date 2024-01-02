@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PharmaProject.Objects.Models;
-using PharmaProject.Objects.Interfaces;
+
 
 namespace PharmaProject.Objects
 {
@@ -9,6 +9,8 @@ namespace PharmaProject.Objects
         public DbSet<Pharmacy> Pharmacies { get; set; }
 
         public DbSet<State> States { get; set; }
+
+        public DbSet<Delivery> Deliveries { get; set; }
 
         public AppSettingsDbContext() : base() { }
 
@@ -19,6 +21,8 @@ namespace PharmaProject.Objects
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Delivery>().HasKey(x => x.DeliveryId);
+            modelBuilder.Entity<Pharmacy>().ToTable("Deliveries");
             modelBuilder.Entity<Pharmacy>().HasKey(x => x.PharmacyId);
             modelBuilder.Entity<Pharmacy>().ToTable("Pharmacies");
             modelBuilder.Entity<State>().HasKey(x => x.StateCode);

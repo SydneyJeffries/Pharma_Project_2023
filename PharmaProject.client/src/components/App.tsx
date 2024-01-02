@@ -2,6 +2,7 @@ import Home from './Home'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Header from './Header'
 import Footer from './Footer'
+import Delivery from './Delivery'
 
 function App() {
 
@@ -13,6 +14,9 @@ function App() {
                     <Switch>
                         <Route exact path="/">
                             <Home />
+                        </Route>
+                        <Route exact path="/delivey">
+                            <Delivery />
                         </Route>
                     </Switch>
                 </div>

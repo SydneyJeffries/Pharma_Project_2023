@@ -16,7 +16,7 @@ function Header() {
                         <Link to={`/`} className="nav-item ">
                             <span className="nav-link link-primary">Pharmacies</span>
                         </Link>
-                        <Link to={`/`} className="nav-item">
+                        <Link to={`/delivey`} className="nav-item">
                             <span className="nav-link link-primary">Deliveries</span>
                         </Link>
                     </div>

@@ -22,6 +22,7 @@ builder.Services.AddDbContext<AppSettingsDbContext>(options =>
     );
 
 builder.Services.AddScoped<IPharmacyService, PharmacyService>();
+builder.Services.AddScoped<IDeliveryService, DeliveryService>();
 builder.Services.AddMemoryCache();
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
