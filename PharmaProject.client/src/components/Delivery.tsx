@@ -5,12 +5,6 @@ import Loader from './Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDeliveryData, getDeliveryStatus, getDeliveryError, GetDeliveryList, SaveDelivery, DeleteDelivery } from '../slicers/DeliverySlice';
 import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowModesModel, GridRowModes, GridEventListener, GridRowEditStopReasons, GridRowModel, GridPreProcessEditCellProps, ValueOptions, GridToolbarContainer } from '@mui/x-data-grid';
-import IDelivery from '../Interfaces/IDelivery';
-import SaveIcon from '@mui/icons-material/Save';
-import CancelIcon from '@mui/icons-material/Close';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import AddIcon from '@mui/icons-material/Add';
 import Snackbar from '@mui/material/Snackbar';
 import { Alert, AlertProps, Button } from '@mui/material';
 import UsePagination from "../UsePagination";
@@ -19,7 +13,12 @@ import useFetch from '../UseFetch';
 import { fetchPharmacyList } from '../slicers/PharmacySlice';
 import IPharmacy from '../Interfaces/IPharmacy';
 import IDrug from '../Interfaces/IDrug';
-import { handleEditClick, handleSaveClick } from '../GridUtilties';
+import { handleEditClick, handleSaveClick, handleCancelClick } from '../GridUtilties';
+import SaveIcon from '@mui/icons-material/Save';
+import CancelIcon from '@mui/icons-material/Close';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 
 const Delivery = () => {
 
@@ -77,42 +76,22 @@ const Delivery = () => {
 
 
     useEffect(() => {
-        dispatch(GetDeliveryList({ pageNumber: 0, pageSize: 10, pharmacyId: 1, warehouseId: 1 }));
+        dispatch(GetDeliveryList({ pageNumber: 0, pageSize: 10, pharmacyId: 0, warehouseId: 0 }));
         console.log(deliveryList);
     }, []);
 
 
     const handleEdit = handleEditClick(rowModesModel, setRowModesModel, GridRowModes);
 
-    const handleSaveClick = (id: GridRowId) => () => {
-        const rowValidationErrors = validationErrorsRef.current[id];
-        if (rowValidationErrors == undefined) {
-            setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-        } else {
-            const hasRowError = Object.values(rowValidationErrors).filter(hasError => hasError === true);
-            if (hasRowError.length == 0) {
-                setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-            }
-        }
-    };
+    const handleSave = handleSaveClick(rowModesModel, setRowModesModel, validationErrorsRef);
 
-    const handleCancelClick = (id: GridRowId) => () => {
-        setRowModesModel({
-            ...rowModesModel,
-            [id]: { mode: GridRowModes.View, ignoreModifications: true },
-        });
-        //@ts-ignore
-        const editedRow = rows.find((row) => row.id === id);
-        if (editedRow!.isNew) {
-            setRows(rows.filter((row: IDelivery) => row.deliveryId !== id));
-        }
-    }
+    const handleCancel = handleCancelClick(rowModesModel, setRowModesModel, rows, setRows);
+
 
     const handleDeleteClick = (id: GridRowId) => () => {
-        const rowToDelete = rows.filter((row: IDelivery) => row.id == id)[0]
+        const rowToDelete = rows.filter((row: any) => row.id == id)[0]
         dispatch(DeleteDelivery(rowToDelete));
-        debugger;
-        setRows((prevRows) => prevRows.filter((row: IDelivery) => row.id !== id));
+        setRows((prevRows: any) => prevRows.filter((row: any) => row.id !== id));
     };
 
     const formatCurrency = (value: number) =>
@@ -128,7 +107,6 @@ const Delivery = () => {
                 return value?.label;
             },
             getOptionValue: (value: any) => {
-
                 return value?.value;
             },
             valueGetter: (option) => {
@@ -176,6 +154,7 @@ const Delivery = () => {
         {
             field: "drugId", headerName: "Drug", editable: true, hideable: true, width: 130, type: "singleSelect", valueOptions: [...drugKeys],
             getOptionLabel: (value: any) => {
+                debugger;
                 return value?.label;
             },
             getOptionValue: (value: any) => {
@@ -197,7 +176,7 @@ const Delivery = () => {
         {
             field: "unitCount", headerName: "Unit Count", editable: true, hideable: true, width: 190, type: "number",
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
-                const hasError = params.props.value < 0 || params.props.value == null;
+                const hasError = params.props.value <= 0 || params.props.value == null;
                 validationErrorsRef.current[params.id] = {
                     ...validationErrorsRef.current[params.id],
                     unitCount: hasError,
@@ -208,7 +187,7 @@ const Delivery = () => {
         {
             field: "unitPrice", headerName: "Unit Price", editable: true, hideable: true, width: 190, headerAlign: "center", align: "center", type: "number", valueFormatter: (params) => formatCurrency(params.value),
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
-                const hasError = params.props.value < 0 || params.props.value == null;
+                const hasError = params.props.value <= 0 || params.props.value == null;
                 validationErrorsRef.current[params.id] = {
                     ...validationErrorsRef.current[params.id],
                     unitPrice: hasError,
@@ -222,7 +201,7 @@ const Delivery = () => {
         },
         {
             field: "deliveryDate", headerName: "Delivery Date", editable: false, hideable: true, width: 170, type: "date", headerAlign: "center", align: "center",
-            valueGetter: (params: IDelivery) => {
+            valueGetter: (params: any) => {
                 return new Date(params.row.deliveryDate)
             },
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
@@ -250,13 +229,13 @@ const Delivery = () => {
                             sx={{
                                 color: 'primary.main',
                             }}
-                            onClick={handleSaveClick(id)}
+                            onClick={() => handleSave(id)}
                         />,
                         <GridActionsCellItem
                             icon={<CancelIcon />}
                             label="Cancel"
                             className="textPrimary"
-                            onClick={handleCancelClick(id)}
+                            onClick={() => handleCancel(id)}
                             color="inherit"
                         />,
                     ];
@@ -272,7 +251,7 @@ const Delivery = () => {
                     <GridActionsCellItem
                         icon={<DeleteIcon />}
                         label="Delete"
-                        onClick={handleDeleteClick(id)}
+                        onClick={() => handleDeleteClick(id)}
                         color="inherit"
                     />
                 ];
@@ -283,8 +262,7 @@ const Delivery = () => {
     function EditToolbar(props: any) {
         const { setRows, setRowModesModel } = props;
 
-        const handleClick = () => {
-            debugger;
+        const handleClick = () => {  
             const id = 70;
             setRows((oldRows: any) => [...oldRows, { id: 70, deliveryId: 70, warehouseId: 0, pharmacyId: 0, drugId: 0, unitCount: 0, unitPrice: 0, totalPrice: 0,  active: true,  isNew: true }]);
             setRowModesModel((oldModel : any) => ({

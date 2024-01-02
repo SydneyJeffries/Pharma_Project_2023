@@ -1,8 +1,8 @@
-import Home from './Home'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import Header from './Header'
-import Footer from './Footer'
-import Delivery from './Delivery'
+import Home from './Home';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Header from './Header';
+import Footer from './Footer';
+import Delivery from './Delivery';
 
 function App() {
 

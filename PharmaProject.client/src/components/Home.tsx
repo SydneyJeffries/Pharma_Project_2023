@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import React, { useEffect } from 'react';
 import Loader from './Loader';
@@ -12,6 +13,7 @@ import Snackbar from '@mui/material/Snackbar';
 import { Alert, AlertProps } from '@mui/material';
 import useFetch from '../UseFetch';
 import IState from '../Interfaces/IState';
+import { handleEditClick, handleSaveClick, handleCancelClick } from '../GridUtilties';
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -42,33 +44,13 @@ const Home = () => {
         console.log(pharmacyList);
     }, []);
 
-    const handleEditClick = (id: GridRowId) => () => {
-        setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
-    };
 
-    const handleSaveClick = (id: GridRowId) => () => {
-        const rowValidationErrors = validationErrorsRef.current[id];
-        if (rowValidationErrors == undefined) {
-            setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-        } else {
-            const hasRowError = Object.values(rowValidationErrors).filter(hasError => hasError === true);
-            if (hasRowError.length == 0) {
-                setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-            }
-        }
-    };
+    const handleEdit = handleEditClick(rowModesModel, setRowModesModel, GridRowModes);
 
-    const handleCancelClick = (id: GridRowId) => () => {
-        setRowModesModel({
-            ...rowModesModel,
-            [id]: { mode: GridRowModes.View, ignoreModifications: true },
-        });
-        //@ts-ignore
-        const editedRow = rows.find((row) => row.id === id);
-        if (editedRow!.isNew) {
-            setRows(rows.filter((row) => row.id !== id));
-        }
-    }
+    const handleSave = handleSaveClick(rowModesModel, setRowModesModel, validationErrorsRef);
+
+    const handleCancel = handleCancelClick(rowModesModel, setRowModesModel, rows, setRows);
+
     /*    renderHeader: () => (<strong>{'Pharmacist'}</strong>), width: 75, flex: 1}*/
     const [snackbar, setSnackbar] = React.useState<Pick<AlertProps,  'children' | 'severity'> | null>(null);
 
@@ -141,13 +123,13 @@ const Home = () => {
         },
         {
             field: "createdDateTest", headerName: "Created Date", editable: false, hideable: true, width: 170, type: "date", headerAlign: "center", align: "center",
-            valueGetter: (params: IPharmacy) => {
+            valueGetter: (params: any) => {
                 return new Date(params.row.createdDate)
             }
         },
         {
             field: "updatedDate", headerName: "Updated Date", editable: false, hideable: true, width: 170, type: "date", headerAlign: "center", align: "center",
-            valueGetter: (params: IPharmacy) => {
+            valueGetter: (params: any) => {
                 return params.row.updatedDate ? new Date(params.row.updatedDate) : null;
             }
         },
@@ -167,13 +149,13 @@ const Home = () => {
                             sx={{
                                 color: 'primary.main',
                             }}
-                            onClick={handleSaveClick(id)}
+                            onClick={()=> handleSave(id)}
                         />,
                         <GridActionsCellItem
                             icon={<CancelIcon />}
                             label="Cancel"
                             className="textPrimary"
-                            onClick={handleCancelClick(id)}
+                            onClick={()=> handleCancel(id)}
                             color="inherit"
                         />,
                     ];
@@ -183,7 +165,7 @@ const Home = () => {
                         icon={<EditIcon />}
                         label="Edit"
                         className="textPrimary"
-                        onClick={handleEditClick(id)}
+                        onClick={() => handleEdit(id)}
                         color="inherit"
                     />
                 ];

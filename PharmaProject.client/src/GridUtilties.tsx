@@ -1,23 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect } from 'react';
-import Loader from './Loader';
-import { useDispatch, useSelector } from 'react-redux';
-import { getDeliveryData, getDeliveryStatus, getDeliveryError, GetDeliveryList, SaveDelivery, DeleteDelivery } from '../slicers/DeliverySlice';
-import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowModesModel, GridRowModes, GridEventListener, GridRowEditStopReasons, GridRowModel, GridPreProcessEditCellProps, ValueOptions, GridToolbarContainer } from '@mui/x-data-grid';
-import IDelivery from '../Interfaces/IDelivery';
-import SaveIcon from '@mui/icons-material/Save';
-import CancelIcon from '@mui/icons-material/Close';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import AddIcon from '@mui/icons-material/Add';
-import Snackbar from '@mui/material/Snackbar';
-import { Alert, AlertProps, Button } from '@mui/material';
-import UsePagination from "../UsePagination";
-import IWarehouse from "../Interfaces/IWarehouse";
-import useFetch from '../UseFetch';
-import { fetchPharmacyList } from '../slicers/PharmacySlice';
-import IPharmacy from '../Interfaces/IPharmacy';
-import IDrug from '../Interfaces/IDrug';
+import {  GridRowId, GridRowModesModel, GridRowModes } from '@mui/x-data-grid';
+
 
 export const handleEditClick = (
     rowModesModel: GridRowModesModel,
@@ -28,18 +11,33 @@ export const handleEditClick = (
 };
 
 export const handleSaveClick = (
-    id: GridRowId,
     rowModesModel: GridRowModesModel,
     setRowModesModel: React.Dispatch<React.SetStateAction<GridRowModesModel>>,
-    validationErrorsRef: React.MutableRefObject<{[key: string]: {[key: string]: boolean}}>
-    ) => () => {
-    const rowValidationErrors = validationErrorsRef.current[id];
-    if (rowValidationErrors === undefined) {
-        setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-    } else {
-        const hasRowError = Object.values(rowValidationErrors).filter((hasError) => hasError === true);
-        if (hasRowError.length === 0) {
+    validationErrorsRef: React.MutableRefObject<{ [key: string]: { [key: string]: boolean } }>) => (id: GridRowId) => {
+        const rowValidationErrors = validationErrorsRef.current[id];
+        if (rowValidationErrors === undefined) {
             setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+        } else {
+            const hasRowError = Object.values(rowValidationErrors).filter((hasError) => hasError === true);
+            if (hasRowError.length === 0) {
+                setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+            }
         }
-    }
-};
+    };
+
+export const handleCancelClick = (
+    rowModesModel: GridRowModesModel,
+    setRowModesModel: React.Dispatch<React.SetStateAction<GridRowModesModel>>,
+    rows: any[],
+    setRows: React.Dispatch<React.SetStateAction<any>>) => (id: GridRowId) => {
+        setRowModesModel({
+            ...rowModesModel,
+            [id]: { mode: GridRowModes.View, ignoreModifications: true },
+        });
+
+        const editedRow = rows.find((row) => row.id === id);
+        if (editedRow?.isNew) {
+            setRows(rows.filter((row) => row.id !== id));
+        }
+    };
+
