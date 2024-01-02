@@ -96,7 +96,7 @@ const Delivery = () => {
 
     const columns: GridColDef[] = [
         {
-            field: "wareHouseId", headerName: "Warehouse", editable: true, hideable: true, width: 170, type: "singleSelect", valueOptions: [...warehouseKeys],
+            field: "wareHouseId", headerName: "Warehouse", editable: true, hideable: true, width: 200, type: "singleSelect", valueOptions: [...warehouseKeys],
             getOptionLabel: (value: any) => {
                 return value?.label;
             },
@@ -106,6 +106,14 @@ const Delivery = () => {
             valueGetter: (option) => {
                 const value = option.row.warehouseId;
                 return value;
+            },
+            renderCell: (option) => {
+                const foundWarehouse: ValueOptions | undefined = warehouseKeys.find((x :any) => x.value == option.row.warehouseId);
+                if (foundWarehouse) {
+                    return <span>{foundWarehouse?.label}</span>;
+                } else {
+                    return <span> </span>;
+                }
             },
             valueSetter: (params: GridValueSetterParams) => {
                 return { ...params.row, warehouseId: params.value };
@@ -120,7 +128,7 @@ const Delivery = () => {
             },
         },
         {
-            field: "pharmacyId", headerName: "Pharmacy", editable: true, hideable: true, width: 170, type: "singleSelect", valueOptions: [...pharmacyKeys],
+            field: "pharmacyId", headerName: "Pharmacy", editable: true, hideable: true, width: 220, type: "singleSelect", valueOptions: [...pharmacyKeys],
             getOptionLabel: (value: any) => {
                 return value?.label;
             },
@@ -133,6 +141,14 @@ const Delivery = () => {
             valueGetter: (option) => {
                 const value = option.row.pharmacyId;
                 return value;
+            },
+            renderCell: (option) => {
+                const foundWarehouse: ValueOptions | undefined = pharmacyKeys.find((x: any) => x.value == option.row.warehouseId);
+                if (foundWarehouse) {
+                    return <span>{foundWarehouse?.label}</span>;
+                } else {
+                    return <span> </span>;
+                }
             },
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
                 const hasError = params.props.value.length == 0;
@@ -168,7 +184,7 @@ const Delivery = () => {
             },
         },
         {
-            field: "unitCount", headerName: "Unit Count", editable: true, hideable: true, width: 190, type: "number",
+            field: "unitCount", headerName: "Unit Count", editable: true, hideable: true, width: 120, type: "number",
             valueSetter: (params) => {
                 return { ...params.row, unitCount: params.value };
             },
