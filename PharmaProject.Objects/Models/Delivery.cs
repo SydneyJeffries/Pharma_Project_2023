@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace PharmaProject.Objects.Models
@@ -35,9 +36,10 @@ namespace PharmaProject.Objects.Models
         public string? UpdatedBy { get; set;  }
 
 
-        //[JsonIgnore]
+        [JsonIgnore]
         public virtual Pharmacy? Pharmacy { get; set; }
 
+        [JsonIgnore]
         public virtual Warehouse? Warehouse { get; set; }
     }
 }

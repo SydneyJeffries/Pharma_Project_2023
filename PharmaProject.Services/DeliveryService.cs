@@ -21,7 +21,7 @@ namespace PharmaProject.Services
             _dbContext = context;
         }
 
-        public async Task<IPagedResult<Delivery>> GetPagedDeliveryList(int pageNumber, int pageSize, int? pharmacyId = null, int? warehouseId = null)
+        public async Task<IPagedResult<Delivery>> GetPagedDeliveryList(int pageNumber, int pageSize, int pharmacyId, int warehouseId )
         {
 
             var startRow = pageNumber * pageSize;
@@ -30,15 +30,15 @@ namespace PharmaProject.Services
 
             query = query.Include(d => d.Pharmacy).Include(d => d.Warehouse);
 
-            if (pharmacyId.HasValue && warehouseId.HasValue)
+            if (pharmacyId != 0 && warehouseId != 0)
             {
                 query =  query.Where(d => d.WarehouseId == warehouseId && d.PharmacyId == pharmacyId && d.Active == true);
             }
-            else if (warehouseId.HasValue)
+            else if (warehouseId != 0)
             {
                 query = query.Where(d => d.WarehouseId == warehouseId && d.Active == true);
             }
-            else if (pharmacyId.HasValue)
+            else if (pharmacyId != 0)
             {
                 query = query.Where(d => d.PharmacyId == pharmacyId && d.Active == true);
             }
@@ -52,8 +52,7 @@ namespace PharmaProject.Services
                .Skip(startRow)
                .Take(pageSize)
                .ToList();
-
-
+ 
             var totalCount = await query.CountAsync();
 
             var pagedResult = new PagedResult<Delivery>
@@ -89,8 +88,8 @@ namespace PharmaProject.Services
                 delivery.CreatedBy = "Sydney.Jeffriess@gmail.com";
                 delivery.TotalPrice = delivery.UnitPrice * delivery.UnitCount;
                 _dbContext.Deliveries.Add(delivery);
-                var result = await _dbContext.SaveChangesAsync();
-                delivery.DeliveryId = result;
+                 await _dbContext.SaveChangesAsync();
+     
             }
             else
             {
@@ -99,6 +98,7 @@ namespace PharmaProject.Services
                 delivery.TotalPrice = delivery.UnitPrice * delivery.UnitCount;
                 _dbContext.Update(delivery);
                 await _dbContext.SaveChangesAsync();
+    
             }
 
             return delivery;

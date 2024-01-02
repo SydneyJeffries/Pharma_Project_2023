@@ -25,6 +25,7 @@ namespace PharmaProject.Objects
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             modelBuilder.Entity<Drug>().HasKey(x => x.DrugId);
             modelBuilder.Entity<Drug>().ToTable("DrugsRef");
             modelBuilder.Entity<Delivery>().HasKey(x => x.DeliveryId);

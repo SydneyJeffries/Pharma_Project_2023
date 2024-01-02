@@ -6,7 +6,7 @@ namespace PharmaProject.Services.Interfaces
 {
     public interface IDeliveryService
     {
-        Task<IPagedResult<Delivery>> GetPagedDeliveryList(int pageNumber, int pageSize, int? pharmacyId, int? warehouseId);
+        Task<IPagedResult<Delivery>> GetPagedDeliveryList(int pageNumber, int pageSize, int pharmacyId, int warehouseId);
         //Task<List<Delivery>> GetDeliveryListByPharmacyId(int pharmacyId);
         //Task<List<Delivery>> GetDeliveryListByWarehouseId(int warehouseId);
         Task<Delivery> SaveDelivery(Delivery Delivery);

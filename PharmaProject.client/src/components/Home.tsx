@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import React, { useEffect } from 'react';
 import Loader from './Loader';
 import { useDispatch, useSelector } from 'react-redux';
@@ -43,7 +42,6 @@ const Home = () => {
         dispatch(fetchPharmacyList());
         console.log(pharmacyList);
     }, []);
-
 
     const handleEdit = handleEditClick(rowModesModel, setRowModesModel, GridRowModes);
 

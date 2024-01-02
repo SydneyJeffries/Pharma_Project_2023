@@ -6,9 +6,9 @@ export interface IWarehouse {
     stateCode: string;
     zip: string;
     active: boolean;
-    createdBy: Date;
-    createdDate: Date; 
-    updatedDate?: string | null; 
+    createdBy: string;
+    createdDate: Date;
+    updatedDate?: Date | null; 
     updatedBy?: string | null;
 }
 

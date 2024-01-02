@@ -17,6 +17,7 @@ export const DeliveryService = {
 
     async saveDelivery(delivery: IDelivery): Promise<IDelivery> {
         const saveDeliveryUrl = '/Delivery/';
+        console.log(delivery);
         const response: AxiosResponse<IDelivery> = await axios.post(saveDeliveryUrl, delivery, requestConfig);
         return response.data;
     },

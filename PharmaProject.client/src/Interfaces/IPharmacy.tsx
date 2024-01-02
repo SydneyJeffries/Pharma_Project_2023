@@ -7,10 +7,10 @@ export interface IPharmacy {
     stateCode: string;
     zip: string;
     createdDate: Date;
-    createdDateTest: Date;
     updatedDate: Date;
     createdBy: string;
     id: number;
+
 }
 
 export default IPharmacy;

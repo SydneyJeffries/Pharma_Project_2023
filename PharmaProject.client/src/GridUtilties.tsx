@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {  GridRowId, GridRowModesModel, GridRowModes } from '@mui/x-data-grid';
 
-
 export const handleEditClick = (
     rowModesModel: GridRowModesModel,
     setRowModesModel: React.Dispatch<React.SetStateAction<GridRowModesModel>>,
-    GridRowModes: typeof GridRowModes
+    GridRowModes: any
 ) => (id: GridRowId) => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
 };
@@ -14,8 +13,9 @@ export const handleSaveClick = (
     rowModesModel: GridRowModesModel,
     setRowModesModel: React.Dispatch<React.SetStateAction<GridRowModesModel>>,
     validationErrorsRef: React.MutableRefObject<{ [key: string]: { [key: string]: boolean } }>) => (id: GridRowId) => {
+
         const rowValidationErrors = validationErrorsRef.current[id];
-        if (rowValidationErrors === undefined) {
+        if (rowValidationErrors === undefined && id != 0) {
             setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
         } else {
             const hasRowError = Object.values(rowValidationErrors).filter((hasError) => hasError === true);

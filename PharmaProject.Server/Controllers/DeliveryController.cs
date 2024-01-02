@@ -19,14 +19,16 @@ namespace PharmaProject.Server.Controllers
             _logger = logger;
         }
 
-        [HttpGet("{pageNumber}/{pageSize}/{pharmacyId?}/{warehouseId?}")]
+        [HttpGet("{pageNumber}/{pageSize}/{pharmacyId}/{warehouseId}")]
         [ProducesResponseType<Pharmacy>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Produces("application/json")]
-        public async Task<IActionResult> GetPagedDeliveryList(int pageNumber = 0, int pageSize = 10, int? pharmacyId = null, int? warehouseId = null)
+        public async Task<IActionResult> GetPagedDeliveryList(int pageNumber = 0, int pageSize = 10, int pharmacyId = 0, int warehouseId = 0)
         {
             try
             {
+                //for some reason I can't pass a null or have defaulted null values and still get this function to go off. it say's it's required anyways? open for suggestions
+
                 IPagedResult<Delivery> deliveries = await _deliveryService.GetPagedDeliveryList(pageNumber, pageSize, pharmacyId, warehouseId);
 
                 return  Ok(deliveries);
