@@ -12,6 +12,8 @@ namespace PharmaProject.Objects
 
         public DbSet<Delivery> Deliveries { get; set; }
 
+        public DbSet<Warehouse> Warehouses { get; set; }
+
         public AppSettingsDbContext() : base() { }
 
         public AppSettingsDbContext(DbContextOptions<AppSettingsDbContext> options) : base(options)
@@ -22,7 +24,9 @@ namespace PharmaProject.Objects
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Delivery>().HasKey(x => x.DeliveryId);
-            modelBuilder.Entity<Pharmacy>().ToTable("Deliveries");
+            modelBuilder.Entity<Delivery>().ToTable("Deliveries");
+            modelBuilder.Entity<Warehouse>().HasKey(x => x.WarehouseId);
+            modelBuilder.Entity<Warehouse>().ToTable("Warehouses");
             modelBuilder.Entity<Pharmacy>().HasKey(x => x.PharmacyId);
             modelBuilder.Entity<Pharmacy>().ToTable("Pharmacies");
             modelBuilder.Entity<State>().HasKey(x => x.StateCode);

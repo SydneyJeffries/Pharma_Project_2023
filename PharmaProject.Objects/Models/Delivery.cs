@@ -38,6 +38,6 @@ namespace PharmaProject.Objects.Models
         //[JsonIgnore]
         public virtual Pharmacy? Pharmacy { get; set; }
 
-        public virtual WareHouse? Warehouse { get; set; }
+        public virtual Warehouse? Warehouse { get; set; }
     }
 }

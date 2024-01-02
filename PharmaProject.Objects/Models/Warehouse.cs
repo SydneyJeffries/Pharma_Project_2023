@@ -2,9 +2,9 @@
 
 namespace PharmaProject.Objects.Models
 {
-    public class WareHouse
+    public class Warehouse
     {
-        public int WareHouseId { get; set; }
+        public int WarehouseId { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
         public string City { get; set; } = string.Empty;

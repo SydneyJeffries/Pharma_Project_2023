@@ -5,8 +5,6 @@ using PharmaProject.Services.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
 using System.Collections.Generic;
 using PharmaProject.Services.Utilities.Interfaces;
-using PharmaProject.Services.Interfaces;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using PharmaProject.Services.Utilities;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -70,25 +68,6 @@ namespace PharmaProject.Services
         }
 
 
-        //public async Task<List<Delivery>> GetDeliveryListByPharmacyId(int pharmacyId)
-        //{
-        //    var deliveryListByPharmacy = await _dbContext.Deliveries
-        //        .Where(d => d.PharmacyId == pharmacyId)
-        //        .ToListAsync();
-
-        //    return deliveryListByPharmacy;
-        //}
-
-
-        //public async Task<List<Delivery>> GetDeliveryListByWarehouseId(int warehouseId)
-        //{
-        //    var deliveryListByWarehouse = await _dbContext.Deliveries
-        //        .Where(d => d.WarehouseId == warehouseId)
-        //        .ToListAsync();
-        //    return deliveryListByWarehouse;
-
-        //}
-
         public async Task<Delivery> DeleteDelivery(Delivery delivery)
         {
             delivery.Active = false;
@@ -99,7 +78,6 @@ namespace PharmaProject.Services
 
             return delivery;
         }
-
 
         public async Task<Delivery> SaveDelivery(Delivery delivery)
         {
