@@ -10,6 +10,8 @@ namespace PharmaProject.Objects
 
         public DbSet<State> States { get; set; }
 
+        public DbSet<Drug> DrugsRef { get; set; }
+
         public DbSet<Delivery> Deliveries { get; set; }
 
         public DbSet<Warehouse> Warehouses { get; set; }
@@ -23,6 +25,8 @@ namespace PharmaProject.Objects
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Drug>().HasKey(x => x.DrugId);
+            modelBuilder.Entity<Drug>().ToTable("DrugsRef");
             modelBuilder.Entity<Delivery>().HasKey(x => x.DeliveryId);
             modelBuilder.Entity<Delivery>().ToTable("Deliveries");
             modelBuilder.Entity<Warehouse>().HasKey(x => x.WarehouseId);

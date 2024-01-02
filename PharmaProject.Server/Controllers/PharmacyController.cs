@@ -76,26 +76,7 @@ namespace PharmaProject.Server.Controllers
      
         }
 
-        [HttpGet("GetStateList")]
-        [ProducesResponseType<Pharmacy>(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Produces("application/json")]
-        public async Task<IActionResult> GetStateList()
-        {
-            try
-            {
-                List<State> results = await _pharmacyService.GetStateList();
-
-                return Ok(results);
-
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return BadRequest(ex.Message);
-            }
-        
-        }
+    
 
     }
 }

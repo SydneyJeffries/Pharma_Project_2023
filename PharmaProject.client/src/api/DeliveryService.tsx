@@ -22,7 +22,7 @@ export const DeliveryService = {
     },
 
     async deleteDelivery(delivery: IDelivery): Promise<IDelivery> {
-        const deleteDeliveryUrl = '/DeleteDelivery/';
+        const deleteDeliveryUrl = 'Delivery/DeleteDelivery/';
         const response: AxiosResponse<IDelivery> = await axios.post(deleteDeliveryUrl, delivery, requestConfig);
         return response.data;
     }

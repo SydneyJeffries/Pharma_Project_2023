@@ -8,7 +8,7 @@ namespace PharmaProject.Objects.Models
         public string Name { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
         public string City { get; set; } = string.Empty;
-        public string State { get; set; } = string.Empty;
+        public string StateCode { get; set; } = string.Empty;
         public string Zip { get; set; } = string.Empty;
         public bool Active { get; set; }
         public string CreatedBy { get; set; } = string.Empty;

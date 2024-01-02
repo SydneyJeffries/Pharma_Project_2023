@@ -21,7 +21,7 @@ const Home = () => {
     const [rows, setRows] = React.useState(pharmacyList);
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
     const validationErrorsRef = React.useRef<{ [key: string]: { [key: string]: boolean } }>({});
-    const stateFetchUrl = '/Pharmacy/GetStateList';
+    const stateFetchUrl = '/Lookup/GetStateList';
     const { data: statesData } = useFetch<IState[]>(stateFetchUrl);
     const [stateKeys, setStateKeys] = React.useState<string[]>([]);
 
@@ -201,7 +201,7 @@ const Home = () => {
         async (newRow: GridRowModel) => {
             //@ts-expect-error
             const returnedPharmacy = await dispatch(savePharmacy(newRow));
-            setSnackbar({ children: 'User successfully saved', severity: 'success' });
+            setSnackbar({ children: 'Successfully saved', severity: 'success' });
             return returnedPharmacy.payload;
         },
         //@ts-expect-error

@@ -8,6 +8,6 @@ namespace PharmaProject.Services.Interfaces
         Task<Pharmacy?> GetPharmacyById(int id);
         Task<List<Pharmacy>> GetPharmacyList();
         Task<Pharmacy> SavePharmacy(Pharmacy pharmacy);
-        Task<List<State>> GetStateList();
+
     }
 }

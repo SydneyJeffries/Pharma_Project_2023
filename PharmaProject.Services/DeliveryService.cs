@@ -28,6 +28,7 @@ namespace PharmaProject.Services
 
             IQueryable<Delivery> query = _dbContext.Deliveries;
 
+            query = query.Include(d => d.Pharmacy).Include(d => d.Warehouse);
 
             if (pharmacyId.HasValue && warehouseId.HasValue)
             {
@@ -86,6 +87,7 @@ namespace PharmaProject.Services
             {
                 delivery.CreatedDate = DateTimeOffset.Now;
                 delivery.CreatedBy = "Sydney.Jeffriess@gmail.com";
+                delivery.TotalPrice = delivery.UnitPrice * delivery.UnitCount;
                 _dbContext.Deliveries.Add(delivery);
                 var result = await _dbContext.SaveChangesAsync();
                 delivery.DeliveryId = result;
@@ -94,6 +96,7 @@ namespace PharmaProject.Services
             {
                 delivery.UpdatedDate = DateTimeOffset.Now;
                 delivery.UpdatedBy = "Sydney.Jeffriess@gmail.com";
+                delivery.TotalPrice = delivery.UnitPrice * delivery.UnitCount;
                 _dbContext.Update(delivery);
                 await _dbContext.SaveChangesAsync();
             }

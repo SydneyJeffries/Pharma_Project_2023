@@ -1,12 +1,13 @@
 export interface IDelivery  {
     Id: number;
-    WarehouseId: number;
-    PharmacyId: number;
-    DrugId: number;
-    UnitCount: number;
-    UnitPrice: number;
-    TotalPrice?: number;
-    DeliveryDate: Date;
+    deliveryId: number;
+    warehouseId: number;
+    pharmacyId: number;
+    drugId: number;
+    unitCount: number;
+    unitPrice: number;
+    totalPrice?: number;
+    deliveryDate: Date;
 }
 
 export default IDelivery;

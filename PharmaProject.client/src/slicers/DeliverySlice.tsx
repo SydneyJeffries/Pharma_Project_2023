@@ -21,8 +21,8 @@ export const GetDeliveryList = createAsyncThunk<IDelivery[], { pageNumber: numbe
         signal.addEventListener('abort', () => {
             source.cancel()
         })
-        const deliveryList = await DeliveryService.getDeliveryList(pageNumber, pageSize, pharmacyId, warehouseId);
-        return [...deliveryList];
+        const deliveryList :any = await DeliveryService.getDeliveryList(pageNumber, pageSize, pharmacyId, warehouseId);
+        return [...deliveryList.data];
     }
 );
 
@@ -49,7 +49,6 @@ export const DeliverySlice = createSlice({
     extraReducers(builder) {
         builder
             .addCase(GetDeliveryList.pending, (state) => {
-                debugger;
                 state.status = 'loading';
                 state.error = '';
             })
@@ -64,33 +63,27 @@ export const DeliverySlice = createSlice({
                 console.log(action.error.message)
             })
             .addCase(SaveDelivery.pending, (state) => {
-                debugger;
                 state.status = 'loading';
                 state.error = '';
             })
             .addCase(SaveDelivery.fulfilled, (state) => {
-                debugger;
                 state.status = 'succeeded'
                 state.error = '';
             })
             .addCase(SaveDelivery.rejected, (state, action) => {
-                debugger;
                 state.status = 'failed'
                 state.error = 'saving';
                 console.log(action.error.message)
             })
             .addCase(DeleteDelivery.pending, (state) => {
-                debugger;
                 state.status = 'loading';
                 state.error = '';
             })
             .addCase(DeleteDelivery.fulfilled, (state) => {
-                debugger;
                 state.status = 'succeeded'
                 state.error = '';
             })
             .addCase(DeleteDelivery.rejected, (state, action) => {
-                debugger;
                 state.status = 'failed'
                 state.error = 'saving';
                 console.log(action.error.message)
