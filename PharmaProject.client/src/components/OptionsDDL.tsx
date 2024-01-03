@@ -8,31 +8,36 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { ValueOptions } from '@mui/x-data-grid';
 
 
-interface PharmacyDDLProps {
-    pharmacyKeys: ValueOptions[];
-    setSelectedPharma: React.Dispatch<React.SetStateAction<string>>;
+interface OptionsDDL {
+    valueKeys: ValueOptions[];
+    setValue: React.Dispatch<React.SetStateAction<number>>;
+    title: string;
+    selectedValue: number;
 }
 
-const PharmacyDDL: React.FC<PharmacyDDLProps> = ({ pharmacyKeys, setSelectedPharma }) => {
+const OptionsDDL: React.FC<OptionsDDL> = ({ valueKeys, setValue, title, selectedValue }) => {
     const handleChange = (event: SelectChangeEvent) => {
-        setSelectedPharma(event.target.value as string);
+        setValue(Number(event.target.value));
     };
 
 
     return (
-        <Box sx={{ minWidth: 120 }}>
+        <Box sx={{ minWidth: 120 }} >
             <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Pharmacy</InputLabel>
+                <InputLabel id="demo-simple-select-label">{title}</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={""}
+                    value={selectedValue}
                     label="Pharmacy"
                     onChange={handleChange}
                 >
-                    {pharmacyKeys.map((pharmacy: ValueOptions) => (
-                        <MenuItem key={pharmacy.value} value={pharmacy.value}>
-                            {pharmacy.label}
+                    <MenuItem key={"All"} value={0}>
+                        All {title}s
+                    </MenuItem>
+                    {valueKeys.map((keys: ValueOptions) => (
+                        <MenuItem key={keys.value} value={keys.value}>
+                            {keys.label}
                         </MenuItem>
                     ))}
                 </Select>
@@ -41,4 +46,4 @@ const PharmacyDDL: React.FC<PharmacyDDLProps> = ({ pharmacyKeys, setSelectedPhar
     );
 }
 
-export default PharmacyDDL;
+export default OptionsDDL;

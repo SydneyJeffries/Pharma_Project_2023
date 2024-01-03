@@ -19,7 +19,7 @@ import CancelIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
-import PharmacyDDL from './PharmacyDDL';
+import OptionsDDL from './optionsDDL';
 
 const Delivery = () => {
     const dispatch = useDispatch();
@@ -37,7 +37,8 @@ const Delivery = () => {
     const [warehouseKeys, setWarehouseKeys] = React.useState<ValueOptions[]>([]);
     const [pharmacyKeys, setPharmacyKeys] = React.useState<ValueOptions[]>([]);
     const [drugKeys, setDrugKeys] = React.useState<ValueOptions[]>([]);
-    const [selectedPharma, setSlectedPharmal] = React.useState<GridRowModesModel>({});
+    const [selectedPharma, setSlectedPharmal] = React.useState<number>(0);
+    const [selectedWarehouse, setSelectedWarehouse] = React.useState<number>(0);
 
     useEffect(() => {
         setRows(deliveryList);
@@ -75,9 +76,10 @@ const Delivery = () => {
     }, [pharmacyData])
 
     useEffect(() => {
-        dispatch(GetDeliveryList({ pageNumber: 0, pageSize: 10, pharmacyId: 0, warehouseId: 0 }));
+        dispatch(GetDeliveryList({ pageNumber: 0, pageSize: 8, pharmacyId: selectedPharma, warehouseId: selectedWarehouse }));
         console.log(deliveryList);
-    }, []);
+       
+    }, [selectedPharma, selectedWarehouse]);
 
     const handleEdit = handleEditClick(rowModesModel, setRowModesModel, GridRowModes);
 
@@ -361,7 +363,10 @@ const Delivery = () => {
                 <>
                     <div className="row mb-2">
                         <div className="col-md-3 col-6">
-                            <PharmacyDDL pharmacyKeys={pharmacyKeys} setSelectedPharma={setSlectedPharmal} />
+                            <OptionsDDL valueKeys={pharmacyKeys} setValue={setSlectedPharmal} title={"Pharmacy"} selectedValue={selectedPharma} />
+                        </div>
+                        <div className="col-md-3 col-6">
+                            <OptionsDDL valueKeys={warehouseKeys} setValue={setSelectedWarehouse} title={"Warehouse"} selectedValue={selectedWarehouse} />
                         </div>
                     </div>
             
