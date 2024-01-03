@@ -36,7 +36,7 @@ namespace PharmaProject.Services
                 return data;
             }
 
-            data =  await _dbContext.Warehouses.ToListAsync();
+            data =  await _dbContext.Warehouse.ToListAsync();
 
             _cache.Set("GetWarehouseList", data, GetDefaultCacheOptions());
 

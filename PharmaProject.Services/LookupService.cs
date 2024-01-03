@@ -39,7 +39,7 @@ namespace PharmaProject.Services
                 return data;
             }
 
-            data = await _dbContext.States.ToListAsync();
+            data = await _dbContext.State.ToListAsync();
 
             _cache.Set("GetStateList", data, GetDefaultCacheOptions());
 
@@ -54,7 +54,7 @@ namespace PharmaProject.Services
                 return data;
             }
 
-            data = await _dbContext.DrugsRef.ToListAsync();
+            data = await _dbContext.Drug.ToListAsync();
 
             _cache.Set("GetDrugsList", data, GetDefaultCacheOptions());
 

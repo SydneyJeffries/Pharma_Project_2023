@@ -96,7 +96,7 @@ const Delivery = () => {
 
     const columns: GridColDef[] = [
         {
-            field: "wareHouseId", headerName: "Warehouse", editable: true, hideable: true, width: 200, type: "singleSelect", valueOptions: [...warehouseKeys],
+            field: "wareHouseId", headerName: "Warehouse", editable: true, hideable: true, width: 200, type: "singleSelect", valueOptions: [...warehouseKeys], sortable: false,
             getOptionLabel: (value: any) => {
                 return value?.label;
             },
@@ -108,7 +108,7 @@ const Delivery = () => {
                 return value;
             },
             renderCell: (option) => {
-                const foundWarehouse: ValueOptions | undefined = warehouseKeys.find((x :any) => x.value == option.row.warehouseId);
+                const foundWarehouse: ValueOptions | undefined = warehouseKeys.find((x: any) => x.value == option.row.warehouseId);
                 if (foundWarehouse) {
                     return <span>{foundWarehouse?.label}</span>;
                 } else {
@@ -119,7 +119,11 @@ const Delivery = () => {
                 return { ...params.row, warehouseId: params.value };
             },
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
-                const hasError = params.props.value.length == 0;
+                debugger;
+                if (params.hasChanged == false) {
+                    return { ...params.props, error: params.props.error };
+                }
+                const hasError = params.props.value == 0;
                 validationErrorsRef.current[params.id] = {
                     ...validationErrorsRef.current[params.id],
                     warehouseId: hasError,
@@ -151,7 +155,10 @@ const Delivery = () => {
                 }
             },
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
-                const hasError = params.props.value.length == 0;
+                if (params.hasChanged == false) {
+                    return { ...params.props, error: params.props.error };
+                }
+                const hasError =  params.props.value == 0;
                 validationErrorsRef.current[params.id] = {
                     ...validationErrorsRef.current[params.id],
                     pharmacyId: hasError,
@@ -160,7 +167,7 @@ const Delivery = () => {
             },
         },
         {
-            field: "drugId", headerName: "Drug", editable: true, hideable: true, width: 130, type: "singleSelect", valueOptions: [...drugKeys],
+            field: "drugId", headerName: "Drug", editable: true, hideable: true, width: 130, type: "singleSelect", valueOptions: [...drugKeys], sortable: false,
             getOptionLabel: (value: any) => {
                 return value?.label;
             },
@@ -175,7 +182,10 @@ const Delivery = () => {
                 return { ...params.row, drugId: params.value };
             },
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
-                const hasError = params.props.value.length == 0;
+                if (params.hasChanged == false) {
+                    return { ...params.props, error: params.props.error };
+                }
+                const hasError = params.props.value == 0;
                 validationErrorsRef.current[params.id] = {
                     ...validationErrorsRef.current[params.id],
                     drugId: hasError,
@@ -184,11 +194,15 @@ const Delivery = () => {
             },
         },
         {
-            field: "unitCount", headerName: "Unit Count", editable: true, hideable: true, width: 120, type: "number",
+            field: "unitCount", headerName: "Unit Count", editable: true, hideable: true, width: 120, type: "number", sortable: false,
             valueSetter: (params) => {
                 return { ...params.row, unitCount: params.value };
             },
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
+
+                if (params.hasChanged == false) {
+                    return { ...params.props, error: params.props.error };
+                }
                 const hasError = params.props.value <= 0 || params.props.value == null;
                 validationErrorsRef.current[params.id] = {
                     ...validationErrorsRef.current[params.id],
@@ -198,11 +212,15 @@ const Delivery = () => {
             },
         },
         {
-            field: "unitPrice", headerName: "Unit Price", editable: true, hideable: true, width: 190, headerAlign: "center", align: "center", type: "number", valueFormatter: (params) => formatCurrency(params.value),
+            field: "unitPrice", headerName: "Unit Price", editable: true, hideable: true, width: 190, headerAlign: "center", align: "center", type: "number", sortable: false,
+            valueFormatter: (params) => formatCurrency(params.value),
             valueSetter: (params) => {
                 return { ...params.row, unitPrice: params.value };
             },
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
+                if (params.hasChanged == false) {
+                    return { ...params.props, error: params.props.error };
+                }
                 const hasError = params.props.value <= 0 || params.props.value == null;
                 validationErrorsRef.current[params.id] = {
                     ...validationErrorsRef.current[params.id],
@@ -212,10 +230,10 @@ const Delivery = () => {
             },
         },
         {
-            field: "totalPrice", headerName: "Total Price", editable: false, hideable: true, width: 150, headerAlign: "center", align: "center", type: "number", valueFormatter: (params) => formatCurrency(params.value)
+            field: "totalPrice", headerName: "Total Price", editable: false, hideable: true, width: 150, headerAlign: "center", align: "center", type: "number", valueFormatter: (params) => formatCurrency(params.value), sortable: false,
         },
         {
-            field: "deliveryDate", headerName: "Delivery Date", editable: true, hideable: true, width: 170, type: "date", headerAlign: "center", align: "center",
+            field: "deliveryDate", headerName: "Delivery Date", editable: true, hideable: true, width: 170, type: "date", headerAlign: "center", align: "center", sortable: false,
             valueGetter: (params: any) => {
                 return new Date(params.row.deliveryDate)
             },
@@ -223,6 +241,9 @@ const Delivery = () => {
                 return { ...params.row, deliveryDate: params.value };
             },
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
+                if (params.hasChanged == false) {
+                    return { ...params.props, error: params.props.error };
+                }
                 const hasError = params.props.value == null;
                 validationErrorsRef.current[params.id] = {
                     ...validationErrorsRef.current[params.id],

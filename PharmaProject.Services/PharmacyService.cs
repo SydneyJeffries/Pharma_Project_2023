@@ -36,7 +36,7 @@ namespace PharmaProject.Services
                 return data;
             }
 
-            data =  await _dbContext.Pharmacies.ToListAsync();
+            data =  await _dbContext.Pharmacy.ToListAsync();
 
             _cache.Set("GetPharmacyList", data, GetDefaultCacheOptions());
 
@@ -45,7 +45,7 @@ namespace PharmaProject.Services
 
         public async Task<Pharmacy?> GetPharmacyById(int pharmacyId)
         {
-            return await _dbContext.Pharmacies.FirstOrDefaultAsync(x => x.PharmacyId == pharmacyId);
+            return await _dbContext.Pharmacy.FirstOrDefaultAsync(x => x.PharmacyId == pharmacyId);
         }
 
         public async Task<Pharmacy> SavePharmacy(Pharmacy pharmacy)

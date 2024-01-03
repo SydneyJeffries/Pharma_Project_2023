@@ -26,7 +26,7 @@ namespace PharmaProject.Services
 
             var startRow = pageNumber * pageSize;
 
-            IQueryable<Delivery> query = _dbContext.Deliveries;
+            IQueryable<Delivery> query = _dbContext.Delivery;
 
             query = query.Include(d => d.Pharmacy).Include(d => d.Warehouse);
 
@@ -87,7 +87,7 @@ namespace PharmaProject.Services
                 delivery.CreatedDate = DateTimeOffset.Now;
                 delivery.CreatedBy = "Sydney.Jeffriess@gmail.com";
                 delivery.TotalPrice = delivery.UnitPrice * delivery.UnitCount;
-                _dbContext.Deliveries.Add(delivery);
+                _dbContext.Delivery.Add(delivery);
                  await _dbContext.SaveChangesAsync();
      
             }

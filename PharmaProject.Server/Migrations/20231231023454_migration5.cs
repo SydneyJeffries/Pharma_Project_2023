@@ -11,11 +11,16 @@ namespace PharmaProject.Server.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-             name: "States",
+             name: "State",
              columns: table => new
              {
-                 StateCode = table.Column<string>(type: "nvarchar(2)", nullable: false),
-                 StateName = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                 StateCode = table.Column<string>(type: "varchar(2)", nullable: false),
+                 StateName = table.Column<string>(type: "varchar(450)", nullable: false),
+                 CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                 UpdatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                 CreatedBy = table.Column<string>(type: "varchar(400)", nullable: false),
+                 UpdatedBy = table.Column<string>(type: "varchar(400)", nullable: false),
+                 Active = table.Column<string>(type: "bit", nullable: false),
              },
              constraints: table =>
              {
@@ -25,20 +30,21 @@ namespace PharmaProject.Server.Migrations
 
 
             migrationBuilder.CreateTable(
-                name: "Pharmacies",
+                name: "Pharmacy",
                 columns: table => new
                 {
                     PharmacyId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(250)", nullable: false),
+                    Name = table.Column<string>(type: "varchar(250)", nullable: false),
                     FilledPerscriptions = table.Column<int>(type: "int", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(250)", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(250)", nullable: false),
-                    StateCode = table.Column<string>(type: "nvarchar(2)", nullable: false),
-                    Zip = table.Column<string>(type: "nvarchar(5)", nullable: false),
+                    Address = table.Column<string>(type: "varchar(250)", nullable: false),
+                    City = table.Column<string>(type: "varchar(250)", nullable: false),
+                    StateCode = table.Column<string>(type: "varchar(2)", nullable: false),
+                    Zip = table.Column<string>(type: "varchar(5)", nullable: false),
                     CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     UpdatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(400)", nullable: false),
+                    CreatedBy = table.Column<string>(type: "varchar(400)", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "varchar(400)", nullable: false),
                     Active = table.Column<string>(type: "bit", nullable: false),
                 },
                 constraints: table =>
@@ -48,7 +54,7 @@ namespace PharmaProject.Server.Migrations
                 });
 
 
-            migrationBuilder.Sql(@"INSERT INTO States (StateName, StateCode) VALUES('Alabama', 'AL'),('Alaska', 'AK'),
+            migrationBuilder.Sql(@"INSERT INTO State (StateName, StateCode) VALUES('Alabama', 'AL'),('Alaska', 'AK'),
                ('Arizona', 'AZ'),('Arkansas', 'AR'),('California', 'CA'),('Colorado', 'CO'),('Connecticut', 'CT'),
                 ('Delaware', 'DE'),('Florida', 'FL'),('Georgia', 'GA'),('Hawaii', 'HI'),('Idaho', 'ID'),('Illinois', 'IL'),('Indiana', 'IN'),
                 ('Iowa', 'IA'),('Kansas', 'KS'),('Kentucky', 'KY'),('Louisiana', 'LA'),('Maine', 'ME'),('Maryland', 'MD'),('Massachusetts', 'MA'),
@@ -59,7 +65,7 @@ namespace PharmaProject.Server.Migrations
 
             migrationBuilder.Sql(
           @"
-                INSERT INTO Pharmacies (Name, Address, City, StateCode, Zip, FilledPerscriptions, CreatedDate, CreatedBy, Active)
+                INSERT INTO Pharmacy (Name, Address, City, StateCode, Zip, FilledPerscriptions, CreatedDate, CreatedBy, Active)
                 VALUES
                 ('Walgreens', '123 Main St.', 'Dallas', 'TX', 75201, 0, GETDATE(), 'Sydney.Jeffriess@gmail.com', 1),
                 ('Sydney''s Pharmacy', '123 Juniper Rd', 'Plano', 'TX', 75074, 0, GETDATE(), 'Sydney.Jeffriess@gmail.com', 1),
@@ -75,10 +81,10 @@ namespace PharmaProject.Server.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "States");
+                name: "State");
 
             migrationBuilder.DropTable(
-                name: "Pharmacies");
+                name: "Pharmacy");
         }
 
     }

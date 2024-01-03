@@ -6,15 +6,15 @@ namespace PharmaProject.Objects
 {
     public class AppSettingsDbContext : DbContext
     {
-        public DbSet<Pharmacy> Pharmacies { get; set; }
+        public DbSet<Pharmacy> Pharmacy { get; set; }
 
-        public DbSet<State> States { get; set; }
+        public DbSet<State> State { get; set; }
 
-        public DbSet<Drug> DrugsRef { get; set; }
+        public DbSet<Drug> Drug { get; set; }
 
-        public DbSet<Delivery> Deliveries { get; set; }
+        public DbSet<Delivery> Delivery { get; set; }
 
-        public DbSet<Warehouse> Warehouses { get; set; }
+        public DbSet<Warehouse> Warehouse { get; set; }
 
         public AppSettingsDbContext() : base() { }
 
@@ -27,15 +27,15 @@ namespace PharmaProject.Objects
         {
 
             modelBuilder.Entity<Drug>().HasKey(x => x.DrugId);
-            modelBuilder.Entity<Drug>().ToTable("DrugsRef");
+            modelBuilder.Entity<Drug>().ToTable("Drug");
             modelBuilder.Entity<Delivery>().HasKey(x => x.DeliveryId);
-            modelBuilder.Entity<Delivery>().ToTable("Deliveries");
+            modelBuilder.Entity<Delivery>().ToTable("Delivery");
             modelBuilder.Entity<Warehouse>().HasKey(x => x.WarehouseId);
-            modelBuilder.Entity<Warehouse>().ToTable("Warehouses");
+            modelBuilder.Entity<Warehouse>().ToTable("Warehouse");
             modelBuilder.Entity<Pharmacy>().HasKey(x => x.PharmacyId);
-            modelBuilder.Entity<Pharmacy>().ToTable("Pharmacies");
+            modelBuilder.Entity<Pharmacy>().ToTable("Pharmacy");
             modelBuilder.Entity<State>().HasKey(x => x.StateCode);
-            modelBuilder.Entity<State>().ToTable("States");
+            modelBuilder.Entity<State>().ToTable("State");
         }
 
     }
