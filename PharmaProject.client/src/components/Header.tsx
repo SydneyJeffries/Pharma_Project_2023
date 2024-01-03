@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 function Header() {
 
     const env: string = import.meta.env.MODE;
@@ -13,12 +13,12 @@ function Header() {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div className="navbar-nav">
-                        <Link to={`/`} className="nav-item ">
+                        <NavLink to={`/`} exact className="nav-item " activeClassName="active-link">
                             <span className="nav-link link-primary">Pharmacies</span>
-                        </Link>
-                        <Link to={`/delivey`} className="nav-item">
+                        </NavLink>
+                        <NavLink to={`/delivey`} className="nav-item" activeClassName="active-link">
                             <span className="nav-link link-primary">Deliveries</span>
-                        </Link>
+                        </NavLink>
                     </div>
                     <div className=" text-md-end flex-1 text-start">
                         <span className=" nav-link text-green  fw-bold" > {env == "development" ? env.charAt(0).toUpperCase() + env.slice(1) + ' Environment' : ""} </span>

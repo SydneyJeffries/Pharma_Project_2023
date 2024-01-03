@@ -19,6 +19,7 @@ import CancelIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
+import PharmacyDDL from './PharmacyDDL';
 
 const Delivery = () => {
     const dispatch = useDispatch();
@@ -36,6 +37,7 @@ const Delivery = () => {
     const [warehouseKeys, setWarehouseKeys] = React.useState<ValueOptions[]>([]);
     const [pharmacyKeys, setPharmacyKeys] = React.useState<ValueOptions[]>([]);
     const [drugKeys, setDrugKeys] = React.useState<ValueOptions[]>([]);
+    const [selectedPharma, setSlectedPharmal] = React.useState<GridRowModesModel>({});
 
     useEffect(() => {
         setRows(deliveryList);
@@ -96,7 +98,7 @@ const Delivery = () => {
 
     const columns: GridColDef[] = [
         {
-            field: "wareHouseId", headerName: "Warehouse", editable: true, hideable: true, width: 200, type: "singleSelect", valueOptions: [...warehouseKeys], sortable: false,
+            field: "wareHouseId", headerName: "Warehouse", editable: true, hideable: true, width: 200, type: "singleSelect", valueOptions: [...warehouseKeys], sortable: false, filterable: false,
             getOptionLabel: (value: any) => {
                 return value?.label;
             },
@@ -132,7 +134,7 @@ const Delivery = () => {
             },
         },
         {
-            field: "pharmacyId", headerName: "Pharmacy", editable: true, hideable: true, width: 220, type: "singleSelect", valueOptions: [...pharmacyKeys],
+            field: "pharmacyId", headerName: "Pharmacy", editable: true, hideable: true, width: 220, type: "singleSelect", valueOptions: [...pharmacyKeys], filterable: false,
             getOptionLabel: (value: any) => {
                 return value?.label;
             },
@@ -167,7 +169,7 @@ const Delivery = () => {
             },
         },
         {
-            field: "drugId", headerName: "Drug", editable: true, hideable: true, width: 130, type: "singleSelect", valueOptions: [...drugKeys], sortable: false,
+            field: "drugId", headerName: "Drug", editable: true, hideable: true, width: 130, type: "singleSelect", valueOptions: [...drugKeys], sortable: false, filterable: false,
             getOptionLabel: (value: any) => {
                 return value?.label;
             },
@@ -194,7 +196,7 @@ const Delivery = () => {
             },
         },
         {
-            field: "unitCount", headerName: "Unit Count", editable: true, hideable: true, width: 120, type: "number", sortable: false,
+            field: "unitCount", headerName: "Unit Count", editable: true, hideable: true, width: 120, type: "number", sortable: false, filterable: false, headerAlign: "center", align: "center",
             valueSetter: (params) => {
                 return { ...params.row, unitCount: params.value };
             },
@@ -212,7 +214,7 @@ const Delivery = () => {
             },
         },
         {
-            field: "unitPrice", headerName: "Unit Price", editable: true, hideable: true, width: 190, headerAlign: "center", align: "center", type: "number", sortable: false,
+            field: "unitPrice", headerName: "Unit Price", editable: true, hideable: true, width: 190, headerAlign: "center", align: "center", type: "number", sortable: false, filterable: false,
             valueFormatter: (params) => formatCurrency(params.value),
             valueSetter: (params) => {
                 return { ...params.row, unitPrice: params.value };
@@ -230,10 +232,10 @@ const Delivery = () => {
             },
         },
         {
-            field: "totalPrice", headerName: "Total Price", editable: false, hideable: true, width: 150, headerAlign: "center", align: "center", type: "number", valueFormatter: (params) => formatCurrency(params.value), sortable: false,
+            field: "totalPrice", headerName: "Total Price", editable: false, hideable: true, width: 150, headerAlign: "center", align: "center", type: "number", valueFormatter: (params) => formatCurrency(params.value), sortable: false, filterable: false,
         },
         {
-            field: "deliveryDate", headerName: "Delivery Date", editable: true, hideable: true, width: 170, type: "date", headerAlign: "center", align: "center", sortable: false,
+            field: "deliveryDate", headerName: "Delivery Date", editable: true, hideable: true, width: 170, type: "date", headerAlign: "center", align: "center", sortable: false, filterable: false,
             valueGetter: (params: any) => {
                 return new Date(params.row.deliveryDate)
             },
@@ -357,13 +359,18 @@ const Delivery = () => {
             {deliveryStatus === 'loading' && <Loader></Loader>}
             {deliveryList.length > 0 && (
                 <>
+                    <div className="row mb-2">
+                        <div className="col-md-3 col-6">
+                            <PharmacyDDL pharmacyKeys={pharmacyKeys} setSelectedPharma={setSlectedPharmal} />
+                        </div>
+                    </div>
+            
                     <DataGrid
                         rows={rows}
                         columns={columns}
                         getRowId={(row) => row.deliveryId}
                         processRowUpdate={(updatedRow) => processRowUpdate(updatedRow)}
-                        paginationModel={paginationModel}
-                        pageSizeOptions={[5, 10, 15]}
+                        paginationModel={paginationModel}     
                         onPaginationModelChange={handlePaginationModelChange}
                         disableColumnMenu={false}
                         editMode="row"

@@ -12,6 +12,6 @@ namespace PharmaProject.Objects.Models
 
         public DateTimeOffset? UpdatedDate { get; set; }
 
-        public string? UpdatedBy { get; set; }
+        public string? UpdatedBy { get; set; } = string.Empty;
     }
 }

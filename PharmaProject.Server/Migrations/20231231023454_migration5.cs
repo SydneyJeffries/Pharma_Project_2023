@@ -19,13 +19,12 @@ namespace PharmaProject.Server.Migrations
                  CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                  UpdatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                  CreatedBy = table.Column<string>(type: "varchar(400)", nullable: false),
-                 UpdatedBy = table.Column<string>(type: "varchar(400)", nullable: false),
+                 UpdatedBy = table.Column<string>(type: "varchar(400)", nullable: true),
                  Active = table.Column<string>(type: "bit", nullable: false),
              },
              constraints: table =>
              {
                  table.PrimaryKey("PK_State", x => x.StateCode);
-
              });
 
 
@@ -44,7 +43,7 @@ namespace PharmaProject.Server.Migrations
                     CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     UpdatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     CreatedBy = table.Column<string>(type: "varchar(400)", nullable: false),
-                    UpdatedBy = table.Column<string>(type: "varchar(400)", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "varchar(400)", nullable: true),
                     Active = table.Column<string>(type: "bit", nullable: false),
                 },
                 constraints: table =>
@@ -62,6 +61,12 @@ namespace PharmaProject.Server.Migrations
                 ('New Hampshire', 'NH'),('New Jersey', 'NJ'),('New Mexico', 'NM'),('New York', 'NY'),('North Carolina', 'NC'),('North Dakota', 'ND'),
                 ('Ohio', 'OH'),('Oklahoma', 'OK'),('Oregon', 'OR'),('Pennsylvania', 'PA'),('Rhode Island', 'RI'),('South Carolina', 'SC'),('South Dakota', 'SD'),
                 ('Tennessee', 'TN'),('Texas', 'TX'),('Utah', 'UT'),('Vermont', 'VT'),('Virginia', 'VA'),('Washington', 'WA'),('West Virginia', 'WV'),('Wisconsin', 'WI'),('Wyoming', 'WY');");
+
+            migrationBuilder.Sql(@"UPDATE State
+                     SET
+                       createdDate = SYSDATETIMEOFFSET(),
+                       createdBy = 'sydney.jeffriessGmail.com',
+                       active = 1;");
 
             migrationBuilder.Sql(
           @"
