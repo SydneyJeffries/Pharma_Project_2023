@@ -12,6 +12,7 @@ const initialState: ISharedState = {
     data: [],
     status: 'idle',
     error: '',
+    totalRowsForPagination: 0,
 };
 
 export const GetDeliveryList = createAsyncThunk<IDelivery[], { pageNumber: number, pageSize: number, pharmacyId?: number, warehouseId?: number }>(
@@ -21,8 +22,8 @@ export const GetDeliveryList = createAsyncThunk<IDelivery[], { pageNumber: numbe
         signal.addEventListener('abort', () => {
             source.cancel()
         })
-        const deliveryList :any = await DeliveryService.getDeliveryList(pageNumber, pageSize, pharmacyId, warehouseId);
-        return [...deliveryList.data];
+        const deliveryList: any = await DeliveryService.getDeliveryList(pageNumber, pageSize, pharmacyId, warehouseId);
+        return deliveryList;
     }
 );
 
@@ -54,8 +55,10 @@ export const DeliverySlice = createSlice({
             })
             .addCase(GetDeliveryList.fulfilled, (state, action) => {
                 state.status = 'succeeded'
-                state.data = action.payload;
+                state.data = action.payload.data.data;
                 state.error = '';
+                debugger;
+                state.totalRowsForPagination = action.payload.data.totalCount;
             })
             .addCase(GetDeliveryList.rejected, (state, action) => {
                 state.status = 'failed'
@@ -95,5 +98,6 @@ export const DeliverySlice = createSlice({
 export const getDeliveryData = (state: any) => state.delivery.data;
 export const getDeliveryStatus = (state: any) => state.delivery.status;
 export const getDeliveryError = (state: any) => state.delivery.error;
+export const getTotalRowsForPagination = (state: any) => state.delivery.totalRowsForPagination;
 
 export default DeliverySlice.reducer;

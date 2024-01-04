@@ -137,7 +137,7 @@ const Home = () => {
             }
         },
         {
-            field: "updatedDate", headerName: "Updated Date", editable: false, hideable: true, width: 140, type: "date", headerAlign: "center", align: "center",
+            field: "updatedDate", headerName: "Updated Date", editable: false, hideable: true, width: 150, type: "date", headerAlign: "center", align: "center",
             valueGetter: (params: any) => {
                 return params.row.updatedDate ? new Date(params.row.updatedDate) : null;
             }
@@ -145,9 +145,11 @@ const Home = () => {
         {
             field: 'actions',
             type: 'actions',
-            headerName: 'Actions',
-            width: 180,
+            headerName: 'Actions', 
+            width: 200,
             cellClassName: 'actions',
+            headerAlign: "left",
+            align: "left",
             getActions: ({ id }) => {
                 const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
                 if (isInEditMode) {
@@ -218,7 +220,7 @@ const Home = () => {
             )}
             {pharmacyStatus === 'loading' && <Loader></Loader>}
             {pharmacyList.length > 0 && (
-                <>
+                <div id="pharmacies">
                     <DataGrid
                         rows={pharmacyList}
                         columns={columns}
@@ -245,7 +247,7 @@ const Home = () => {
                                 onClose={handleCloseSnackbar} />
                         </Snackbar>
                     )}
-                </>
+                </div>
             )}
         </div>
     );

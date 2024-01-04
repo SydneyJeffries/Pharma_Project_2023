@@ -12,7 +12,7 @@ export const DeliveryService = {
     async getDeliveryList(pageNumber: number, pageSize: number, pharmacyId?: number, warehouseId?: number): Promise<IDelivery[]> {
         const getDeliveryListUrl = `/Delivery/${pageNumber}/${pageSize}/${pharmacyId ?? ''}/${warehouseId ?? ''}`;
         const response: AxiosResponse<IDelivery[]> = await axios.get(getDeliveryListUrl, requestConfig);
-        return response.data;
+        return response;
     },
 
     async saveDelivery(delivery: IDelivery): Promise<IDelivery> {

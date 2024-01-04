@@ -3,11 +3,10 @@
 import React, { useEffect } from 'react';
 import Loader from './Loader';
 import { useDispatch, useSelector } from 'react-redux';
-import { getDeliveryData, getDeliveryStatus, getDeliveryError, GetDeliveryList, SaveDelivery, DeleteDelivery } from '../slicers/DeliverySlice';
+import { getDeliveryData, getDeliveryStatus, getDeliveryError, GetDeliveryList, SaveDelivery, DeleteDelivery, getTotalRowsForPagination } from '../slicers/DeliverySlice';
 import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowModesModel, GridRowModes, GridEventListener, GridRowEditStopReasons, GridRowModel, GridPreProcessEditCellProps, ValueOptions, GridToolbarContainer, GridValueSetterParams } from '@mui/x-data-grid';
 import Snackbar from '@mui/material/Snackbar';
 import { Alert, AlertProps, Button } from '@mui/material';
-import UsePagination from "../UsePagination";
 import IWarehouse from "../Interfaces/IWarehouse";
 import useFetch from '../UseFetch';
 import { fetchPharmacyList } from '../slicers/PharmacySlice';
@@ -32,7 +31,7 @@ const Delivery = () => {
     const [rows, setRows] = React.useState(deliveryList);
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
     const validationErrorsRef = React.useRef<{ [key: string]: { [key: string]: boolean } }>({});
-    const { paginationModel, handlePaginationModelChange } = UsePagination({ page: 0, pageSize: 15 });
+    const [paginationModel, setPaginationModel] = React.useState({  page: 0,   pageSize: 7 });
     const warehouseFetchUrl = '/Warehouse';
     const { data: drugData } = useFetch<IDrug[]>('/Lookup/GetDrugList');
     const { data: warehouseData } = useFetch<IWarehouse[]>(warehouseFetchUrl);
@@ -42,6 +41,7 @@ const Delivery = () => {
     const [drugKeys, setDrugKeys] = React.useState<ValueOptions[]>([]);
     const [selectedPharma, setSlectedPharmal] = React.useState<number>(pharmacyId);
     const [selectedWarehouse, setSelectedWarehouse] = React.useState<number>(0);
+    const totalRowsForPagination = useSelector(getTotalRowsForPagination);
 
     useEffect(() => {
         setRows([...deliveryList]);
@@ -87,10 +87,10 @@ const Delivery = () => {
     }, [])
 
     useEffect(() => {
-        dispatch(GetDeliveryList({ pageNumber: 0, pageSize: 8, pharmacyId: selectedPharma, warehouseId: selectedWarehouse }));
+        dispatch(GetDeliveryList({ pageNumber: paginationModel.page, pageSize: paginationModel.pageSize, pharmacyId: selectedPharma, warehouseId: selectedWarehouse }));
         console.log(deliveryList);
-       
-    }, [selectedPharma, selectedWarehouse]);
+
+    }, [selectedPharma, selectedWarehouse, paginationModel]);
 
     const handleEdit = handleEditClick(rowModesModel, setRowModesModel, GridRowModes);
 
@@ -147,7 +147,7 @@ const Delivery = () => {
             },
         },
         {
-            field: "pharmacyId", headerName: "Pharmacy", editable: true,  width: 220, type: "singleSelect", valueOptions: [...pharmacyKeys], filterable: false,
+            field: "pharmacyId", headerName: "Pharmacy", editable: true, width: 220, type: "singleSelect", valueOptions: [...pharmacyKeys], filterable: false, sortable: false,
             getOptionLabel: (value: any) => {
                 return value?.label;
             },
@@ -320,7 +320,7 @@ const Delivery = () => {
             const id = 0;
             const hasRowWithIdZero = rows.some((row: any) => row.id === id);
             if (!hasRowWithIdZero) {
-                setRows((oldRows: any) => [{ deliveryId: id, warehouseId: 0, pharmacyId: 0, drugId: 0, unitCount: 0, unitPrice: 0, totalPrice: 0, deliveryDate: new Date().toISOString(), active: true, id: id, updatedDate: null, createdDate: new Date().toISOString(), createdBy: "Sydney.Jeffriess@gmail.com", updatededBy: null, pharmacy: {}, warehouse: {}, isNew: true }, ...oldRows]);
+                setRows((oldRows: any) => [{ deliveryId: id, warehouseId: 0, pharmacyId: 0, drugId: 0, unitCount: 0, unitPrice: 0, totalPrice: 0, deliveryDate: new Date().toISOString(), active: true, id: id, updatedDate: null, createdDate: new Date().toISOString(), createdBy: "", updatededBy: null, pharmacy: {}, warehouse: {}, isNew: true }, ...oldRows]);
                 setRowModesModel((oldModel: any) => ({
                     ...oldModel,
                     [id]: { mode: GridRowModes.Edit, fieldToFocus: 'warehouseId' },
@@ -371,7 +371,7 @@ const Delivery = () => {
             )}
             {deliveryStatus === 'loading' && <Loader></Loader>}
             {deliveryList.length > 0 && (
-                <>
+                <div id="deliveries">
                     <div className="row mb-2">
                         <div className="col-md-3 col-6">
                             <OptionsDDL valueKeys={pharmacyKeys} setValue={setSlectedPharmal} title={"Pharmacy"} selectedValue={selectedPharma} />
@@ -387,11 +387,13 @@ const Delivery = () => {
                         getRowId={(row) => row.deliveryId}
                         processRowUpdate={(updatedRow) => processRowUpdate(updatedRow)}
                         paginationModel={paginationModel}     
-                        onPaginationModelChange={handlePaginationModelChange}
+                        onPaginationModelChange={setPaginationModel}
                         disableColumnMenu={true}
                         editMode="row"
                         rowModesModel={rowModesModel}
                         onRowEditStop={handleRowEditStop}
+                        paginationMode="server"
+                        rowCount={totalRowsForPagination}
                         onProcessRowUpdateError={handleProcessRowUpdateError}
                         slots={{
                             toolbar: EditToolbar,
@@ -410,7 +412,7 @@ const Delivery = () => {
                                 onClose={handleCloseSnackbar} />
                         </Snackbar>
                     )}
-                </>
+                </div>
             )}
         </div>
     );
