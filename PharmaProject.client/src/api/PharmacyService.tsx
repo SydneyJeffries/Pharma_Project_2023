@@ -5,8 +5,6 @@ const requestConfig: AxiosRequestConfig = {
      baseURL: import.meta.env.VITE_BASE_URL
 }
 
-//const getPharmacyByIdUrl = orgin + '/Pharmacy/'
-
 export const pharmacyService = {
 
     async getPharmacyList(): Promise<IPharmacy[]> {
@@ -14,6 +12,12 @@ export const pharmacyService = {
         const response: AxiosResponse<IPharmacy[]> = await axios.get(getPharmacyListUrl, requestConfig);
         return response.data;
     },
+
+    //async GetPharmacy(id: number): Promise<IPharmacy[]> {
+    //    const getPharmacyUrl= `/Pharmacy/${id}`;
+    //    const response: AxiosResponse<IPharmacy[]> = await axios.get(getPharmacyUrl, requestConfig);
+    //    return response.data;
+    //},
 
     async savePharmacy(pharmacy: IPharmacy): Promise<IPharmacy> {
         const savePharmacyUrl = '/Pharmacy/';

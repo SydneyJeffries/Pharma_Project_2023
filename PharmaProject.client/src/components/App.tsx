@@ -10,7 +10,7 @@ function App() {
         <div className="app  ">
             <Router>
                 <Header />
-                <div className="container-xxl ">
+                <div className="container-xxl  ">
                     <Switch>
                         <Route exact path="/">
                             <Home />
