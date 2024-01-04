@@ -16,6 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{BE
 		..\..\..\Desktop\CreateAndInsertIntoTables.sql = ..\..\..\Desktop\CreateAndInsertIntoTables.sql
 		..\..\..\Desktop\procGetDeliveryDetails.sql = ..\..\..\Desktop\procGetDeliveryDetails.sql
 		..\..\..\Desktop\procGetMostDemandedDrug.sql = ..\..\..\Desktop\procGetMostDemandedDrug.sql
+		..\..\..\Desktop\procGetPharmacistSalesData.sql = ..\..\..\Desktop\procGetPharmacistSalesData.sql
 		..\..\..\Desktop\procGetWarehouseProfit.sql = ..\..\..\Desktop\procGetWarehouseProfit.sql
 	EndProjectSection
 EndProject
