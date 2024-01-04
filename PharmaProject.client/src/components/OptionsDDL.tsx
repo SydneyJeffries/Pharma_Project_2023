@@ -33,7 +33,7 @@ const OptionsDDL: React.FC<OptionsDDL> = ({ valueKeys, setValue, title, selected
                     onChange={handleChange}
                 >
                     <MenuItem key={"All"} value={0}>
-                        All {title}s
+                        All {title == "Pharmacy" ? "Pharmacies" : title}
                     </MenuItem>
                     {valueKeys.map((keys: ValueOptions) => (
                         <MenuItem key={keys.value} value={keys.value}>

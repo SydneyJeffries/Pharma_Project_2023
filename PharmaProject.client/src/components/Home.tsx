@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import Loader from './Loader';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPharmacyData, getPharmacyStatus, getPharmacyError, fetchPharmacyList, savePharmacy } from '../slicers/PharmacySlice';
+import { getPharmacyData, getPharmacyStatus, getPharmacyError, fetchPharmacyList, savePharmacy, getPharmacySingleData, getPharmacy } from '../slicers/PharmacySlice';
 import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowModesModel, GridRowModes, GridEventListener, GridRowEditStopReasons, GridRowModel, GridPreProcessEditCellProps } from '@mui/x-data-grid';
 import IPharmacy from '../Interfaces/IPharmacy';
 import SaveIcon from '@mui/icons-material/Save';
@@ -15,6 +15,7 @@ import IState from '../Interfaces/IState';
 import { handleEditClick, handleSaveClick, handleCancelClick } from '../GridUtilties';
 import { Link } from "react-router-dom";
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import PharmacyCard from './PharmacyCard';
 
 
 const Home = () => {
@@ -28,10 +29,13 @@ const Home = () => {
     const stateFetchUrl = '/Lookup/GetStateList';
     const { data: statesData } = useFetch<IState[]>(stateFetchUrl);
     const [stateKeys, setStateKeys] = React.useState<string[]>([]);
+    const selectedPharmacy = useSelector(getPharmacySingleData);
+    const [isPharmacySelected, setIsPharmacySelected] = React.useState<boolean>(false);
 
     useEffect(() => {
         setRows(pharmacyList);
     }, [pharmacyList]);
+
 
     useEffect(() => {
         if (statesData) {
@@ -43,7 +47,6 @@ const Home = () => {
 
     useEffect(() => {
         dispatch(fetchPharmacyList());
-        console.log(pharmacyList);
     }, []);
 
     useEffect(() => {
@@ -53,6 +56,11 @@ const Home = () => {
             deliveryNavElement.classList.remove("active-link");
         }
     }, [])
+
+    function onClickView(pharmacyId: number) {
+        dispatch(getPharmacy(pharmacyId));
+        setIsPharmacySelected(true)
+    }
 
     const handleEdit = handleEditClick(rowModesModel, setRowModesModel, GridRowModes);
 
@@ -65,7 +73,7 @@ const Home = () => {
 
     const columns: GridColDef[] = [
         {
-            field: "name", headerName: "Name", editable: true, hideable: true, width: 200,
+            field: "name", headerName: "Name", editable: true, hideable: true, width: 220,
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
                 const hasError = params.props.value.length == 0;
                 validationErrorsRef.current[params.id] = {
@@ -87,7 +95,7 @@ const Home = () => {
             },
         },
         {
-            field: "city", headerName: "City", editable: true, hideable: true, width: 100,
+            field: "city", headerName: "City", editable: true, hideable: true, width: 120,
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
                 const hasError = params.props.value.length == 0;
                 validationErrorsRef.current[params.id] = {
@@ -98,7 +106,7 @@ const Home = () => {
             },
         },
         {
-            field: "stateCode", headerName: "State", editable: true, hideable: true, width: 100, headerAlign: "center", align: "center", type: "singleSelect", valueOptions: [...stateKeys],
+            field: "stateCode", headerName: "State", editable: true, hideable: true, width: 110, headerAlign: "center", align: "center", type: "singleSelect", valueOptions: [...stateKeys],
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
                 const hasError = params.props.value.length == 0;
                 validationErrorsRef.current[params.id] = {
@@ -109,7 +117,7 @@ const Home = () => {
             },
         },
         {
-            field: "zip", headerName: "Zip Code", editable: true, hideable: true, width: 90, headerAlign: "center", align: "center",
+            field: "zip", headerName: "Zip Code", editable: true, hideable: true, width: 100, headerAlign: "center", align: "center",
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
                 const hasError = params.props.value.length != 5;
                 validationErrorsRef.current[params.id] = {
@@ -131,13 +139,13 @@ const Home = () => {
             },
         },
         {
-            field: "createdDateTest", headerName: "Created Date", editable: false, hideable: true, width: 160, type: "date", headerAlign: "center", align: "center",
+            field: "createdDateTest", headerName: "Created Date", editable: false, hideable: true, width: 130, type: "date", headerAlign: "center", align: "center",
             valueGetter: (params: any) => {
                 return new Date(params.row.createdDate)
             }
         },
         {
-            field: "updatedDate", headerName: "Updated Date", editable: false, hideable: true, width: 150, type: "date", headerAlign: "center", align: "center",
+            field: "updatedDate", headerName: "Updated Date", editable: false, hideable: true, width: 140, type: "date", headerAlign: "center", align: "center",
             valueGetter: (params: any) => {
                 return params.row.updatedDate ? new Date(params.row.updatedDate) : null;
             }
@@ -146,10 +154,10 @@ const Home = () => {
             field: 'actions',
             type: 'actions',
             headerName: 'Actions', 
-            width: 200,
+            width: 150,
             cellClassName: 'actions',
-            headerAlign: "left",
-            align: "left",
+            headerAlign: "center",
+            align: "right",
             getActions: ({ id }) => {
                 const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
                 if (isInEditMode) {
@@ -183,6 +191,7 @@ const Home = () => {
                         <Link to={`/delivey/${id}`} className="text-black" >
                             <LocalShippingIcon/>
                         </Link>
+                        &nbsp; <span className="underline link" onClick={() => onClickView(id)}> View </span>
                     </>
                 ];
             },
@@ -213,14 +222,16 @@ const Home = () => {
     const handleCloseSnackbar = () => setSnackbar(null);
 
     return (
-        <div className="flex-col" >
+        <div className="flex-col " >
 
             {pharmacyError === 'loading' && (
                 <div className="text-danger text-center">Error loading the page.</div>
             )}
             {pharmacyStatus === 'loading' && <Loader></Loader>}
+            {selectedPharmacy != null && isPharmacySelected == true && <PharmacyCard> </PharmacyCard>}
             {pharmacyList.length > 0 && (
-                <div id="pharmacies">
+                <div id="pharmacies" >
+  
                     <DataGrid
                         rows={pharmacyList}
                         columns={columns}
@@ -247,6 +258,7 @@ const Home = () => {
                                 onClose={handleCloseSnackbar} />
                         </Snackbar>
                     )}
+          
                 </div>
             )}
         </div>

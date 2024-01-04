@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PharmaProject.Objects", "Ph
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{BE27EA49-C7B1-4BAB-8B08-E814621D9AFD}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\..\Desktop\CreateAndInsertIntoTables.sql = ..\..\..\Desktop\CreateAndInsertIntoTables.sql
+		..\..\..\Desktop\SQL stuff\CreateAndInsertIntoTables.sql = ..\..\..\Desktop\SQL stuff\CreateAndInsertIntoTables.sql
 		..\..\..\Desktop\procGetDeliveryDetails.sql = ..\..\..\Desktop\procGetDeliveryDetails.sql
 		..\..\..\Desktop\procGetMostDemandedDrug.sql = ..\..\..\Desktop\procGetMostDemandedDrug.sql
 		..\..\..\Desktop\procGetPharmacistSalesData.sql = ..\..\..\Desktop\procGetPharmacistSalesData.sql

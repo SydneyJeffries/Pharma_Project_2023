@@ -271,8 +271,10 @@ const Delivery = () => {
             field: 'actions',
             type: 'actions',
             headerName: 'Actions',
-            width: 130,
+            width: 150,
             cellClassName: 'actions',
+            align: "right",
+            headerAlign: "right",
             getActions: ({ id }) => {
                 const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
                 if (isInEditMode) {

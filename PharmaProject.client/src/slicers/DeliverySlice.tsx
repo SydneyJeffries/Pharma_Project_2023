@@ -6,13 +6,14 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import ISharedState from '../Interfaces/ISharedState';
 import axios from 'axios'
 import IDelivery from "../Interfaces/IDelivery";
-import Delivery from "../components/Delivery";
+
 
 const initialState: ISharedState = {
     data: [],
     status: 'idle',
     error: '',
     totalRowsForPagination: 0,
+    singleData: null,
 };
 
 export const GetDeliveryList = createAsyncThunk<IDelivery[], { pageNumber: number, pageSize: number, pharmacyId?: number, warehouseId?: number }>(
@@ -57,7 +58,6 @@ export const DeliverySlice = createSlice({
                 state.status = 'succeeded'
                 state.data = action.payload.data.data;
                 state.error = '';
-                debugger;
                 state.totalRowsForPagination = action.payload.data.totalCount;
             })
             .addCase(GetDeliveryList.rejected, (state, action) => {
