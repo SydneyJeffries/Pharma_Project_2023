@@ -6,7 +6,7 @@ namespace PharmaProject.Services.Interfaces
 {
     public interface IWarehouseService
     {
-        Task<List<Warehouse>> GetWarehouseList();
+        Task<List<Warehouse>> GetWarehouseListAsync();
 
     }
 }

@@ -6,8 +6,8 @@ namespace PharmaProject.Services.Interfaces
 {
     public interface ILookupService
     {
-        Task<List<Drug>> GetDrugList();
-        Task<List<State>> GetStateList();
+        Task<List<Drug>> GetDrugListAsync();
+        Task<List<State>> GetStateListAsync();
 
     }
 }

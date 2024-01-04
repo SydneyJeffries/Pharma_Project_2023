@@ -32,7 +32,7 @@ namespace PharmaProject.Services
             };
         }
 
-        public async Task<List<State>> GetStateList()
+        public async Task<List<State>> GetStateListAsync()
         {
             if (_cache.TryGetValue("GetStateList", out List<State> data))
             {
@@ -47,7 +47,7 @@ namespace PharmaProject.Services
 
         }
 
-        public async Task<List<Drug>> GetDrugList()
+        public async Task<List<Drug>> GetDrugListAsync()
         {
             if (_cache.TryGetValue("GetDrugsList", out List<Drug> data))
             {

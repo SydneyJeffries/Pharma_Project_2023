@@ -29,7 +29,7 @@ namespace PharmaProject.Services
             };
         }
 
-        public async Task<List<Warehouse>> GetWarehouseList()
+        public async Task<List<Warehouse>> GetWarehouseListAsync()
         {
             if (_cache.TryGetValue("GetWarehouseList", out List<Warehouse> data))
             {

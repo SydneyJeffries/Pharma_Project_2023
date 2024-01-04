@@ -5,9 +5,9 @@ namespace PharmaProject.Services.Interfaces
 {
     public interface IPharmacyService
     {
-        Task<Pharmacy?> GetPharmacyById(int id);
-        Task<List<Pharmacy>> GetPharmacyList();
-        Task<Pharmacy> SavePharmacy(Pharmacy pharmacy);
+        Task<Pharmacy?> GetPharmacyByIdAsync(int id);
+        Task<List<Pharmacy>> GetPharmacyListAsync();
+        Task<Pharmacy> SavePharmacyAsync(Pharmacy pharmacy);
 
     }
 }

@@ -6,10 +6,10 @@ namespace PharmaProject.Services.Interfaces
 {
     public interface IDeliveryService
     {
-        Task<IPagedResult<Delivery>> GetPagedDeliveryList(int pageNumber, int pageSize, int pharmacyId, int warehouseId);
+        Task<IPagedResult<Delivery>> GetPagedDeliveryListAsync(int pageNumber, int pageSize, int pharmacyId, int warehouseId);
         //Task<List<Delivery>> GetDeliveryListByPharmacyId(int pharmacyId);
         //Task<List<Delivery>> GetDeliveryListByWarehouseId(int warehouseId);
-        Task<Delivery> SaveDelivery(Delivery Delivery);
-        Task<Delivery> DeleteDelivery(Delivery Delivery);
+        Task<Delivery> SaveDeliveryAsync(Delivery Delivery);
+        Task<Delivery> DeleteDeliveryAsync(Delivery Delivery);
     }
 }

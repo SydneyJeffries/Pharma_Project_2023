@@ -20,8 +20,11 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import OptionsDDL from './optionsDDL';
+import {useParams } from 'react-router-dom'
 
 const Delivery = () => {
+
+    const { pharmacyId  } = useParams();
     const dispatch = useDispatch();
     const deliveryList = useSelector(getDeliveryData);
     const deliveryStatus = useSelector(getDeliveryStatus);
@@ -37,7 +40,7 @@ const Delivery = () => {
     const [warehouseKeys, setWarehouseKeys] = React.useState<ValueOptions[]>([]);
     const [pharmacyKeys, setPharmacyKeys] = React.useState<ValueOptions[]>([]);
     const [drugKeys, setDrugKeys] = React.useState<ValueOptions[]>([]);
-    const [selectedPharma, setSlectedPharmal] = React.useState<number>(0);
+    const [selectedPharma, setSlectedPharmal] = React.useState<number>(pharmacyId);
     const [selectedWarehouse, setSelectedWarehouse] = React.useState<number>(0);
 
     useEffect(() => {
@@ -74,6 +77,14 @@ const Delivery = () => {
             console.log("pharmacyKeys", dropdownOptionsPharma)
         }
     }, [pharmacyData])
+
+    useEffect(() => {
+        // navbar active class doesn't update when you use parameters
+        const deliveryNavElement = document.getElementById("deliveryNav");
+        if (deliveryNavElement) {
+            deliveryNavElement.classList.add("active-link");
+        }
+    }, [])
 
     useEffect(() => {
         dispatch(GetDeliveryList({ pageNumber: 0, pageSize: 8, pharmacyId: selectedPharma, warehouseId: selectedWarehouse }));

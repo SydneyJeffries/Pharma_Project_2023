@@ -26,7 +26,7 @@ namespace PharmaProject.Server.Controllers
         {
             try
             {
-                List<Pharmacy> results = await _pharmacyService.GetPharmacyList();
+                List<Pharmacy> results = await _pharmacyService.GetPharmacyListAsync();
 
                 return  Ok(results);
             }
@@ -46,7 +46,7 @@ namespace PharmaProject.Server.Controllers
         {
             try
             {
-                Pharmacy? result = await _pharmacyService.GetPharmacyById(pharmacyId);
+                Pharmacy? result = await _pharmacyService.GetPharmacyByIdAsync(pharmacyId);
                 return result == null ? NotFound() : Ok(result);
             }
             catch(Exception ex)
@@ -64,7 +64,7 @@ namespace PharmaProject.Server.Controllers
         {
             try
             {
-                Pharmacy result = await _pharmacyService.SavePharmacy(pharmacy);
+                Pharmacy result = await _pharmacyService.SavePharmacyAsync(pharmacy);
 
                 return Ok(result);
             }

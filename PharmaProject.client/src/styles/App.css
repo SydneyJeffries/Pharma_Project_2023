@@ -16,7 +16,7 @@ html {
 
 a {
     font-weight: 500;
-    color: #646cff;
+    color: #1976d2;
     text-decoration: inherit;
 }
 
@@ -211,4 +211,8 @@ footer {
 
 .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
     background-color: white;
+}
+
+.text-black{
+    color: #000000;
 }

@@ -27,7 +27,7 @@ namespace PharmaProject.Server.Controllers
         {
             try
             {
-                List<Warehouse> warehouses  = await _warehouseService.GetWarehouseList();
+                List<Warehouse> warehouses  = await _warehouseService.GetWarehouseListAsync();
 
                 return  Ok(warehouses);
             }
