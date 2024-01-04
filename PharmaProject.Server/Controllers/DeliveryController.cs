@@ -27,8 +27,7 @@ namespace PharmaProject.Server.Controllers
         {
             try
             {
-                
-
+               
                 IPagedResult<Delivery> deliveries = await _deliveryService.GetPagedDeliveryListAsync(pageNumber, pageSize, pharmacyId, warehouseId);
 
                 return  Ok(deliveries);
