@@ -11,6 +11,7 @@ const initialState: ISharedState = {
     data: [],
     status: 'idle',
     error: '',
+    totalRowsForPagination: 0,
 };
 
 export const fetchPharmacyList = createAsyncThunk<IPharmacy[]>('pharmacy/fetchList', async (_, { signal }) => {

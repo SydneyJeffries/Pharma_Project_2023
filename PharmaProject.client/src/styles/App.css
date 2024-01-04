@@ -20,9 +20,9 @@ a {
     text-decoration: inherit;
 }
 
-a:hover {
-    color: #2c4bb3;
-}
+    a:hover {
+        color: #2c4bb3;
+    }
 
 h1 {
     font-size: 3.2em;
@@ -41,14 +41,14 @@ button {
     transition: border-color 0.25s;
 }
 
-button:hover {
-    border-color: #646cff;
-}
+    button:hover {
+        border-color: #646cff;
+    }
 
-button:focus,
-button:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
-}
+    button:focus,
+    button:focus-visible {
+        outline: 4px auto -webkit-focus-ring-color;
+    }
 
 @media (prefers-color-scheme: light) {
     :root {
@@ -100,9 +100,9 @@ table.cols-lg td, table.cols-lg th {
     min-width: 230px
 }
 
-table.cols-lg td.cols-sm, table.cols-lg th.cols-sm {
-    min-width: 90px;
-}
+    table.cols-lg td.cols-sm, table.cols-lg th.cols-sm {
+        min-width: 90px;
+    }
 
 table tr:last-of-type:not(thead tr:last-of-type) {
     border-color: white;
@@ -153,9 +153,9 @@ table tr:last-of-type:not(thead tr:last-of-type) {
     color: #4da846;
 }
 
-.text-green:hover {
-    color: #4da846;
-}
+    .text-green:hover {
+        color: #4da846;
+    }
 
 .underline {
     text-decoration: underline
@@ -213,6 +213,10 @@ footer {
     background-color: white;
 }
 
-.text-black{
+.text-black {
     color: #000000;
+}
+
+#deliveries .MuiDataGrid-root {
+    height: 520px;
 }
