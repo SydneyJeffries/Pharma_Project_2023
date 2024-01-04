@@ -29,7 +29,7 @@ namespace PharmaProject.Services
             };
         }
 
-        public async Task<List<Pharmacy>> GetPharmacyList()
+        public async Task<List<Pharmacy>> GetPharmacyListAsync()
         {
             if (_cache.TryGetValue("GetPharmacyList", out List<Pharmacy> data))
             {
@@ -43,12 +43,12 @@ namespace PharmaProject.Services
             return data;
         }
 
-        public async Task<Pharmacy?> GetPharmacyById(int pharmacyId)
+        public async Task<Pharmacy?> GetPharmacyByIdAsync(int pharmacyId)
         {
             return await _dbContext.Pharmacy.FirstOrDefaultAsync(x => x.PharmacyId == pharmacyId);
         }
 
-        public async Task<Pharmacy> SavePharmacy(Pharmacy pharmacy)
+        public async Task<Pharmacy> SavePharmacyAsync(Pharmacy pharmacy)
         {
             pharmacy.UpdatedDate = DateTimeOffset.Now;
             _dbContext.Update(pharmacy);

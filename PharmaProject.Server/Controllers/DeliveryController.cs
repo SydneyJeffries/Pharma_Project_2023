@@ -27,9 +27,9 @@ namespace PharmaProject.Server.Controllers
         {
             try
             {
-                //for some reason I can't pass a null or have defaulted null values and still get this function to go off. it say's it's required anyways? open for suggestions
+                
 
-                IPagedResult<Delivery> deliveries = await _deliveryService.GetPagedDeliveryList(pageNumber, pageSize, pharmacyId, warehouseId);
+                IPagedResult<Delivery> deliveries = await _deliveryService.GetPagedDeliveryListAsync(pageNumber, pageSize, pharmacyId, warehouseId);
 
                 return  Ok(deliveries);
             }
@@ -48,7 +48,7 @@ namespace PharmaProject.Server.Controllers
         {
             try
             {
-                Delivery result = await _deliveryService.SaveDelivery(delivery);
+                Delivery result = await _deliveryService.SaveDeliveryAsync(delivery);
 
                 return Ok(result);
             }
@@ -69,7 +69,7 @@ namespace PharmaProject.Server.Controllers
         {
             try
             {
-                Delivery result = await _deliveryService.DeleteDelivery(delivery);
+                Delivery result = await _deliveryService.DeleteDeliveryAsync(delivery);
 
                 return Ok(result);
             }

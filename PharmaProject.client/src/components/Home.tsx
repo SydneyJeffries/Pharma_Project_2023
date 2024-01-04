@@ -13,6 +13,9 @@ import { Alert, AlertProps } from '@mui/material';
 import useFetch from '../UseFetch';
 import IState from '../Interfaces/IState';
 import { handleEditClick, handleSaveClick, handleCancelClick } from '../GridUtilties';
+import { Link } from "react-router-dom";
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -32,7 +35,7 @@ const Home = () => {
 
     useEffect(() => {
         if (statesData) {
-            const stateCodes = statesData.map(item  => item.stateCode);
+            const stateCodes = statesData.map(item => item.stateCode);
             setStateKeys([...stateCodes]);
         }
 
@@ -43,6 +46,14 @@ const Home = () => {
         console.log(pharmacyList);
     }, []);
 
+    useEffect(() => {
+        // remove active class from delivery tab
+        const deliveryNavElement = document.getElementById("deliveryNav");
+        if (deliveryNavElement) {
+            deliveryNavElement.classList.remove("active-link");
+        }
+    }, [])
+
     const handleEdit = handleEditClick(rowModesModel, setRowModesModel, GridRowModes);
 
     const handleSave = handleSaveClick(rowModesModel, setRowModesModel, validationErrorsRef);
@@ -50,7 +61,7 @@ const Home = () => {
     const handleCancel = handleCancelClick(rowModesModel, setRowModesModel, rows, setRows);
 
     /*    renderHeader: () => (<strong>{'Pharmacist'}</strong>), width: 75, flex: 1}*/
-    const [snackbar, setSnackbar] = React.useState<Pick<AlertProps,  'children' | 'severity'> | null>(null);
+    const [snackbar, setSnackbar] = React.useState<Pick<AlertProps, 'children' | 'severity'> | null>(null);
 
     const columns: GridColDef[] = [
         {
@@ -98,7 +109,7 @@ const Home = () => {
             },
         },
         {
-            field: "zip", headerName: "Zip Code", editable: true, hideable: true, width: 100, headerAlign: "center", align: "center",
+            field: "zip", headerName: "Zip Code", editable: true, hideable: true, width: 90, headerAlign: "center", align: "center",
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
                 const hasError = params.props.value.length != 5;
                 validationErrorsRef.current[params.id] = {
@@ -109,7 +120,7 @@ const Home = () => {
             },
         },
         {
-            field: "filledPerscriptions", headerName: "Prescriptions Filled", editable: true, hideable: true, width: 200, type: "number", headerAlign: "center", align: "center",
+            field: "filledPerscriptions", headerName: "Prescriptions Filled", editable: true, hideable: true, width: 170, type: "number", headerAlign: "center", align: "center",
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
                 const hasError = params.props.value < 0 || params.props.value == null;
                 validationErrorsRef.current[params.id] = {
@@ -120,13 +131,13 @@ const Home = () => {
             },
         },
         {
-            field: "createdDateTest", headerName: "Created Date", editable: false, hideable: true, width: 170, type: "date", headerAlign: "center", align: "center",
+            field: "createdDateTest", headerName: "Created Date", editable: false, hideable: true, width: 160, type: "date", headerAlign: "center", align: "center",
             valueGetter: (params: any) => {
                 return new Date(params.row.createdDate)
             }
         },
         {
-            field: "updatedDate", headerName: "Updated Date", editable: false, hideable: true, width: 170, type: "date", headerAlign: "center", align: "center",
+            field: "updatedDate", headerName: "Updated Date", editable: false, hideable: true, width: 140, type: "date", headerAlign: "center", align: "center",
             valueGetter: (params: any) => {
                 return params.row.updatedDate ? new Date(params.row.updatedDate) : null;
             }
@@ -135,7 +146,7 @@ const Home = () => {
             field: 'actions',
             type: 'actions',
             headerName: 'Actions',
-            width: 100,
+            width: 180,
             cellClassName: 'actions',
             getActions: ({ id }) => {
                 const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
@@ -147,25 +158,30 @@ const Home = () => {
                             sx={{
                                 color: 'primary.main',
                             }}
-                            onClick={()=> handleSave(id)}
+                            onClick={() => handleSave(id)}
                         />,
                         <GridActionsCellItem
                             icon={<CancelIcon />}
                             label="Cancel"
                             className="textPrimary"
-                            onClick={()=> handleCancel(id)}
+                            onClick={() => handleCancel(id)}
                             color="inherit"
                         />,
                     ];
                 }
                 return [
-                    <GridActionsCellItem
-                        icon={<EditIcon />}
-                        label="Edit"
-                        className="textPrimary"
-                        onClick={() => handleEdit(id)}
-                        color="inherit"
-                    />
+                    <>
+                        <GridActionsCellItem
+                            icon={<EditIcon />}
+                            label="Edit"
+                            className="textPrimary"
+                            onClick={() => handleEdit(id)}
+                            color="inherit"
+                        />
+                        <Link to={`/delivey/${id}`} className="text-black" >
+                            <LocalShippingIcon/>
+                        </Link>
+                    </>
                 ];
             },
         },

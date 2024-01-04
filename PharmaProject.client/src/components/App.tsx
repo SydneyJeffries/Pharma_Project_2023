@@ -15,7 +15,7 @@ function App() {
                         <Route exact path="/">
                             <Home />
                         </Route>
-                        <Route exact path="/delivey">
+                        <Route exact path="/delivey/:pharmacyId">
                             <Delivery />
                         </Route>
                     </Switch>

@@ -16,7 +16,7 @@ function Header() {
                         <NavLink to={`/`} exact className="nav-item " activeClassName="active-link">
                             <span className="nav-link link-primary">Pharmacies</span>
                         </NavLink>
-                        <NavLink to={`/delivey`} className="nav-item" activeClassName="active-link">
+                        <NavLink to={`/delivey/0`} className="nav-item" activeClassName="active-link" id="deliveryNav" >
                             <span className="nav-link link-primary">Deliveries</span>
                         </NavLink>
                     </div>

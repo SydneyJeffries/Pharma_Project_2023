@@ -28,7 +28,7 @@ namespace PharmaProject.Server.Controllers
         {
             try
             {
-                List<State> results = await _LookupService.GetStateList();
+                List<State> results = await _LookupService.GetStateListAsync();
 
                 return Ok(results);
             }
@@ -48,7 +48,7 @@ namespace PharmaProject.Server.Controllers
         {
             try
             {
-                List<Drug> results = await _LookupService.GetDrugList();
+                List<Drug> results = await _LookupService.GetDrugListAsync();
 
                 return Ok(results);
             }
