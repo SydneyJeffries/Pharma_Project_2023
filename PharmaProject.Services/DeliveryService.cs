@@ -27,34 +27,39 @@ namespace PharmaProject.Services
 
             var startRow = pageNumber * pageSize;
 
-            IQueryable<Delivery> query = _dbContext.Delivery;
 
-            query = query.OrderByDescending(x => x.DeliveryDate);
+            var query = from delivery in _dbContext.Delivery
+                        join pharmacy in _dbContext.Pharmacy on delivery.PharmacyId equals pharmacy.PharmacyId into p
+                        from pharmacy in p
+                        join warehouse in _dbContext.Warehouse on delivery.WarehouseId equals warehouse.WarehouseId into w
+                        from warehouse in w
+                        where (warehouseId == 0 || delivery.WarehouseId == warehouseId) &&
+                              (pharmacyId == 0 || delivery.PharmacyId == pharmacyId) &&
+                              delivery.Active
+                        orderby delivery.DeliveryDate descending
+                        select new Delivery
+                        {
+                            DeliveryId = delivery.DeliveryId,
+                            DeliveryDate = delivery.DeliveryDate,
+                            WarehouseId = delivery.WarehouseId,
+                            PharmacyId = delivery.PharmacyId,
+                            DrugId = delivery.DrugId,
+                            UnitCount = delivery.UnitCount,
+                            UnitPrice = delivery.UnitPrice,
+                            TotalPrice = delivery.TotalPrice,
+                            Active = delivery.Active,
+                            UpdatedDate = delivery.UpdatedDate,
+                            CreatedDate = delivery.CreatedDate,
+                            CreatedBy = delivery.CreatedBy,
+                            UpdatedBy = delivery.UpdatedBy,
+                            WarehouseName = warehouse.Name,
+                            PharmacyName = pharmacy.Name,
+                        };
 
-
-            // if warehouse id is provided filter by warehouse
-            if (warehouseId > 0)
-            {
-                // search by warehouseid
-                query = query.Where(d => d.WarehouseId == warehouseId);
-            }
-
-            // if pharmacyid is provided filter by pharmacy
-            if (pharmacyId > 0)
-            {
-                // search by pharmacyid
-                query = query.Where(d => d.PharmacyId == pharmacyId);
-            }
-
-            // show active only
-            query = query.Where(x => x.Active == true);
-
-
-            var entities = query
-               .AsNoTracking()
-               .Skip(startRow)
-               .Take(pageSize)
-               .ToList();
+            var entities = await query
+                .Skip(startRow)
+                .Take(pageSize)
+                .ToListAsync();
 
             var totalCount = await query.CountAsync();
 

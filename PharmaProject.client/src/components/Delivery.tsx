@@ -123,12 +123,7 @@ const Delivery = () => {
                 return value;
             },
             renderCell: (option) => {
-                const foundWarehouse: ValueOptions | undefined = warehouseKeys.find((x: any) => x.value == option.row.warehouseId);
-                if (foundWarehouse) {
-                    return <span>{foundWarehouse?.label}</span>;
-                } else {
-                    return <span> </span>;
-                }
+                return option.row.warehouseName ? option.row.warehouseName : warehouseKeys.find(x => x.value == option.row.warehouseId)?.label;
             },
             valueSetter: (params: GridValueSetterParams) => {
                 return { ...params.row, warehouseId: params.value };
@@ -162,12 +157,7 @@ const Delivery = () => {
                 return value;
             },
             renderCell: (option) => {
-                const foundPharma: ValueOptions | undefined = pharmacyKeys.find((x: any) => x.value == option.row.pharmacyId);
-                if (foundPharma) {
-                    return <span>{foundPharma?.label}</span>;
-                } else {
-                    return <span> </span>;
-                }
+                return option.row.pharmacyName ? option.row.PharmacyName : pharmacyKeys.find(x => x.value == option.row.pharmacyId)?.label;
             },
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
                 if (params.hasChanged == false) {
