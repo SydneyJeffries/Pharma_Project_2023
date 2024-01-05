@@ -18,12 +18,12 @@ import CancelIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
-import OptionsDDL from './optionsDDL';
-import {useParams } from 'react-router-dom'
+import OptionsDropDownList from './OptionsDropDownList';
+import { useParams } from 'react-router-dom'
 
 const Delivery = () => {
 
-    const { pharmacyId  } = useParams();
+    const { pharmacyId } = useParams();
     const dispatch = useDispatch();
     const deliveryList = useSelector(getDeliveryData);
     const deliveryStatus = useSelector(getDeliveryStatus);
@@ -31,7 +31,7 @@ const Delivery = () => {
     const [rows, setRows] = React.useState(deliveryList);
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
     const validationErrorsRef = React.useRef<{ [key: string]: { [key: string]: boolean } }>({});
-    const [paginationModel, setPaginationModel] = React.useState({  page: 0,   pageSize: 7 });
+    const [paginationModel, setPaginationModel] = React.useState({ page: 0, pageSize: 7 });
     const warehouseFetchUrl = '/Warehouse';
     const { data: drugData } = useFetch<IDrug[]>('/Lookup/GetDrugList');
     const { data: warehouseData } = useFetch<IWarehouse[]>(warehouseFetchUrl);
@@ -111,7 +111,7 @@ const Delivery = () => {
 
     const columns: GridColDef[] = [
         {
-            field: "wareHouseId", headerName: "Warehouse", editable: true,  width: 200, type: "singleSelect", valueOptions: [...warehouseKeys], sortable: false, filterable: false,
+            field: "wareHouseId", headerName: "Warehouse", editable: true, width: 200, type: "singleSelect", valueOptions: [...warehouseKeys], sortable: false, filterable: false,
             getOptionLabel: (value: any) => {
                 return value?.label;
             },
@@ -173,7 +173,7 @@ const Delivery = () => {
                 if (params.hasChanged == false) {
                     return { ...params.props, error: params.props.error };
                 }
-                const hasError =  params.props.value == 0;
+                const hasError = params.props.value == 0;
                 validationErrorsRef.current[params.id] = {
                     ...validationErrorsRef.current[params.id],
                     pharmacyId: hasError,
@@ -209,7 +209,7 @@ const Delivery = () => {
             },
         },
         {
-            field: "unitCount", headerName: "Unit Count", editable: true,  width: 120, type: "number", sortable: false, filterable: false, headerAlign: "center", align: "center",
+            field: "unitCount", headerName: "Unit Count", editable: true, width: 120, type: "number", sortable: false, filterable: false, headerAlign: "center", align: "center",
             valueSetter: (params) => {
                 return { ...params.row, unitCount: params.value };
             },
@@ -227,7 +227,7 @@ const Delivery = () => {
             },
         },
         {
-            field: "unitPrice", headerName: "Unit Price", editable: true,  width: 190, headerAlign: "center", align: "center", type: "number", sortable: false, filterable: false,
+            field: "unitPrice", headerName: "Unit Price", editable: true, width: 190, headerAlign: "center", align: "center", type: "number", sortable: false, filterable: false,
             valueFormatter: (params) => formatCurrency(params.value),
             valueSetter: (params) => {
                 return { ...params.row, unitPrice: params.value };
@@ -245,7 +245,7 @@ const Delivery = () => {
             },
         },
         {
-            field: "totalPrice", headerName: "Total Price", editable: false,  width: 150, headerAlign: "center", align: "center", type: "number", valueFormatter: (params) => formatCurrency(params.value), sortable: false, filterable: false,
+            field: "totalPrice", headerName: "Total Price", editable: false, width: 150, headerAlign: "center", align: "center", type: "number", valueFormatter: (params) => formatCurrency(params.value), sortable: false, filterable: false,
         },
         {
             field: "deliveryDate", headerName: "Delivery Date", editable: true, width: 170, type: "date", headerAlign: "center", align: "center", sortable: false, filterable: false,
@@ -367,55 +367,56 @@ const Delivery = () => {
     const handleCloseSnackbar = () => setSnackbar(null);
 
     return (
-        <div className="flex-col"  >
-            {deliveryError === 'loading' && (
-                <div className="text-danger text-center">Error loading the page.</div>
-            )}
-            {deliveryStatus === 'loading' && <Loader></Loader>}
-            {deliveryList.length > 0 && (
-                <div id="deliveries">
-                    <div className="row mb-2">
-                        <div className="col-md-3 col-6">
-                            <OptionsDDL valueKeys={pharmacyKeys} setValue={setSlectedPharmal} title={"Pharmacy"} selectedValue={selectedPharma} />
+        <div className="container-xxl  ">
+            <div className="flex-col"  >
+                {deliveryError === 'loading' && (
+                    <div className="text-danger text-center">Error loading the page.</div>
+                )}
+                {deliveryStatus === 'loading' && <Loader></Loader>}
+                {deliveryList.length > 0 && (
+                    <div id="deliveries">
+                        <div className="row mb-2">
+                            <div className="col-md-3 col-6">
+                                <OptionsDropDownList valueKeys={pharmacyKeys} setValue={setSlectedPharmal} title={"Pharmacy"} selectedValue={selectedPharma} />
+                            </div>
+                            <div className="col-md-3 col-6">
+                                <OptionsDropDownList valueKeys={warehouseKeys} setValue={setSelectedWarehouse} title={"Warehouse"} selectedValue={selectedWarehouse} />
+                            </div>
                         </div>
-                        <div className="col-md-3 col-6">
-                            <OptionsDDL valueKeys={warehouseKeys} setValue={setSelectedWarehouse} title={"Warehouse"} selectedValue={selectedWarehouse} />
-                        </div>
+                        <DataGrid
+                            rows={rows}
+                            columns={columns}
+                            getRowId={(row) => row.deliveryId}
+                            processRowUpdate={(updatedRow) => processRowUpdate(updatedRow)}
+                            paginationModel={paginationModel}
+                            onPaginationModelChange={setPaginationModel}
+                            disableColumnMenu={true}
+                            editMode="row"
+                            rowModesModel={rowModesModel}
+                            onRowEditStop={handleRowEditStop}
+                            paginationMode="server"
+                            rowCount={totalRowsForPagination}
+                            onProcessRowUpdateError={handleProcessRowUpdateError}
+                            slots={{
+                                toolbar: EditToolbar,
+                            }}
+                            slotProps={{
+                                toolbar: { setRows, setRowModesModel },
+                            }}
+                        />
+                        {!!snackbar && (
+                            <Snackbar
+                                open
+                                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                                onClose={handleCloseSnackbar}
+                                autoHideDuration={6000}  >
+                                <Alert {...snackbar}
+                                    onClose={handleCloseSnackbar} />
+                            </Snackbar>
+                        )}
                     </div>
-            
-                    <DataGrid
-                        rows={rows}
-                        columns={columns}
-                        getRowId={(row) => row.deliveryId}
-                        processRowUpdate={(updatedRow) => processRowUpdate(updatedRow)}
-                        paginationModel={paginationModel}     
-                        onPaginationModelChange={setPaginationModel}
-                        disableColumnMenu={true}
-                        editMode="row"
-                        rowModesModel={rowModesModel}
-                        onRowEditStop={handleRowEditStop}
-                        paginationMode="server"
-                        rowCount={totalRowsForPagination}
-                        onProcessRowUpdateError={handleProcessRowUpdateError}
-                        slots={{
-                            toolbar: EditToolbar,
-                        }}
-                        slotProps={{
-                            toolbar: { setRows, setRowModesModel },
-                        }}
-                    />
-                    {!!snackbar && (
-                        <Snackbar
-                            open
-                            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                            onClose={handleCloseSnackbar}
-                            autoHideDuration={6000}  >
-                            <Alert {...snackbar}
-                                onClose={handleCloseSnackbar} />
-                        </Snackbar>
-                    )}
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 };

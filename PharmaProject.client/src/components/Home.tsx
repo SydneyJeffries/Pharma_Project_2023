@@ -15,7 +15,8 @@ import IState from '../Interfaces/IState';
 import { handleEditClick, handleSaveClick, handleCancelClick } from '../GridUtilties';
 import { Link } from "react-router-dom";
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
-import PharmacyCard from './PharmacyCard';
+import PharmacistModel from './PharmacistModel';
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 
 
 const Home = () => {
@@ -153,7 +154,7 @@ const Home = () => {
         {
             field: 'actions',
             type: 'actions',
-            headerName: 'Actions', 
+            headerName: 'Actions',
             width: 150,
             cellClassName: 'actions',
             headerAlign: "center",
@@ -189,9 +190,9 @@ const Home = () => {
                             color="inherit"
                         />
                         <Link to={`/delivey/${id}`} className="text-black" >
-                            <LocalShippingIcon/>
+                            <LocalShippingIcon />
                         </Link>
-                        &nbsp; <span className="underline link" onClick={() => onClickView(id)}> View </span>
+                        &nbsp; <span className="underline link  text-black" onClick={() => onClickView(id)}> <SupervisorAccountIcon/> </span>
                     </>
                 ];
             },
@@ -222,46 +223,50 @@ const Home = () => {
     const handleCloseSnackbar = () => setSnackbar(null);
 
     return (
-        <div className="flex-col " >
-
-            {pharmacyError === 'loading' && (
-                <div className="text-danger text-center">Error loading the page.</div>
-            )}
-            {pharmacyStatus === 'loading' && <Loader></Loader>}
-            {selectedPharmacy != null && isPharmacySelected == true && <PharmacyCard> </PharmacyCard>}
-            {pharmacyList.length > 0 && (
-                <div id="pharmacies" >
-  
-                    <DataGrid
-                        rows={pharmacyList}
-                        columns={columns}
-                        getRowId={(row) => row.pharmacyId}
-                        processRowUpdate={(updatedRow) => processRowUpdate(updatedRow)}
-                        hideFooterPagination={true}
-                        hideFooterSelectedRowCount={true}
-                        disableColumnMenu={false}
-                        editMode="row"
-                        rowModesModel={rowModesModel}
-                        onRowEditStop={handleRowEditStop}
-                        onProcessRowUpdateError={handleProcessRowUpdateError}
-                        slotProps={{
-                            toolbar: { setRows, setRowModesModel },
-                        }}
-                    />
-                    {!!snackbar && (
-                        <Snackbar
-                            open
-                            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                            onClose={handleCloseSnackbar}
-                            autoHideDuration={6000}  >
-                            <Alert {...snackbar}
-                                onClose={handleCloseSnackbar} />
-                        </Snackbar>
+        <>
+            <div className="container-xxl ">
+                {selectedPharmacy != null && isPharmacySelected == true && <PharmacistModel> </PharmacistModel>}
+                <div className="flex-col " >
+                    {pharmacyError === 'loading' && (
+                        <div className="text-danger text-center">Error loading the page.</div>
                     )}
-          
+                    {pharmacyStatus === 'loading' && <Loader></Loader>}
+
+                    {pharmacyList.length > 0 && (
+                        <div id="pharmacies" >
+
+                            <DataGrid
+                                rows={pharmacyList}
+                                columns={columns}
+                                getRowId={(row) => row.pharmacyId}
+                                processRowUpdate={(updatedRow) => processRowUpdate(updatedRow)}
+                                hideFooterPagination={true}
+                                hideFooterSelectedRowCount={true}
+                                disableColumnMenu={false}
+                                editMode="row"
+                                rowModesModel={rowModesModel}
+                                onRowEditStop={handleRowEditStop}
+                                onProcessRowUpdateError={handleProcessRowUpdateError}
+                                slotProps={{
+                                    toolbar: { setRows, setRowModesModel },
+                                }}
+                            />
+                            {!!snackbar && (
+                                <Snackbar
+                                    open
+                                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                                    onClose={handleCloseSnackbar}
+                                    autoHideDuration={6000}  >
+                                    <Alert {...snackbar}
+                                        onClose={handleCloseSnackbar} />
+                                </Snackbar>
+                            )}
+
+                        </div>
+                    )}
                 </div>
-            )}
-        </div>
+            </div>
+        </>
     );
 };
 

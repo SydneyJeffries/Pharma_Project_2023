@@ -14,6 +14,8 @@ namespace PharmaProject.Objects
 
         public DbSet<Delivery> Delivery { get; set; }
 
+        public DbSet<Pharmacist> Pharmacist { get; set; }
+
         public DbSet<Warehouse> Warehouse { get; set; }
 
         public AppSettingsDbContext() : base() { }
@@ -28,6 +30,8 @@ namespace PharmaProject.Objects
 
             modelBuilder.Entity<Drug>().HasKey(x => x.DrugId);
             modelBuilder.Entity<Drug>().ToTable("Drug");
+            modelBuilder.Entity<Pharmacist>().HasKey(x => x.PharmacistId);
+            modelBuilder.Entity<Pharmacist>().ToTable("Pharmacist");
             modelBuilder.Entity<Delivery>().HasKey(x => x.DeliveryId);
             modelBuilder.Entity<Delivery>().ToTable("Delivery");
             modelBuilder.Entity<Warehouse>().HasKey(x => x.WarehouseId);

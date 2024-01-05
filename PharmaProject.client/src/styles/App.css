@@ -243,3 +243,15 @@ footer {
 .bold{
     font-weight: bold !important;
 }
+
+.absolute {
+    position: absolute;
+}
+
+.font-reg{
+    font-size: 1rem !important;
+}
+
+.border-bottom-1 {
+    border-bottom: 1px solid rgba(224, 224, 224, 1);
+}

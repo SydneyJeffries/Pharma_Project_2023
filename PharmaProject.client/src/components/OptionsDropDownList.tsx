@@ -15,7 +15,7 @@ interface OptionsDDL {
     selectedValue: number;
 }
 
-const OptionsDDL: React.FC<OptionsDDL> = ({ valueKeys, setValue, title, selectedValue }) => {
+const OptionsDropDownList: React.FC<OptionsDDL> = ({ valueKeys, setValue, title, selectedValue }) => {
     const handleChange = (event: SelectChangeEvent) => {
         setValue(Number(event.target.value));
     };
@@ -25,13 +25,7 @@ const OptionsDDL: React.FC<OptionsDDL> = ({ valueKeys, setValue, title, selected
         <Box sx={{ minWidth: 120 }} >
             <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">{title}</InputLabel>
-                <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={selectedValue}
-                    label="Pharmacy"
-                    onChange={handleChange}
-                >
+                <Select labelId="demo-simple-select-label"    id="demo-simple-select" value={selectedValue}  label="Pharmacy"  onChange={handleChange}  >
                     <MenuItem key={"All"} value={0}>
                         All {title == "Pharmacy" ? "Pharmacies" : title}
                     </MenuItem>
@@ -46,4 +40,4 @@ const OptionsDDL: React.FC<OptionsDDL> = ({ valueKeys, setValue, title, selected
     );
 }
 
-export default OptionsDDL;
+export default OptionsDropDownList;
