@@ -25,6 +25,7 @@ builder.Services.AddScoped<IPharmacyService, PharmacyService>();
 builder.Services.AddScoped<IDeliveryService, DeliveryService>();
 builder.Services.AddScoped<IWarehouseService,WarehouseService>();
 builder.Services.AddScoped<ILookupService, LookupService>();
+builder.Services.AddScoped<IPharmacistService, PharmacistService>();
 builder.Services.AddMemoryCache();
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
