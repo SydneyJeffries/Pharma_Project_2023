@@ -8,6 +8,8 @@ export interface IDelivery  {
     unitPrice: number;
     totalPrice?: number;
     deliveryDate: Date;
+    warehouseName: string;
+    pharmacyName: string;
 }
 
 export default IDelivery;

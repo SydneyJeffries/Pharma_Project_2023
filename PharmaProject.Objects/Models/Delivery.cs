@@ -35,6 +35,12 @@ namespace PharmaProject.Objects.Models
 
         public string? UpdatedBy { get; set;  }
 
+        [NotMapped]
+        public string PharmacyName { get; set; } = string.Empty;
+
+        [NotMapped]
+        public string WarehouseName { get; set; } = string.Empty;
+
 
         [JsonIgnore]
         public virtual Pharmacy? Pharmacy { get; set; }
