@@ -4,7 +4,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { getPharmacySingleData, getPharmacy } from '../slicers/PharmacySlice';
 import IPharmacy from '../Interfaces/IPharmacy';
-import { Box, Modal, Typography } from '@mui/material';
+import { Box, Modal } from '@mui/material';
 import useFetch from '../UseFetch';
 import Loader from './Loader';
 
@@ -22,9 +22,10 @@ const style = {
 const PharmacyCard = () => {
     const dispatch = useDispatch();
     const selectedPharmacy: IPharmacy = useSelector(getPharmacySingleData);
-    const {  data: pharmasistList , isloading, error } = useFetch<any[]>(`/Pharmacist/${selectedPharmacy.id}`);
-    function onClickClose() {
+    const { data: pharmasistList, isLoading, error } = useFetch<any[]>(`/Pharmacist/${selectedPharmacy.id}`);
 
+    function onClickClose() {
+        // reset selected pharmacy to nothing
         dispatch(getPharmacy(null));
     }
 
@@ -39,7 +40,7 @@ const PharmacyCard = () => {
                             <span className="bold">{selectedPharmacy.name} Pharmacists </span>
                         </div>
                         <div className="font-reg">
-                            {isloading && <Loader />}
+                            {isLoading && <Loader />}
                             {error && <span className="text-danger"> Error </span>}
                             <table className="table">
                                 <thead>
@@ -58,15 +59,13 @@ const PharmacyCard = () => {
                                                 <td> {pharmacist.age}</td>
                                             </tr>
                                         ))
-                                    }
-                                   
+                                    }                                 
                                 </tbody>
                             </table>                           
                         </div>
                     </Box>
                 </div>
             </Modal>
-
         </>
     );
 };

@@ -43,10 +43,12 @@ const Delivery = () => {
     const [selectedWarehouse, setSelectedWarehouse] = React.useState<number>(0);
     const totalRowsForPagination = useSelector(getTotalRowsForPagination);
 
+    // set rows on grid
     useEffect(() => {
         setRows([...deliveryList]);
     }, [deliveryList]);
 
+    // set dropdown lists
     useEffect(() => {
         if (warehouseData) {
             const dropdownOptions = warehouseData?.map((warehouse) => ({
@@ -57,6 +59,7 @@ const Delivery = () => {
         }
     }, [warehouseData])
 
+    // set dropdown lists
     useEffect(() => {
         if (drugData) {
             const dropdownOptions = drugData?.map((drug) => ({
@@ -67,6 +70,7 @@ const Delivery = () => {
         }
     }, [drugData])
 
+    // set dropdown lists
     useEffect(() => {
         if (pharmacyData) {
             const dropdownOptionsPharma = pharmacyData?.map((pharmacy) => ({
@@ -86,6 +90,7 @@ const Delivery = () => {
         }
     }, [])
 
+    // Get grid rows data
     useEffect(() => {
         dispatch(GetDeliveryList({ pageNumber: paginationModel.page, pageSize: paginationModel.pageSize, pharmacyId: selectedPharma, warehouseId: selectedWarehouse }));
         console.log(deliveryList);

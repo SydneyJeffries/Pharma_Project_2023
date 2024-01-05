@@ -20,9 +20,9 @@ a {
     text-decoration: inherit;
 }
 
-    a:hover {
-        color: #2c4bb3;
-    }
+a:hover {
+    color: #2c4bb3;
+}
 
 h1 {
     font-size: 3.2em;
@@ -254,4 +254,8 @@ footer {
 
 .border-bottom-1 {
     border-bottom: 1px solid rgba(224, 224, 224, 1);
+}
+
+.table td {
+    color: rgba(0, 0, 0, 0.87)  !important;
 }

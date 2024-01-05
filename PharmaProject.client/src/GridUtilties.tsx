@@ -1,19 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {  GridRowId, GridRowModesModel, GridRowModes } from '@mui/x-data-grid';
 
-export const handleEditClick = (
-    rowModesModel: GridRowModesModel,
-    setRowModesModel: React.Dispatch<React.SetStateAction<GridRowModesModel>>,
-    GridRowModes: any
-) => (id: GridRowId) => {
+export const handleEditClick = (   rowModesModel: GridRowModesModel, setRowModesModel: React.Dispatch<React.SetStateAction<GridRowModesModel>>, GridRowModes: any) => (id: GridRowId) => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
 };
 
-export const handleSaveClick = (
-    rowModesModel: GridRowModesModel,
-    setRowModesModel: React.Dispatch<React.SetStateAction<GridRowModesModel>>,
-    validationErrorsRef: React.MutableRefObject<{ [key: string]: { [key: string]: boolean } }>) => (id: GridRowId) => {
-
+export const handleSaveClick = (rowModesModel: GridRowModesModel,setRowModesModel: React.Dispatch<React.SetStateAction<GridRowModesModel>>,validationErrorsRef: React.MutableRefObject<{ [key: string]: { [key: string]: boolean } }>) => (id: GridRowId) => {
         const rowValidationErrors = validationErrorsRef.current[id];
         if (rowValidationErrors === undefined && id != 0) {
             setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
@@ -23,13 +15,9 @@ export const handleSaveClick = (
                 setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
             }
         }
-    };
+};
 
-export const handleCancelClick = (
-    rowModesModel: GridRowModesModel,
-    setRowModesModel: React.Dispatch<React.SetStateAction<GridRowModesModel>>,
-    rows: any[],
-    setRows: React.Dispatch<React.SetStateAction<any>>) => (id: GridRowId) => {
+export const handleCancelClick = (rowModesModel: GridRowModesModel,setRowModesModel: React.Dispatch<React.SetStateAction<GridRowModesModel>>,  rows: any[],setRows: React.Dispatch<React.SetStateAction<any>>) => (id: GridRowId) => {
         setRowModesModel({
             ...rowModesModel,
             [id]: { mode: GridRowModes.View, ignoreModifications: true },
@@ -39,5 +27,5 @@ export const handleCancelClick = (
         if (editedRow?.isNew) {
             setRows(rows.filter((row) => row.id !== id));
         }
-    };
+};
 

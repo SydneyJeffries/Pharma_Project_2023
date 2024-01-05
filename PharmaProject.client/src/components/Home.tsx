@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import Loader from './Loader';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPharmacyData, getPharmacyStatus, getPharmacyError, fetchPharmacyList, savePharmacy, getPharmacySingleData, getPharmacy } from '../slicers/PharmacySlice';
+import { getPharmacyData, getPharmacyStatus, getPharmacyError, fetchPharmacyList, savePharmacy, getPharmacySingleData, getPharmacy, updatePharmacy } from '../slicers/PharmacySlice';
 import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowModesModel, GridRowModes, GridEventListener, GridRowEditStopReasons, GridRowModel, GridPreProcessEditCellProps } from '@mui/x-data-grid';
 import IPharmacy from '../Interfaces/IPharmacy';
 import SaveIcon from '@mui/icons-material/Save';
@@ -33,11 +33,12 @@ const Home = () => {
     const selectedPharmacy = useSelector(getPharmacySingleData);
     const [isPharmacySelected, setIsPharmacySelected] = React.useState<boolean>(false);
 
+    // set rows on grid
     useEffect(() => {
         setRows(pharmacyList);
     }, [pharmacyList]);
 
-
+    // set drop down list for states
     useEffect(() => {
         if (statesData) {
             const stateCodes = statesData.map(item => item.stateCode);
@@ -46,6 +47,7 @@ const Home = () => {
 
     }, [statesData]);
 
+    // get grid rows data
     useEffect(() => {
         dispatch(fetchPharmacyList());
     }, []);
@@ -210,6 +212,8 @@ const Home = () => {
             //@ts-expect-error
             const returnedPharmacy = await dispatch(savePharmacy(newRow));
             setSnackbar({ children: 'Successfully saved', severity: 'success' });
+     
+            dispatch(updatePharmacy({ id: returnedPharmacy.payload.id, newData: returnedPharmacy.payload }));
             return returnedPharmacy.payload;
         },
         //@ts-expect-error

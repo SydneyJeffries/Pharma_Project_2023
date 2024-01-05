@@ -24,8 +24,8 @@ const OptionsDropDownList: React.FC<OptionsDDL> = ({ valueKeys, setValue, title,
     return (
         <Box sx={{ minWidth: 120 }} >
             <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">{title}</InputLabel>
-                <Select labelId="demo-simple-select-label"    id="demo-simple-select" value={selectedValue}  label="Pharmacy"  onChange={handleChange}  >
+                <InputLabel id="simple-select-label">{title}</InputLabel>
+                <Select   id="sampleSelect" value={selectedValue}  label="Pharmacy"  onChange={handleChange}  >
                     <MenuItem key={"All"} value={0}>
                         All {title == "Pharmacy" ? "Pharmacies" : title}
                     </MenuItem>

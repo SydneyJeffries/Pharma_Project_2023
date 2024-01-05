@@ -31,6 +31,7 @@ namespace PharmaProject.Services
 
         public async Task<List<Pharmacy>> GetPharmacyListAsync()
         {
+            //check if data is in cache
             if (_cache.TryGetValue("GetPharmacyList", out List<Pharmacy> data))
             {
                 return data;

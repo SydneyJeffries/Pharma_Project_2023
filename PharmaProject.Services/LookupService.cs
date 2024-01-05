@@ -34,6 +34,7 @@ namespace PharmaProject.Services
 
         public async Task<List<State>> GetStateListAsync()
         {
+            //check if data is in cache
             if (_cache.TryGetValue("GetStateList", out List<State> data))
             {
                 return data;
@@ -49,6 +50,7 @@ namespace PharmaProject.Services
 
         public async Task<List<Drug>> GetDrugListAsync()
         {
+            //check if data is in cache
             if (_cache.TryGetValue("GetDrugsList", out List<Drug> data))
             {
                 return data;

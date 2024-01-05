@@ -27,7 +27,6 @@ namespace PharmaProject.Services
 
             var startRow = pageNumber * pageSize;
 
-
             var query = from delivery in _dbContext.Delivery
                         join pharmacy in _dbContext.Pharmacy on delivery.PharmacyId equals pharmacy.PharmacyId into p
                         from pharmacy in p
@@ -89,7 +88,7 @@ namespace PharmaProject.Services
 
         public async Task<Delivery> SaveDeliveryAsync(Delivery delivery)
         {
-
+            //save new record
             if (delivery.DeliveryId == 0)
             {
                 delivery.CreatedDate = DateTimeOffset.Now;
@@ -97,7 +96,7 @@ namespace PharmaProject.Services
                 delivery.TotalPrice = delivery.UnitPrice * delivery.UnitCount;
                 _dbContext.Delivery.Add(delivery);
                 await _dbContext.SaveChangesAsync();
-            }
+            } //update exisiting 
             else
             {
                 delivery.UpdatedDate = DateTimeOffset.Now;

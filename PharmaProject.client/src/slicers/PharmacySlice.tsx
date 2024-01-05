@@ -32,16 +32,6 @@ export const savePharmacy = createAsyncThunk<IPharmacy>( 'pharmacy/savePharmacy'
     }
 );
 
-//export const getPharmacy = createAsyncThunk<IPharmacy>('pharmacy/getPharmacy', async (id : number, { signal }) => {
-//    const source = axios.CancelToken.source()
-//    signal.addEventListener('abort', () => {
-//        source.cancel()
-//    })
-
-//    const pharmacy = await pharmacyService.GetPharmacy(id);
-//    return pharmacy;
-//});
-
 
 export const PharmacySlice = createSlice({
     name: 'pharmacy',
@@ -51,11 +41,21 @@ export const PharmacySlice = createSlice({
             debugger;
             if (action.payload != null) {
                 const selectedPharmacy = state.data.find(pharmacy => pharmacy.id === action.payload);
-                state.singleData = selectedPharmacy;
+                 state.singleData = selectedPharmacy;
             } else {
-                state.singleData = null;
+                 state.singleData = null;
             }
-        }   
+        },
+        updatePharmacy(state, action: PayloadAction<any>) {
+            const { id, newData } = action.payload;
+            const index = state.data.findIndex(pharmacy => pharmacy.pharmacyId === id);
+            if (index !== -1) {
+                // Update the existing pharmacy data
+              state.data =  state.data.map(pharmacy => {
+                    return pharmacy.pharmacyId === id ? newData : pharmacy;
+                })
+            }
+        }
     },
     extraReducers(builder) {
         builder
@@ -73,32 +73,15 @@ export const PharmacySlice = createSlice({
                 state.error = 'loading';
                 console.log(action.error.message)
             })
-            //.addCase(getPharmacy.pending, (state) => {
-            //    state.status = 'loading';
-            //    state.error = '';
-            //})
-            //.addCase(getPharmacy.fulfilled, (state, action) => {
-            //    state.status = 'succeeded'
-            //    state.singleData = action.payload;
-            //    state.error = '';
-            //})
-            //.addCase(getPharmacy.rejected, (state, action) => {
-            //    state.status = 'failed'
-            //    state.error = 'loading';
-            //    console.log(action.error.message)
-            //})
             .addCase(savePharmacy.pending, (state) => {
-                debugger;
                 state.status = 'loading';
                 state.error = '';
             })
             .addCase(savePharmacy.fulfilled, (state) => {
-                debugger;
                 state.status = 'succeeded'
                 state.error = '';
             })
             .addCase(savePharmacy.rejected, (state, action) => {
-                debugger;
                 state.status = 'failed'
                 state.error = 'saving';
                 console.log(action.error.message)
@@ -107,7 +90,7 @@ export const PharmacySlice = createSlice({
     }
 })
 
-export const { getPharmacy } = PharmacySlice.actions;
+export const { getPharmacy, updatePharmacy } = PharmacySlice.actions;
 export const getPharmacyData = (state: any) => state.pharmacy.data;
 export const getPharmacyStatus = (state: any) => state.pharmacy.status;
 export const getPharmacyError = (state: any) => state.pharmacy.error;

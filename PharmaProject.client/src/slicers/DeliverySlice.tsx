@@ -54,7 +54,7 @@ export const DeliverySlice = createSlice({
                 state.status = 'loading';
                 state.error = '';
             })
-            .addCase(GetDeliveryList.fulfilled, (state, action) => {
+            .addCase(GetDeliveryList.fulfilled, (state, action :any ) => {
                 state.status = 'succeeded'
                 state.data = action.payload.data.data;
                 state.error = '';
