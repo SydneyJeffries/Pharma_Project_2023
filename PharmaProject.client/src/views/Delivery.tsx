@@ -11,7 +11,7 @@ import IWarehouse from "../Interfaces/IWarehouse";
 import useFetch from '../UseFetch';
 import IPharmacy from '../Interfaces/IPharmacy';
 import IDrug from '../Interfaces/IDrug';
-import { handleEditClick, handleSaveClick, handleCancelClick, handleAddNewRecordClick } from '../GridUtilties';
+import { handleEditClick, handleSaveClick, handleCancelClick, handleAddNewRecordClick, handleRowEditStop } from '../GridUtilties';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
@@ -50,7 +50,7 @@ const Delivery = () => {
         setRows([...deliveryList]);
     }, [deliveryList]);
 
-     //create drop downs 
+    //create drop downs 
     useEffect(() => {
         if (warehouseData) {
             setWarehouseKeys(generateDropdownOptions(warehouseData, 'warehouseId', 'name'));
@@ -65,7 +65,7 @@ const Delivery = () => {
         }
     }, [warehouseData, drugData, pharmacyData]);
 
-    const generateDropdownOptions = (  data: any[],   valueKey: string, labelKey: string ): ValueOptions[] => {
+    const generateDropdownOptions = (data: any[], valueKey: string, labelKey: string): ValueOptions[] => {
         return data.map((item) => ({
             value: item[valueKey],
             label: item[labelKey],
@@ -285,7 +285,7 @@ const Delivery = () => {
     ]
 
     const EditToolbar = () => {
-/*        const { setRows, setRowModesModel } = props;*/
+        /*        const { setRows, setRowModesModel } = props;*/
         const newRow: IDelivery = { deliveryId: 0, warehouseId: 0, pharmacyId: 0, drugId: 0, unitCount: 0, unitPrice: 0, totalPrice: 0, deliveryDate: new Date(), active: true, id: 0, updatedDate: null, createdDate: new Date().toISOString(), createdBy: "", updatededBy: null, pharmacy: {}, warehouse: {}, isNew: true }
         const handleAddNewRecord = handleAddNewRecordClick(rowModesModel, rows, setRows, setRowModesModel, 'warehouseId', setDeleteDisabled);
 
@@ -298,11 +298,6 @@ const Delivery = () => {
         );
     }
 
-    const handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
-        if (params.reason === GridRowEditStopReasons.rowFocusOut) {
-            event.defaultMuiPrevented = true;
-        }
-    };
 
     const processRowUpdate = React.useCallback(
         async (newRow: GridRowModel) => {
@@ -316,7 +311,7 @@ const Delivery = () => {
             }
             setDeleteDisabled(false)
             return returnedDelivery.payload;
-         
+
         },
         //@ts-expect-error
         [dispatch(SaveDelivery)],
@@ -355,7 +350,7 @@ const Delivery = () => {
                             disableColumnMenu={true}
                             editMode="row"
                             rowModesModel={rowModesModel}
-                            onRowEditStop={handleRowEditStop}
+                            onRowEditStop={(params, event, details) => handleRowEditStop(params, event, details)}
                             paginationMode="server"
                             rowCount={totalRowsForPagination}
                             onProcessRowUpdateError={handleProcessRowUpdateError}

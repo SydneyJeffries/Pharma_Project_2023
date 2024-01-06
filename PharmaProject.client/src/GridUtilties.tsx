@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { GridRowId, GridRowModesModel, GridRowModes } from '@mui/x-data-grid';
-
+import { GridRowId, GridRowModesModel, GridRowModes,  GridRowEditStopParams, MuiEvent } from '@mui/x-data-grid';
+import {  GridEventListener, GridRowEditStopReasons} from '@mui/x-data-grid';
 
 export const handleEditClick = (rowModesModel: GridRowModesModel, setRowModesModel: React.Dispatch<React.SetStateAction<GridRowModesModel>>, GridRowModes: any) => (id: GridRowId) => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
@@ -79,3 +79,9 @@ export const handleAddNewRecordClick = (rowModesModel: GridRowModesModel, rows: 
     }
 };
 
+export const handleRowEditStop: GridEventListener<'rowEditStop'> = (params: GridRowEditStopParams, event: MuiEvent) => {
+    debugger;
+    if (params.reason === GridRowEditStopReasons.rowFocusOut) {
+        event.defaultMuiPrevented = true;
+    }
+};

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import Loader from '../components/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPharmacyData, getPharmacyStatus, getPharmacyError, fetchPharmacyList, savePharmacy, getPharmacySingleData, getPharmacy, updatePharmacy } from '../slicers/PharmacySlice';
-import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowModesModel, GridRowModes, GridEventListener, GridRowEditStopReasons, GridRowModel, GridPreProcessEditCellProps } from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem, GridColDef, GridRowModesModel, GridRowModes, GridEventListener, GridRowEditStopReasons, GridRowModel, GridPreProcessEditCellProps } from '@mui/x-data-grid';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
@@ -11,7 +11,7 @@ import Snackbar from '@mui/material/Snackbar';
 import { Alert, AlertProps } from '@mui/material';
 import useFetch from '../UseFetch';
 import IState from '../Interfaces/IState';
-import { handleEditClick, handleSaveClick, handleCancelClick } from '../GridUtilties';
+import { handleEditClick, handleSaveClick, handleCancelClick, handleRowEditStop } from '../GridUtilties';
 import { Link } from "react-router-dom";
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import PharmacistModel from '../components/PharmacistModel';
@@ -43,7 +43,6 @@ const Home = () => {
             const stateCodes = statesData.map(item => item.stateCode);
             setStateKeys([...stateCodes]);
         }
-
     }, [statesData]);
 
     // get grid rows data
@@ -51,8 +50,8 @@ const Home = () => {
         dispatch(fetchPharmacyList());
     }, []);
 
+    // remove active class from delivery tab
     useEffect(() => {
-        // remove active class from delivery tab
         const deliveryNavElement = document.getElementById("deliveryNav");
         if (deliveryNavElement) {
             deliveryNavElement.classList.remove("active-link");
@@ -70,7 +69,6 @@ const Home = () => {
 
     const handleCancel = handleCancelClick(rowModesModel, setRowModesModel, rows, setRows);
 
-    /*    renderHeader: () => (<strong>{'Pharmacist'}</strong>), width: 75, flex: 1}*/
     const [snackbar, setSnackbar] = React.useState<Pick<AlertProps, 'children' | 'severity'> | null>(null);
 
     const columns: GridColDef[] = [
@@ -200,12 +198,6 @@ const Home = () => {
         },
     ]
 
-    const handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
-        if (params.reason === GridRowEditStopReasons.rowFocusOut) {
-            event.defaultMuiPrevented = true;
-        }
-    };
-
     const processRowUpdate = React.useCallback(
         async (newRow: GridRowModel) => {
             //@ts-expect-error
@@ -248,7 +240,7 @@ const Home = () => {
                                 disableColumnMenu={false}
                                 editMode="row"
                                 rowModesModel={rowModesModel}
-                                onRowEditStop={handleRowEditStop}
+                                onRowEditStop={(params, event, details) => handleRowEditStop(params, event, details)}
                                 onProcessRowUpdateError={handleProcessRowUpdateError}
                                 slotProps={{
                                     toolbar: { setRows, setRowModesModel },
