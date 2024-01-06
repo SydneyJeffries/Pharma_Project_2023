@@ -31,7 +31,7 @@ const Delivery = () => {
     const [rows, setRows] = React.useState(deliveryList);
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
     const validationErrorsRef = React.useRef<{ [key: string]: { [key: string]: boolean } }>({});
-    const [paginationModel, setPaginationModel] = React.useState({ page: 0, pageSize: 7 });
+    const [paginationModel, setPaginationModel] = React.useState({ page: 0, pageSize: 8 });
     const warehouseFetchUrl = '/Warehouse';
     const { data: drugData } = useFetch<IDrug[]>('/Lookup/GetDrugList');
     const { data: warehouseData } = useFetch<IWarehouse[]>(warehouseFetchUrl);
@@ -90,9 +90,13 @@ const Delivery = () => {
         }
     }, [])
 
+    function getDeliveryList() {
+        dispatch(GetDeliveryList({ pageNumber: paginationModel.page, pageSize: paginationModel.pageSize, pharmacyId: selectedPharma, warehouseId: selectedWarehouse }));
+    }
+
     // Get grid rows data
     useEffect(() => {
-        dispatch(GetDeliveryList({ pageNumber: paginationModel.page, pageSize: paginationModel.pageSize, pharmacyId: selectedPharma, warehouseId: selectedWarehouse }));
+        getDeliveryList()
         console.log(deliveryList);
 
     }, [selectedPharma, selectedWarehouse, paginationModel]);
@@ -107,8 +111,7 @@ const Delivery = () => {
         const rowToDelete = rows.filter((row: any) => row.id == id)[0]
         dispatch(DeleteDelivery(rowToDelete));
         setSnackbar({ children: 'Successfully deleted', severity: 'success' });
-        setRows((prevRows: any) => prevRows.filter((row: any) => row.id !== id));
-
+        getDeliveryList();
     };
 
     const formatCurrency = (value: number) =>
@@ -350,6 +353,7 @@ const Delivery = () => {
             setSnackbar({ children: 'Successfully saved', severity: 'success' });
             if (newRow.isNew) {
                 setRows((prevRows: any) => prevRows.map((row: any) => row.id == 0 ? { ...returnedDelivery.payload } : row));
+                getDeliveryList();
             }
             return returnedDelivery.payload;
         },

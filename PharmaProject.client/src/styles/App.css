@@ -218,7 +218,7 @@ footer {
 }
 
 #deliveries .MuiDataGrid-root {
-    height: 520px;
+    height: 570px;
 }
 
 .link {
@@ -262,4 +262,8 @@ footer {
 
 .css-wnkddu-MuiPaper-root-MuiAlert-root {
     background-color: #dcf3dc !important;
+}
+
+.MuiMenu-list{
+    max-height: 300px;
 }
