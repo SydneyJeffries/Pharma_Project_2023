@@ -106,7 +106,9 @@ const Delivery = () => {
     const handleDeleteClick = (id: GridRowId) => () => {
         const rowToDelete = rows.filter((row: any) => row.id == id)[0]
         dispatch(DeleteDelivery(rowToDelete));
+        setSnackbar({ children: 'Successfully deleted', severity: 'success' });
         setRows((prevRows: any) => prevRows.filter((row: any) => row.id !== id));
+
     };
 
     const formatCurrency = (value: number) =>
@@ -266,7 +268,7 @@ const Delivery = () => {
             field: 'actions',
             type: 'actions',
             headerName: 'Actions',
-            width: 150,
+            width: 140,
             cellClassName: 'actions',
             align: "right",
             headerAlign: "right",
