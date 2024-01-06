@@ -57,8 +57,7 @@ export const handleCancelClick = (id: GridRowId, rowModesModel: GridRowModesMode
 };
 
 export const handleAddNewRecordClick = (rowModesModel: GridRowModesModel, rows: any[], setRows: React.Dispatch<React.SetStateAction<any>>, setRowModesModel: React.Dispatch<React.SetStateAction<GridRowModesModel>>,
-    fieldToFocus: string, setDeleteDisabled: React.Dispatch<React.SetStateAction<any>>
-) => (newRow: any) => {
+    fieldToFocus: string, setDeleteDisabled: React.Dispatch<React.SetStateAction<any>>, newRow: any) => {
 
     // check if a new record is already beening created.
     const hasRowWithIdZero = rows.some((row) => row.id === 0);

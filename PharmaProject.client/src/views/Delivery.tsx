@@ -280,13 +280,10 @@ const Delivery = () => {
     ]
 
     const EditToolbar = () => {
-        /*        const { setRows, setRowModesModel } = props;*/
-        const newRow: IDelivery = { deliveryId: 0, warehouseId: 0, pharmacyId: 0, drugId: 0, unitCount: 0, unitPrice: 0, totalPrice: 0, deliveryDate: new Date(), active: true, id: 0, updatedDate: null, createdDate: new Date().toISOString(), createdBy: "", updatededBy: null, pharmacy: {}, warehouse: {}, isNew: true }
-        const handleAddNewRecord = handleAddNewRecordClick(rowModesModel, rows, setRows, setRowModesModel, 'warehouseId', setDeleteDisabled);
-
+        const newRow: IDelivery = { deliveryId: 0, warehouseId: 0, pharmacyId: 0, drugId: 0, unitCount: 0, unitPrice: 0, totalPrice: 0, deliveryDate: new Date(), active: true, Id: 0, updatedDate: null, createdDate: new Date(), createdBy: "", updatedBy: null, isNew: true }
         return (
             <GridToolbarContainer>
-                <Button color="primary" startIcon={<AddIcon />} onClick={() => handleAddNewRecord(newRow)}>
+                <Button color="primary" startIcon={<AddIcon />} onClick={() => handleAddNewRecordClick(rowModesModel, rows, setRows, setRowModesModel, 'warehouseId', setDeleteDisabled, newRow)}>
                     Add record
                 </Button>
             </GridToolbarContainer>

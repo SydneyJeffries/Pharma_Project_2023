@@ -1,4 +1,4 @@
-export interface IDelivery  {
+export interface IDelivery {
     Id: number;
     deliveryId: number;
     warehouseId: number;
@@ -8,9 +8,13 @@ export interface IDelivery  {
     unitPrice: number;
     totalPrice?: number;
     deliveryDate: Date;
+    updatedDate: null | Date;
+    createdDate: Date;
     warehouseName: string;
     pharmacyName: string;
     active: boolean;
+    createdBy: string;
+    updatedBy: string | null;
 }
 
 export default IDelivery;
