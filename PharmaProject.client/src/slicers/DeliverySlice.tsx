@@ -24,7 +24,7 @@ export const GetDeliveryList = createAsyncThunk<IDelivery[], { pageNumber: numbe
             source.cancel()
         })
         const deliveryList: any = await DeliveryService.getDeliveryList(pageNumber, pageSize, pharmacyId, warehouseId);
-        return deliveryList;
+        return deliveryList.data;
     }
 );
 
@@ -54,11 +54,11 @@ export const DeliverySlice = createSlice({
                 state.status = 'loading';
                 state.error = '';
             })
-            .addCase(GetDeliveryList.fulfilled, (state, action :any ) => {
+            .addCase(GetDeliveryList.fulfilled, (state, action) => {
                 state.status = 'succeeded'
-                state.data = action.payload.data.data;
+                state.data = action.payload.data;
                 state.error = '';
-                state.totalRowsForPagination = action.payload.data.totalCount;
+                state.totalRowsForPagination = action.payload.totalCount;
             })
             .addCase(GetDeliveryList.rejected, (state, action) => {
                 state.status = 'failed'
