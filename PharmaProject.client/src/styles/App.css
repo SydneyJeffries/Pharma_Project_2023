@@ -145,17 +145,25 @@ table tr:last-of-type:not(thead tr:last-of-type) {
     font-weight: bold !important;
 }
 
-.MuiDataGrid-cell:has(.Mui-error) {
+.MuiDataGrid-cell:has(.Mui-error.validation-ran) {
     border-bottom: 2px solid red !important;
+}
+
+.MuiOutlinedInput-input {
+    outline: none !important;
+}
+
+.Mui-error .MuiOutlinedInput-notchedOutline {
+    border-color: rgba(0, 0, 0, 0.23) !important;
 }
 
 .text-green {
     color: #4da846;
 }
 
-    .text-green:hover {
-        color: #4da846;
-    }
+.text-green:hover {
+    color: #4da846;
+}
 
 .underline {
     text-decoration: underline

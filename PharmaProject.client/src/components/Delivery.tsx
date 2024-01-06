@@ -42,7 +42,7 @@ const Delivery = () => {
     const [selectedPharma, setSlectedPharmal] = React.useState<number>(pharmacyId);
     const [selectedWarehouse, setSelectedWarehouse] = React.useState<number>(0);
     const totalRowsForPagination = useSelector(getTotalRowsForPagination);
-
+    const [deleteDisabled, setDeleteDisabled] = React.useState<boolean>(false);
     // set rows on grid
     useEffect(() => {
         setRows([...deliveryList]);
@@ -105,10 +105,11 @@ const Delivery = () => {
 
     const handleSave = handleSaveClick(rowModesModel, setRowModesModel, validationErrorsRef);
 
-    const handleCancel = handleCancelClick(rowModesModel, setRowModesModel, rows, setRows);
+    const handleCancel = handleCancelClick(rowModesModel, setRowModesModel, rows, setRows, setDeleteDisabled);
 
     const handleDeleteClick = (id: GridRowId) => () => {
         const rowToDelete = rows.filter((row: any) => row.id == id)[0]
+
         dispatch(DeleteDelivery(rowToDelete));
         setSnackbar({ children: 'Successfully deleted', severity: 'success' });
         getDeliveryList();
@@ -139,10 +140,6 @@ const Delivery = () => {
                 return { ...params.row, warehouseId: params.value };
             },
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
-
-                if (params.hasChanged == false) {
-                    return { ...params.props, error: params.props.error };
-                }
                 const hasError = params.props.value == 0;
                 validationErrorsRef.current[params.id] = {
                     ...validationErrorsRef.current[params.id],
@@ -170,9 +167,6 @@ const Delivery = () => {
                 return option.row.pharmacyName ? option.row.PharmacyName : pharmacyKeys.find(x => x.value == option.row.pharmacyId)?.label;
             },
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
-                if (params.hasChanged == false) {
-                    return { ...params.props, error: params.props.error };
-                }
                 const hasError = params.props.value == 0;
                 validationErrorsRef.current[params.id] = {
                     ...validationErrorsRef.current[params.id],
@@ -197,9 +191,6 @@ const Delivery = () => {
                 return { ...params.row, drugId: params.value };
             },
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
-                if (params.hasChanged == false) {
-                    return { ...params.props, error: params.props.error };
-                }
                 const hasError = params.props.value == 0;
                 validationErrorsRef.current[params.id] = {
                     ...validationErrorsRef.current[params.id],
@@ -214,10 +205,6 @@ const Delivery = () => {
                 return { ...params.row, unitCount: params.value };
             },
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
-
-                if (params.hasChanged == false) {
-                    return { ...params.props, error: params.props.error };
-                }
                 const hasError = params.props.value <= 0 || params.props.value == null;
                 validationErrorsRef.current[params.id] = {
                     ...validationErrorsRef.current[params.id],
@@ -233,9 +220,6 @@ const Delivery = () => {
                 return { ...params.row, unitPrice: params.value };
             },
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
-                if (params.hasChanged == false) {
-                    return { ...params.props, error: params.props.error };
-                }
                 const hasError = params.props.value <= 0 || params.props.value == null;
                 validationErrorsRef.current[params.id] = {
                     ...validationErrorsRef.current[params.id],
@@ -256,9 +240,6 @@ const Delivery = () => {
                 return { ...params.row, deliveryDate: params.value };
             },
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
-                if (params.hasChanged == false) {
-                    return { ...params.props, error: params.props.error };
-                }
                 const hasError = params.props.value == null;
                 validationErrorsRef.current[params.id] = {
                     ...validationErrorsRef.current[params.id],
@@ -291,7 +272,7 @@ const Delivery = () => {
                             icon={<CancelIcon />}
                             label="Cancel"
                             className="textPrimary"
-                            onClick={() => handleCancel(id)}
+                            onClick={() => handleCancel(id) }
                             color="inherit"
                         />,
                     ];
@@ -305,6 +286,7 @@ const Delivery = () => {
                         color="inherit"
                     />,
                     <GridActionsCellItem
+                        disabled={deleteDisabled} 
                         icon={<DeleteIcon />}
                         label="Delete"
                         onClick={handleDeleteClick(id)}
@@ -320,6 +302,7 @@ const Delivery = () => {
 
         const handleClick = () => {
             const id = 0;
+            setDeleteDisabled(true)
             const hasRowWithIdZero = rows.some((row: any) => row.id === id);
             if (!hasRowWithIdZero) {
                 setRows((oldRows: any) => [{ deliveryId: id, warehouseId: 0, pharmacyId: 0, drugId: 0, unitCount: 0, unitPrice: 0, totalPrice: 0, deliveryDate: new Date().toISOString(), active: true, id: id, updatedDate: null, createdDate: new Date().toISOString(), createdBy: "", updatededBy: null, pharmacy: {}, warehouse: {}, isNew: true }, ...oldRows]);
@@ -347,8 +330,8 @@ const Delivery = () => {
 
     const processRowUpdate = React.useCallback(
         async (newRow: GridRowModel) => {
-            //@ts-expect-error
 
+            //@ts-expect-error
             const returnedDelivery: any = await dispatch(SaveDelivery(newRow));
             setSnackbar({ children: 'Successfully saved', severity: 'success' });
             if (newRow.isNew) {
@@ -356,6 +339,7 @@ const Delivery = () => {
                 getDeliveryList();
             }
             return returnedDelivery.payload;
+            setDeleteDisabled(false)
         },
         //@ts-expect-error
         [dispatch(SaveDelivery)],
