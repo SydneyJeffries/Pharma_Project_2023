@@ -11,11 +11,12 @@ import Snackbar from '@mui/material/Snackbar';
 import { Alert, AlertProps } from '@mui/material';
 import useFetch from '../UseFetch';
 import IState from '../Interfaces/IState';
-import { handleEditClick, handleSaveClick, handleCancelClick, handleRowEditStop } from '../GridUtilties';
+import { handleEditClick, handleSaveClick, handleCancelClick, handleRowEditStop, handleProcessRowUpdateError } from '../GridUtilties';
 import { Link } from "react-router-dom";
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import PharmacistModel from '../components/PharmacistModel';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
+import IPharmacy from '../Interfaces/IPharmacy';
 
 
 const Home = () => {
@@ -31,6 +32,7 @@ const Home = () => {
     const [stateKeys, setStateKeys] = React.useState<string[]>([]);
     const selectedPharmacy = useSelector(getPharmacySingleData);
     const [isPharmacySelected, setIsPharmacySelected] = React.useState<boolean>(false);
+    const [snackbar, setSnackbar] = React.useState<Pick<AlertProps, 'children' | 'severity'> | null>(null);
 
     // set rows on grid
     useEffect(() => {
@@ -63,7 +65,7 @@ const Home = () => {
         setIsPharmacySelected(true)
     }
 
-    const [snackbar, setSnackbar] = React.useState<Pick<AlertProps, 'children' | 'severity'> | null>(null);
+
 
     const columns: GridColDef[] = [
         {
@@ -205,11 +207,6 @@ const Home = () => {
         [dispatch(savePharmacy)],
     );
 
-    const handleProcessRowUpdateError = React.useCallback(() => {
-        setSnackbar({ children: "Error saving the information. If the error persists, please call technical support.", severity: 'error' });
-    }, []);
-
-    const handleCloseSnackbar = () => setSnackbar(null);
 
     return (
         <>
@@ -223,7 +220,6 @@ const Home = () => {
 
                     {pharmacyList.length > 0 && (
                         <div id="pharmacies" >
-
                             <DataGrid
                                 rows={pharmacyList}
                                 columns={columns}
@@ -235,7 +231,7 @@ const Home = () => {
                                 editMode="row"
                                 rowModesModel={rowModesModel}
                                 onRowEditStop={(params, event, details) => handleRowEditStop(params, event, details)}
-                                onProcessRowUpdateError={handleProcessRowUpdateError}
+                                onProcessRowUpdateError={handleProcessRowUpdateError(setSnackbar)}
                                 slotProps={{
                                     toolbar: { setRows, setRowModesModel },
                                 }}
@@ -244,10 +240,10 @@ const Home = () => {
                                 <Snackbar
                                     open
                                     anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                                    onClose={handleCloseSnackbar}
+                                    onClose={() => setSnackbar(null)}
                                     autoHideDuration={6000}  >
                                     <Alert {...snackbar}
-                                        onClose={handleCloseSnackbar} />
+                                        onClose={() => setSnackbar(null)} />
                                 </Snackbar>
                             )}
 

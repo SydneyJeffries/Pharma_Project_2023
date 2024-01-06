@@ -11,7 +11,7 @@ import IWarehouse from "../Interfaces/IWarehouse";
 import useFetch from '../UseFetch';
 import IPharmacy from '../Interfaces/IPharmacy';
 import IDrug from '../Interfaces/IDrug';
-import { handleEditClick, handleSaveClick, handleCancelClick, handleAddNewRecordClick, handleRowEditStop } from '../GridUtilties';
+import { handleEditClick, handleSaveClick, handleCancelClick, handleAddNewRecordClick, handleRowEditStop, handleProcessRowUpdateError } from '../GridUtilties';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
@@ -22,8 +22,7 @@ import { useParams } from 'react-router-dom'
 import IDelivery from '../Interfaces/IDelivery';
 
 const Delivery = () => {
-
-    const { pharmacyId } = useParams();
+    const { pharmacyId } = useParams<{pharmacyId: string}>();
     const dispatch = useDispatch();
     const deliveryList = useSelector(getDeliveryData);
     const deliveryStatus = useSelector(getDeliveryStatus);
@@ -39,7 +38,7 @@ const Delivery = () => {
     const [warehouseKeys, setWarehouseKeys] = React.useState<ValueOptions[]>([]);
     const [pharmacyKeys, setPharmacyKeys] = React.useState<ValueOptions[]>([]);
     const [drugKeys, setDrugKeys] = React.useState<ValueOptions[]>([]);
-    const [selectedPharma, setSlectedPharmal] = React.useState<number>(pharmacyId);
+    const [selectedPharma, setSlectedPharmal] = React.useState<number>(Number(pharmacyId));
     const [selectedWarehouse, setSelectedWarehouse] = React.useState<number>(0);
     const totalRowsForPagination = useSelector(getTotalRowsForPagination);
     const [deleteDisabled, setDeleteDisabled] = React.useState<boolean>(false);
@@ -308,11 +307,6 @@ const Delivery = () => {
         [dispatch(SaveDelivery)],
     );
 
-    const handleProcessRowUpdateError = React.useCallback(() => {
-        setSnackbar({ children: "Error saving the information. If the error persists, please call technical support.", severity: 'error' });
-    }, []);
-
-    const handleCloseSnackbar = () => setSnackbar(null);
 
     return (
         <div className="container-xxl  ">
@@ -344,7 +338,7 @@ const Delivery = () => {
                             onRowEditStop={(params, event, details) => handleRowEditStop(params, event, details)}
                             paginationMode="server"
                             rowCount={totalRowsForPagination}
-                            onProcessRowUpdateError={handleProcessRowUpdateError}
+                            onProcessRowUpdateError={handleProcessRowUpdateError(setSnackbar)}
                             slots={{
                                 toolbar: EditToolbar,
                             }}
@@ -356,10 +350,10 @@ const Delivery = () => {
                             <Snackbar
                                 open
                                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                                onClose={handleCloseSnackbar}
+                                onClose={() => setSnackbar(null)}
                                 autoHideDuration={6000}  >
                                 <Alert {...snackbar}
-                                    onClose={handleCloseSnackbar} />
+                                    onClose={() => setSnackbar(null)} />
                             </Snackbar>
                         )}
                     </div>

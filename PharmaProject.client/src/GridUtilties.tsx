@@ -1,15 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { AlertProps } from '@mui/material';
 import { GridRowId, GridRowModesModel, GridRowModes,  GridRowEditStopParams, MuiEvent } from '@mui/x-data-grid';
 import {  GridEventListener, GridRowEditStopReasons} from '@mui/x-data-grid';
 import { isNumber } from '@mui/x-data-grid/internals';
+import { Dispatch, SetStateAction } from 'react';
 
-export const handleEditClick = (id: GridRowId, rowModesModel: GridRowModesModel, setRowModesModel: React.Dispatch<React.SetStateAction<GridRowModesModel>>, GridRowModes: any) => {
+export const handleEditClick = (id: GridRowId, rowModesModel: GridRowModesModel, setRowModesModel: Dispatch<SetStateAction<GridRowModesModel>>, GridRowModes: any) => {
     if (isNumber(id)) {
         setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
     }
 };
 
-export const handleSaveClick = (id: GridRowId, rowModesModel: GridRowModesModel, setRowModesModel: React.Dispatch<React.SetStateAction<GridRowModesModel>>, validationErrorsRef: React.MutableRefObject<{ [key: string]: { [key: string]: boolean } }>) => {
+export const handleSaveClick = (id: GridRowId, rowModesModel: GridRowModesModel, setRowModesModel: Dispatch<SetStateAction<GridRowModesModel>>, validationErrorsRef: React.MutableRefObject<{ [key: string]: { [key: string]: boolean } }>) => {
     const rowValidationErrors = validationErrorsRef.current[id];
 
     // if there are no validation errors on an update
@@ -39,7 +41,7 @@ export const handleSaveClick = (id: GridRowId, rowModesModel: GridRowModesModel,
     }
 };
 
-export const handleCancelClick = (id: GridRowId, rowModesModel: GridRowModesModel, setRowModesModel: React.Dispatch<React.SetStateAction<GridRowModesModel>>, rows: any[], setRows: React.Dispatch<React.SetStateAction<any>>, setDeleteDisabled?: React.Dispatch<React.SetStateAction<any>>) => {
+export const handleCancelClick = (id: GridRowId, rowModesModel: GridRowModesModel, setRowModesModel: Dispatch<SetStateAction<GridRowModesModel>>, rows: any[], setRows: Dispatch<SetStateAction<any>>, setDeleteDisabled?: Dispatch<SetStateAction<any>>) => {
     setRowModesModel({
         ...rowModesModel,
         [id]: { mode: GridRowModes.View, ignoreModifications: true },
@@ -56,8 +58,8 @@ export const handleCancelClick = (id: GridRowId, rowModesModel: GridRowModesMode
     }
 };
 
-export const handleAddNewRecordClick = (rowModesModel: GridRowModesModel, rows: any[], setRows: React.Dispatch<React.SetStateAction<any>>, setRowModesModel: React.Dispatch<React.SetStateAction<GridRowModesModel>>,
-    fieldToFocus: string, setDeleteDisabled: React.Dispatch<React.SetStateAction<any>>, newRow: any) => {
+export const handleAddNewRecordClick = (rowModesModel: GridRowModesModel, rows: any[], setRows: Dispatch<SetStateAction<any>>, setRowModesModel: Dispatch<SetStateAction<GridRowModesModel>>,
+    fieldToFocus: string, setDeleteDisabled: Dispatch<SetStateAction<boolean>>, newRow: any) => {
 
     // check if a new record is already beening created.
     const hasRowWithIdZero = rows.some((row) => row.id === 0);
@@ -82,8 +84,13 @@ export const handleAddNewRecordClick = (rowModesModel: GridRowModesModel, rows: 
 };
 
 export const handleRowEditStop: GridEventListener<'rowEditStop'> = (params: GridRowEditStopParams, event: MuiEvent) => {
-    debugger;
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
         event.defaultMuiPrevented = true;
     }
+};
+
+export const handleProcessRowUpdateError = (setSnackbar: Dispatch<SetStateAction<Pick<AlertProps, 'children' | 'severity'> | null>>) => {
+    return () => {
+        setSnackbar({ children: "Error saving the information. If the error persists, please call technical support.", severity: 'error' });
+    };
 };
