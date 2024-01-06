@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect } from 'react';
-import Loader from './Loader';
+import Loader from '../components/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDeliveryData, getDeliveryStatus, getDeliveryError, GetDeliveryList, SaveDelivery, DeleteDelivery, getTotalRowsForPagination } from '../slicers/DeliverySlice';
 import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowModesModel, GridRowModes, GridEventListener, GridRowEditStopReasons, GridRowModel, GridPreProcessEditCellProps, ValueOptions, GridToolbarContainer, GridValueSetterParams } from '@mui/x-data-grid';
@@ -9,17 +9,17 @@ import Snackbar from '@mui/material/Snackbar';
 import { Alert, AlertProps, Button } from '@mui/material';
 import IWarehouse from "../Interfaces/IWarehouse";
 import useFetch from '../UseFetch';
-import { fetchPharmacyList } from '../slicers/PharmacySlice';
 import IPharmacy from '../Interfaces/IPharmacy';
 import IDrug from '../Interfaces/IDrug';
-import { handleEditClick, handleSaveClick, handleCancelClick } from '../GridUtilties';
+import { handleEditClick, handleSaveClick, handleCancelClick, handleAddNewRecordClick } from '../GridUtilties';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
-import OptionsDropDownList from './OptionsDropDownList';
+import OptionsDropDownList from '../components/OptionsDropDownList';
 import { useParams } from 'react-router-dom'
+import IDelivery from '../Interfaces/IDelivery';
 
 const Delivery = () => {
 
@@ -43,44 +43,34 @@ const Delivery = () => {
     const [selectedWarehouse, setSelectedWarehouse] = React.useState<number>(0);
     const totalRowsForPagination = useSelector(getTotalRowsForPagination);
     const [deleteDisabled, setDeleteDisabled] = React.useState<boolean>(false);
+    const [snackbar, setSnackbar] = React.useState<Pick<AlertProps, 'children' | 'severity'> | null>(null);
+
     // set rows on grid
     useEffect(() => {
         setRows([...deliveryList]);
     }, [deliveryList]);
 
-    // set dropdown lists
+     //create drop downs 
     useEffect(() => {
         if (warehouseData) {
-            const dropdownOptions = warehouseData?.map((warehouse) => ({
-                value: warehouse.warehouseId,
-                label: warehouse.name,
-            }));
-            setWarehouseKeys(dropdownOptions);
+            setWarehouseKeys(generateDropdownOptions(warehouseData, 'warehouseId', 'name'));
         }
-    }, [warehouseData])
 
-    // set dropdown lists
-    useEffect(() => {
         if (drugData) {
-            const dropdownOptions = drugData?.map((drug) => ({
-                value: drug.drugId,
-                label: drug.drugName,
-            }));
-            setDrugKeys(dropdownOptions);
+            setDrugKeys(generateDropdownOptions(drugData, 'drugId', 'drugName'));
         }
-    }, [drugData])
 
-    // set dropdown lists
-    useEffect(() => {
         if (pharmacyData) {
-            const dropdownOptionsPharma = pharmacyData?.map((pharmacy) => ({
-                value: pharmacy.pharmacyId,
-                label: pharmacy.name,
-            }));
-            setPharmacyKeys(dropdownOptionsPharma);
-            console.log("pharmacyKeys", dropdownOptionsPharma)
+            setPharmacyKeys(generateDropdownOptions(pharmacyData, 'pharmacyId', 'name'));
         }
-    }, [pharmacyData])
+    }, [warehouseData, drugData, pharmacyData]);
+
+    const generateDropdownOptions = (  data: any[],   valueKey: string, labelKey: string ): ValueOptions[] => {
+        return data.map((item) => ({
+            value: item[valueKey],
+            label: item[labelKey],
+        }));
+    };
 
     useEffect(() => {
         // navbar active class doesn't update when you use parameters
@@ -90,7 +80,7 @@ const Delivery = () => {
         }
     }, [])
 
-    function getDeliveryList() {
+    const getDeliveryList = () => {
         dispatch(GetDeliveryList({ pageNumber: paginationModel.page, pageSize: paginationModel.pageSize, pharmacyId: selectedPharma, warehouseId: selectedWarehouse }));
     }
 
@@ -107,9 +97,8 @@ const Delivery = () => {
 
     const handleCancel = handleCancelClick(rowModesModel, setRowModesModel, rows, setRows, setDeleteDisabled);
 
-    const handleDeleteClick = (id: GridRowId) => () => {
+    const handleDelete = (id: GridRowId) => () => {
         const rowToDelete = rows.filter((row: any) => row.id == id)[0]
-
         dispatch(DeleteDelivery(rowToDelete));
         setSnackbar({ children: 'Successfully deleted', severity: 'success' });
         getDeliveryList();
@@ -117,8 +106,6 @@ const Delivery = () => {
 
     const formatCurrency = (value: number) =>
         new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
-
-    const [snackbar, setSnackbar] = React.useState<Pick<AlertProps, 'children' | 'severity'> | null>(null);
 
     const columns: GridColDef[] = [
         {
@@ -272,7 +259,7 @@ const Delivery = () => {
                             icon={<CancelIcon />}
                             label="Cancel"
                             className="textPrimary"
-                            onClick={() => handleCancel(id) }
+                            onClick={() => handleCancel(id)}
                             color="inherit"
                         />,
                     ];
@@ -286,10 +273,10 @@ const Delivery = () => {
                         color="inherit"
                     />,
                     <GridActionsCellItem
-                        disabled={deleteDisabled} 
+                        disabled={deleteDisabled}
                         icon={<DeleteIcon />}
                         label="Delete"
-                        onClick={handleDeleteClick(id)}
+                        onClick={handleDelete(id)}
                         color="inherit"
                     />
                 ];
@@ -297,25 +284,14 @@ const Delivery = () => {
         },
     ]
 
-    function EditToolbar(props: any) {
-        const { setRows, setRowModesModel } = props;
-
-        const handleClick = () => {
-            const id = 0;
-            setDeleteDisabled(true)
-            const hasRowWithIdZero = rows.some((row: any) => row.id === id);
-            if (!hasRowWithIdZero) {
-                setRows((oldRows: any) => [{ deliveryId: id, warehouseId: 0, pharmacyId: 0, drugId: 0, unitCount: 0, unitPrice: 0, totalPrice: 0, deliveryDate: new Date().toISOString(), active: true, id: id, updatedDate: null, createdDate: new Date().toISOString(), createdBy: "", updatededBy: null, pharmacy: {}, warehouse: {}, isNew: true }, ...oldRows]);
-                setRowModesModel((oldModel: any) => ({
-                    ...oldModel,
-                    [id]: { mode: GridRowModes.Edit, fieldToFocus: 'warehouseId' },
-                }));
-            }
-        };
+    const EditToolbar = () => {
+/*        const { setRows, setRowModesModel } = props;*/
+        const newRow: IDelivery = { deliveryId: 0, warehouseId: 0, pharmacyId: 0, drugId: 0, unitCount: 0, unitPrice: 0, totalPrice: 0, deliveryDate: new Date(), active: true, id: 0, updatedDate: null, createdDate: new Date().toISOString(), createdBy: "", updatededBy: null, pharmacy: {}, warehouse: {}, isNew: true }
+        const handleAddNewRecord = handleAddNewRecordClick(rowModesModel, rows, setRows, setRowModesModel, 'warehouseId', setDeleteDisabled);
 
         return (
             <GridToolbarContainer>
-                <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
+                <Button color="primary" startIcon={<AddIcon />} onClick={() => handleAddNewRecord(newRow)}>
                     Add record
                 </Button>
             </GridToolbarContainer>
@@ -338,8 +314,9 @@ const Delivery = () => {
                 setRows((prevRows: any) => prevRows.map((row: any) => row.id == 0 ? { ...returnedDelivery.payload } : row));
                 getDeliveryList();
             }
-            return returnedDelivery.payload;
             setDeleteDisabled(false)
+            return returnedDelivery.payload;
+         
         },
         //@ts-expect-error
         [dispatch(SaveDelivery)],

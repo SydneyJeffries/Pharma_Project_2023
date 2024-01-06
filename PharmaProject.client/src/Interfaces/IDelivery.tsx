@@ -10,6 +10,7 @@ export interface IDelivery  {
     deliveryDate: Date;
     warehouseName: string;
     pharmacyName: string;
+    active: boolean;
 }
 
 export default IDelivery;

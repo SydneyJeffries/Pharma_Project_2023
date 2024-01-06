@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect } from 'react';
-import Loader from './Loader';
+import Loader from '../components/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPharmacyData, getPharmacyStatus, getPharmacyError, fetchPharmacyList, savePharmacy, getPharmacySingleData, getPharmacy, updatePharmacy } from '../slicers/PharmacySlice';
 import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowModesModel, GridRowModes, GridEventListener, GridRowEditStopReasons, GridRowModel, GridPreProcessEditCellProps } from '@mui/x-data-grid';
-import IPharmacy from '../Interfaces/IPharmacy';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
@@ -15,7 +14,7 @@ import IState from '../Interfaces/IState';
 import { handleEditClick, handleSaveClick, handleCancelClick } from '../GridUtilties';
 import { Link } from "react-router-dom";
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
-import PharmacistModel from './PharmacistModel';
+import PharmacistModel from '../components/PharmacistModel';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 
 
