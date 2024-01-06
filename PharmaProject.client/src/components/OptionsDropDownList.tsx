@@ -7,31 +7,30 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { ValueOptions } from '@mui/x-data-grid';
 
-
-interface OptionsDDL {
+interface OptionsDropDownList {
     valueKeys: ValueOptions[];
     setValue: React.Dispatch<React.SetStateAction<number>>;
     title: string;
     selectedValue: number;
 }
 
-const OptionsDropDownList: React.FC<OptionsDDL> = ({ valueKeys, setValue, title, selectedValue }) => {
+const OptionsDropDownList: React.FC<OptionsDropDownList> = ({ valueKeys, setValue, title, selectedValue }) => {
+
     const handleChange = (event: SelectChangeEvent) => {
         setValue(Number(event.target.value));
     };
-
 
     return (
         <Box sx={{ minWidth: 120 }} >
             <FormControl fullWidth>
                 <InputLabel id="simple-select-label">{title}</InputLabel>
-                <Select   id="sampleSelect" value={selectedValue}  label="Pharmacy"  onChange={handleChange}  >
+                <Select id="sampleSelect" value={selectedValue.toString()} label="Pharmacy" onChange={handleChange}  >
                     <MenuItem key={"All"} value={0}>
                         All {title == "Pharmacy" ? "Pharmacies" : title}
                     </MenuItem>
-                    {valueKeys.map((keys: ValueOptions) => (
-                        <MenuItem key={keys.value} value={keys.value}>
-                            {keys.label}
+                    {valueKeys.map((key: ValueOptions) => (
+                        <MenuItem key={key.toString()} value={key.value}>
+                            {key.label}
                         </MenuItem>
                     ))}
                 </Select>
