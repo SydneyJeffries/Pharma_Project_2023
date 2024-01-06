@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import Loader from '../components/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPharmacyData, getPharmacyStatus, getPharmacyError, fetchPharmacyList, savePharmacy, getPharmacySingleData, getPharmacy, updatePharmacy } from '../slicers/PharmacySlice';
-import { DataGrid, GridActionsCellItem, GridColDef, GridRowModesModel, GridRowModes, GridRowModel, GridPreProcessEditCellProps } from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem, GridColDef, GridRowModesModel, GridRowModes, GridRowModel, GridPreProcessEditCellProps, GridRowId } from '@mui/x-data-grid';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
@@ -58,16 +58,10 @@ const Home = () => {
         }
     }, [])
 
-    function onClickView(pharmacyId: number) {
-        dispatch(getPharmacy(pharmacyId));
+    function onClickPharmisists(pharmacyId: GridRowId) {
+        dispatch(getPharmacy(Number(pharmacyId)));
         setIsPharmacySelected(true)
     }
-
-    const handleEdit = handleEditClick(rowModesModel, setRowModesModel, GridRowModes);
-
-    const handleSave = handleSaveClick(rowModesModel, setRowModesModel, validationErrorsRef);
-
-    const handleCancel = handleCancelClick(rowModesModel, setRowModesModel, rows, setRows);
 
     const [snackbar, setSnackbar] = React.useState<Pick<AlertProps, 'children' | 'severity'> | null>(null);
 
@@ -168,13 +162,13 @@ const Home = () => {
                             sx={{
                                 color: 'primary.main',
                             }}
-                            onClick={() => handleSave(id)}
+                            onClick={() => handleSaveClick(id, rowModesModel, setRowModesModel, validationErrorsRef)}
                         />,
                         <GridActionsCellItem
                             icon={<CancelIcon />}
                             label="Cancel"
                             className="textPrimary"
-                            onClick={() => handleCancel(id)}
+                            onClick={() => handleCancelClick(id, rowModesModel, setRowModesModel, rows, setRows)}
                             color="inherit"
                         />,
                     ];
@@ -185,13 +179,13 @@ const Home = () => {
                             icon={<EditIcon />}
                             label="Edit"
                             className="textPrimary"
-                            onClick={() => handleEdit(id)}
+                            onClick={() => handleEditClick(id, rowModesModel, setRowModesModel, GridRowModes)}
                             color="inherit"
                         />
                         <Link to={`/delivey/${id}`} className="text-black" >
                             <LocalShippingIcon />
                         </Link>
-                        &nbsp; <span className="underline link  text-black" onClick={() => onClickView(id)}> <SupervisorAccountIcon/> </span>
+                        &nbsp; <span className="underline link  text-black" onClick={() => onClickPharmisists(id)}> <SupervisorAccountIcon/> </span>
                     </>
                 ];
             },

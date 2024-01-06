@@ -81,7 +81,7 @@ const Delivery = () => {
     }, [])
 
     const getDeliveryList = () => {
-        dispatch(GetDeliveryList({ pageNumber: paginationModel.page, pageSize: paginationModel.pageSize, pharmacyId: selectedPharma, warehouseId: selectedWarehouse }));
+         dispatch(GetDeliveryList({ pageNumber: paginationModel.page, pageSize: paginationModel.pageSize, pharmacyId: selectedPharma, warehouseId: selectedWarehouse }));
     }
 
     // Get grid rows data
@@ -90,12 +90,7 @@ const Delivery = () => {
         console.log(deliveryList);
 
     }, [selectedPharma, selectedWarehouse, paginationModel]);
-
-    const handleEdit = handleEditClick(rowModesModel, setRowModesModel, GridRowModes);
-
-    const handleSave = handleSaveClick(rowModesModel, setRowModesModel, validationErrorsRef);
-
-    const handleCancel = handleCancelClick(rowModesModel, setRowModesModel, rows, setRows, setDeleteDisabled);
+    
 
     const handleDelete = (id: GridRowId) => () => {
         const rowToDelete = rows.filter((row: any) => row.id == id)[0]
@@ -253,13 +248,13 @@ const Delivery = () => {
                             sx={{
                                 color: 'primary.main',
                             }}
-                            onClick={() => handleSave(id)}
+                            onClick={() => handleSaveClick(id, rowModesModel, setRowModesModel, validationErrorsRef)}
                         />,
                         <GridActionsCellItem
                             icon={<CancelIcon />}
                             label="Cancel"
                             className="textPrimary"
-                            onClick={() => handleCancel(id)}
+                            onClick={() => handleCancelClick(id, rowModesModel, setRowModesModel, rows, setRows, setDeleteDisabled)}
                             color="inherit"
                         />,
                     ];
@@ -269,7 +264,7 @@ const Delivery = () => {
                         icon={<EditIcon />}
                         label="Edit"
                         className="textPrimary"
-                        onClick={() => handleEdit(id)}
+                        onClick={() => handleEditClick(id, rowModesModel, setRowModesModel, GridRowModes)}
                         color="inherit"
                     />,
                     <GridActionsCellItem

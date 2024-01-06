@@ -1,12 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { GridRowId, GridRowModesModel, GridRowModes,  GridRowEditStopParams, MuiEvent } from '@mui/x-data-grid';
 import {  GridEventListener, GridRowEditStopReasons} from '@mui/x-data-grid';
+import { isNumber } from '@mui/x-data-grid/internals';
 
-export const handleEditClick = (rowModesModel: GridRowModesModel, setRowModesModel: React.Dispatch<React.SetStateAction<GridRowModesModel>>, GridRowModes: any) => (id: GridRowId) => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+export const handleEditClick = (id: GridRowId, rowModesModel: GridRowModesModel, setRowModesModel: React.Dispatch<React.SetStateAction<GridRowModesModel>>, GridRowModes: any) => {
+    if (isNumber(id)) {
+        setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+    }
 };
 
-export const handleSaveClick = (rowModesModel: GridRowModesModel, setRowModesModel: React.Dispatch<React.SetStateAction<GridRowModesModel>>, validationErrorsRef: React.MutableRefObject<{ [key: string]: { [key: string]: boolean } }>) => (id: GridRowId) => {
+export const handleSaveClick = (id: GridRowId, rowModesModel: GridRowModesModel, setRowModesModel: React.Dispatch<React.SetStateAction<GridRowModesModel>>, validationErrorsRef: React.MutableRefObject<{ [key: string]: { [key: string]: boolean } }>) => {
     const rowValidationErrors = validationErrorsRef.current[id];
 
     // if there are no validation errors on an update
@@ -36,7 +39,7 @@ export const handleSaveClick = (rowModesModel: GridRowModesModel, setRowModesMod
     }
 };
 
-export const handleCancelClick = (rowModesModel: GridRowModesModel, setRowModesModel: React.Dispatch<React.SetStateAction<GridRowModesModel>>, rows: any[], setRows: React.Dispatch<React.SetStateAction<any>>, setDeleteDisabled?: React.Dispatch<React.SetStateAction<any>>) => (id: GridRowId) => {
+export const handleCancelClick = (id: GridRowId, rowModesModel: GridRowModesModel, setRowModesModel: React.Dispatch<React.SetStateAction<GridRowModesModel>>, rows: any[], setRows: React.Dispatch<React.SetStateAction<any>>, setDeleteDisabled?: React.Dispatch<React.SetStateAction<any>>) => {
     setRowModesModel({
         ...rowModesModel,
         [id]: { mode: GridRowModes.View, ignoreModifications: true },
