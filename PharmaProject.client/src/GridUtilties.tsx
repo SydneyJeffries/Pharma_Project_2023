@@ -41,7 +41,7 @@ export const handleSaveClick = (id: GridRowId, rowModesModel: GridRowModesModel,
     }
 };
 
-export const handleCancelClick = (id: GridRowId, rowModesModel: GridRowModesModel, setRowModesModel: Dispatch<SetStateAction<GridRowModesModel>>, rows: any[], setRows: Dispatch<SetStateAction<any>>, setDeleteDisabled?: Dispatch<SetStateAction<any>>) => {
+export const handleCancelClick = (id: GridRowId, rowModesModel: GridRowModesModel, setRowModesModel: Dispatch<SetStateAction<GridRowModesModel>>, rows: any[], setRows: Dispatch<SetStateAction<any>>, setDeleteDisabled?: Dispatch<SetStateAction<boolean>>) => {
     setRowModesModel({
         ...rowModesModel,
         [id]: { mode: GridRowModes.View, ignoreModifications: true },

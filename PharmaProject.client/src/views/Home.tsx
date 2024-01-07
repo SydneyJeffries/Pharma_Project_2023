@@ -3,21 +3,15 @@ import React, { useEffect } from 'react';
 import Loader from '../components/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPharmacyData, getPharmacyStatus, getPharmacyError, fetchPharmacyList, savePharmacy, getPharmacySingleData, getPharmacy, updatePharmacy } from '../slicers/PharmacySlice';
-import { DataGrid, GridActionsCellItem, GridColDef, GridRowModesModel, GridRowModes, GridRowModel, GridPreProcessEditCellProps, GridRowId } from '@mui/x-data-grid';
-import SaveIcon from '@mui/icons-material/Save';
-import CancelIcon from '@mui/icons-material/Close';
-import EditIcon from '@mui/icons-material/Edit';
+import { DataGrid, GridActionsCellItem, GridColDef, GridRowModesModel, GridRowModes, GridRowModel, GridPreProcessEditCellProps, GridRowId, GridValueGetterParams } from '@mui/x-data-grid';
 import Snackbar from '@mui/material/Snackbar';
+import { Save, Cancel, Edit, LocalShipping, SupervisorAccount } from '@mui/icons-material';
 import { Alert, AlertProps } from '@mui/material';
 import useFetch from '../UseFetch';
 import IState from '../Interfaces/IState';
 import { handleEditClick, handleSaveClick, handleCancelClick, handleRowEditStop, handleProcessRowUpdateError } from '../GridUtilties';
 import { Link } from "react-router-dom";
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import PharmacistModel from '../components/PharmacistModel';
-import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
-import IPharmacy from '../Interfaces/IPharmacy';
-
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -136,13 +130,13 @@ const Home = () => {
         },
         {
             field: "createdDateTest", headerName: "Created Date", editable: false, hideable: true, width: 130, type: "date", headerAlign: "center", align: "center",
-            valueGetter: (params: any) => {
+            valueGetter: (params: GridValueGetterParams) => {
                 return new Date(params.row.createdDate)
             }
         },
         {
             field: "updatedDate", headerName: "Updated Date", editable: false, hideable: true, width: 140, type: "date", headerAlign: "center", align: "center",
-            valueGetter: (params: any) => {
+            valueGetter: (params: GridValueGetterParams) => {
                 return params.row.updatedDate ? new Date(params.row.updatedDate) : null;
             }
         },
@@ -159,7 +153,7 @@ const Home = () => {
                 if (isInEditMode) {
                     return [
                         <GridActionsCellItem
-                            icon={<SaveIcon />}
+                            icon={<Save />}
                             label="Save"
                             sx={{
                                 color: 'primary.main',
@@ -167,7 +161,7 @@ const Home = () => {
                             onClick={() => handleSaveClick(id, rowModesModel, setRowModesModel, validationErrorsRef)}
                         />,
                         <GridActionsCellItem
-                            icon={<CancelIcon />}
+                            icon={<Cancel />}
                             label="Cancel"
                             className="textPrimary"
                             onClick={() => handleCancelClick(id, rowModesModel, setRowModesModel, rows, setRows)}
@@ -178,16 +172,16 @@ const Home = () => {
                 return [
                     <>
                         <GridActionsCellItem
-                            icon={<EditIcon />}
+                            icon={<Edit />}
                             label="Edit"
                             className="textPrimary"
                             onClick={() => handleEditClick(id, rowModesModel, setRowModesModel, GridRowModes)}
                             color="inherit"
                         />
                         <Link to={`/delivey/${id}`} className="text-black" >
-                            <LocalShippingIcon />
+                            <LocalShipping />
                         </Link>
-                        &nbsp; <span className="underline link  text-black" onClick={() => onClickPharmisists(id)}> <SupervisorAccountIcon/> </span>
+                        &nbsp; <span className="underline link  text-black" onClick={() => onClickPharmisists(id)}> <SupervisorAccount/> </span>
                     </>
                 ];
             },
@@ -197,7 +191,7 @@ const Home = () => {
     const processRowUpdate = React.useCallback(
         async (newRow: GridRowModel) => {
             //@ts-expect-error
-            const returnedPharmacy = await dispatch(savePharmacy(newRow));
+            const returnedPharmacy : any = await dispatch(savePharmacy(newRow));
             setSnackbar({ children: 'Successfully saved', severity: 'success' });
      
             dispatch(updatePharmacy({ id: returnedPharmacy.payload.id, newData: returnedPharmacy.payload }));
@@ -211,13 +205,12 @@ const Home = () => {
     return (
         <>
             <div className="container-xxl ">
-                {selectedPharmacy != null && isPharmacySelected == true && <PharmacistModel> </PharmacistModel>}
+                {selectedPharmacy != null && isPharmacySelected == true && <PharmacistModel/> }
                 <div className="flex-col " >
                     {pharmacyError === 'loading' && (
                         <div className="text-danger text-center">Error loading the page.</div>
                     )}
                     {pharmacyStatus === 'loading' && <Loader></Loader>}
-
                     {pharmacyList.length > 0 && (
                         <div id="pharmacies" >
                             <DataGrid
@@ -246,7 +239,6 @@ const Home = () => {
                                         onClose={() => setSnackbar(null)} />
                                 </Snackbar>
                             )}
-
                         </div>
                     )}
                 </div>

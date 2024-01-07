@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect } from 'react';
 import Loader from '../components/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDeliveryData, getDeliveryStatus, getDeliveryError, GetDeliveryList, SaveDelivery, DeleteDelivery, getTotalRowsForPagination } from '../slicers/DeliverySlice';
-import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowModesModel, GridRowModes,  GridRowModel, GridPreProcessEditCellProps, ValueOptions, GridToolbarContainer, GridValueSetterParams } from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowModesModel, GridRowModes,  GridRowModel, GridPreProcessEditCellProps, ValueOptions, GridToolbarContainer, GridValueSetterParams, GridValueGetterParams, GridRenderCellParams } from '@mui/x-data-grid';
 import Snackbar from '@mui/material/Snackbar';
 import { Alert, AlertProps, Button } from '@mui/material';
 import IWarehouse from "../Interfaces/IWarehouse";
@@ -12,14 +11,10 @@ import useFetch from '../UseFetch';
 import IPharmacy from '../Interfaces/IPharmacy';
 import IDrug from '../Interfaces/IDrug';
 import { handleEditClick, handleSaveClick, handleCancelClick, handleAddNewRecordClick, handleRowEditStop, handleProcessRowUpdateError } from '../GridUtilties';
-import SaveIcon from '@mui/icons-material/Save';
-import CancelIcon from '@mui/icons-material/Close';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import AddIcon from '@mui/icons-material/Add';
 import OptionsDropDownList from '../components/OptionsDropDownList';
 import { useParams } from 'react-router-dom'
 import IDelivery from '../Interfaces/IDelivery';
+import { Save, Cancel, Edit, Delete, Add  } from '@mui/icons-material';
 
 const Delivery = () => {
     const { pharmacyId } = useParams<{pharmacyId: string}>();
@@ -110,11 +105,11 @@ const Delivery = () => {
             getOptionValue: (value: any) => {
                 return value?.value;
             },
-            valueGetter: (option) => {
+            valueGetter: (option: GridValueSetterParams) => {
                 const value = option.row.warehouseId;
                 return value;
             },
-            renderCell: (option) => {
+            renderCell: (option: GridRenderCellParams) => {
                 return option.row.warehouseName ? option.row.warehouseName : warehouseKeys.find(x => x.value == option.row.warehouseId)?.label;
             },
             valueSetter: (params: GridValueSetterParams) => {
@@ -137,14 +132,14 @@ const Delivery = () => {
             getOptionValue: (value: any) => {
                 return value?.value;
             },
-            valueSetter: (params) => {
+            valueSetter: (params: GridValueSetterParams) => {
                 return { ...params.row, pharmacyId: params.value };
             },
-            valueGetter: (option) => {
+            valueGetter: (option: GridValueGetterParams) => {
                 const value = option.row.pharmacyId;
                 return value;
             },
-            renderCell: (option) => {
+            renderCell: (option: GridRenderCellParams) => {
                 return option.row.pharmacyName ? option.row.PharmacyName : pharmacyKeys.find(x => x.value == option.row.pharmacyId)?.label;
             },
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
@@ -164,11 +159,11 @@ const Delivery = () => {
             getOptionValue: (value: any) => {
                 return value?.value;
             },
-            valueGetter: (option) => {
+            valueGetter: (option: GridValueGetterParams) => {
                 const value = option.row.drugId;
                 return value;
             },
-            valueSetter: (params) => {
+            valueSetter: (params: GridValueSetterParams) => {
                 return { ...params.row, drugId: params.value };
             },
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
@@ -182,7 +177,7 @@ const Delivery = () => {
         },
         {
             field: "unitCount", headerName: "Unit Count", editable: true, width: 120, type: "number", sortable: false, filterable: false, headerAlign: "center", align: "center",
-            valueSetter: (params) => {
+            valueSetter: (params: GridValueSetterParams) => {
                 return { ...params.row, unitCount: params.value };
             },
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
@@ -197,7 +192,7 @@ const Delivery = () => {
         {
             field: "unitPrice", headerName: "Unit Price", editable: true, width: 190, headerAlign: "center", align: "center", type: "number", sortable: false, filterable: false,
             valueFormatter: (params) => formatCurrency(params.value),
-            valueSetter: (params) => {
+            valueSetter: (params: GridValueSetterParams) => {
                 return { ...params.row, unitPrice: params.value };
             },
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
@@ -214,10 +209,10 @@ const Delivery = () => {
         },
         {
             field: "deliveryDate", headerName: "Delivery Date", editable: true, width: 170, type: "date", headerAlign: "center", align: "center", sortable: false, filterable: false,
-            valueGetter: (params: any) => {
+            valueGetter: (params: GridValueGetterParams) => {
                 return new Date(params.row.deliveryDate)
             },
-            valueSetter: (params) => {
+            valueSetter: (params: GridValueSetterParams) => {
                 return { ...params.row, deliveryDate: params.value };
             },
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
@@ -242,7 +237,7 @@ const Delivery = () => {
                 if (isInEditMode) {
                     return [
                         <GridActionsCellItem
-                            icon={<SaveIcon />}
+                            icon={<Save />}
                             label="Save"
                             sx={{
                                 color: 'primary.main',
@@ -250,7 +245,7 @@ const Delivery = () => {
                             onClick={() => handleSaveClick(id, rowModesModel, setRowModesModel, validationErrorsRef)}
                         />,
                         <GridActionsCellItem
-                            icon={<CancelIcon />}
+                            icon={<Cancel />}
                             label="Cancel"
                             className="textPrimary"
                             onClick={() => handleCancelClick(id, rowModesModel, setRowModesModel, rows, setRows, setDeleteDisabled)}
@@ -260,7 +255,7 @@ const Delivery = () => {
                 }
                 return [
                     <GridActionsCellItem
-                        icon={<EditIcon />}
+                        icon={<Edit />}
                         label="Edit"
                         className="textPrimary"
                         onClick={() => handleEditClick(id, rowModesModel, setRowModesModel, GridRowModes)}
@@ -268,7 +263,7 @@ const Delivery = () => {
                     />,
                     <GridActionsCellItem
                         disabled={deleteDisabled}
-                        icon={<DeleteIcon />}
+                        icon={<Delete />}
                         label="Delete"
                         onClick={handleDelete(id)}
                         color="inherit"
@@ -282,7 +277,7 @@ const Delivery = () => {
         const newRow: IDelivery = { deliveryId: 0, warehouseId: 0, pharmacyId: 0, drugId: 0, unitCount: 0, unitPrice: 0, totalPrice: 0, deliveryDate: new Date(), active: true, Id: 0, updatedDate: null, createdDate: new Date(), createdBy: "", updatedBy: null, isNew: true }
         return (
             <GridToolbarContainer>
-                <Button color="primary" startIcon={<AddIcon />} onClick={() => handleAddNewRecordClick(rowModesModel, rows, setRows, setRowModesModel, 'warehouseId', setDeleteDisabled, newRow)}>
+                <Button color="primary" startIcon={<Add />} onClick={() => handleAddNewRecordClick(rowModesModel, rows, setRows, setRowModesModel, 'warehouseId', setDeleteDisabled, newRow)}>
                     Add record
                 </Button>
             </GridToolbarContainer>
