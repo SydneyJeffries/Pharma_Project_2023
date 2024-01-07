@@ -3,9 +3,9 @@ import React, { useEffect } from 'react';
 import Loader from '../../components/loader/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDeliveryData, getDeliveryStatus, getDeliveryError, GetDeliveryList, SaveDelivery, DeleteDelivery, getTotalRowsForPagination } from '../../slicers/DeliverySlice';
-import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowModesModel, GridRowModes,  GridRowModel, GridPreProcessEditCellProps, ValueOptions, GridToolbarContainer, GridValueSetterParams, GridValueGetterParams, GridRenderCellParams } from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowModesModel, GridRowModes, GridRowModel, GridPreProcessEditCellProps, ValueOptions, GridToolbarContainer, GridValueSetterParams, GridValueGetterParams, GridRenderCellParams } from '@mui/x-data-grid';
 import Snackbar from '@mui/material/Snackbar';
-import { Alert, AlertProps, Button } from '@mui/material';
+import { Alert, AlertProps, Button, TextField } from '@mui/material';
 import IWarehouse from "../../Interfaces/IWarehouse";
 import useFetch from '../../customHooks/UseFetch';
 import IPharmacy from '../../Interfaces/IPharmacy';
@@ -14,11 +14,15 @@ import { handleEditClick, handleSaveClick, handleCancelClick, handleAddNewRecord
 import OptionsDropDownList from '../../components/optionsDropDownList/OptionsDropDownList';
 import { useParams } from 'react-router-dom'
 import IDelivery from '../../Interfaces/IDelivery';
-import { Save, Close, Edit, Delete, Add  } from '@mui/icons-material';
+import { Save, Close, Edit, Delete, Add } from '@mui/icons-material';
 import './Delivery.css';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs, { Dayjs } from 'dayjs';
 
 const Delivery = () => {
-    const { pharmacyId } = useParams<{pharmacyId: string}>();
+    const { pharmacyId } = useParams<{ pharmacyId: string }>();
     const dispatch = useDispatch();
     const deliveryList = useSelector(getDeliveryData);
     const deliveryStatus = useSelector(getDeliveryStatus);
@@ -76,7 +80,7 @@ const Delivery = () => {
     }, [])
 
     const getDeliveryList = () => {
-         dispatch(GetDeliveryList({ pageNumber: paginationModel.page, pageSize: paginationModel.pageSize, pharmacyId: selectedPharma, warehouseId: selectedWarehouse }));
+        dispatch(GetDeliveryList({ pageNumber: paginationModel.page, pageSize: paginationModel.pageSize, pharmacyId: selectedPharma, warehouseId: selectedWarehouse }));
     }
 
     // Get grid rows data
@@ -85,7 +89,7 @@ const Delivery = () => {
         console.log(deliveryList);
 
     }, [selectedPharma, selectedWarehouse, paginationModel]);
-    
+
 
     const handleDelete = (id: GridRowId) => () => {
         const rowToDelete = rows.filter((row: any) => row.id == id)[0]
@@ -206,10 +210,19 @@ const Delivery = () => {
             },
         },
         {
-            field: "totalPrice", headerName: "Total Price", editable: false, width: 150, headerAlign: "center", align: "center", type: "number", valueFormatter: (params) => formatCurrency(params.value), sortable: false, filterable: false,
+            field: "totalPrice", headerName: "Total Price", editable: false, width: 147, headerAlign: "center", align: "center", type: "number", valueFormatter: (params) => formatCurrency(params.value), sortable: false, filterable: false,
         },
         {
-            field: "deliveryDate", headerName: "Delivery Date", editable: true, width: 170, type: "date", headerAlign: "center", align: "center", sortable: false, filterable: false,
+            field: "deliveryDate", headerName: "Delivery Date", editable: true, width: 190, type: "date", headerAlign: "center", align: "center", sortable: false, filterable: false,
+            renderEditCell: (params: GridRenderCellParams) => {
+                return (
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker value={dayjs(params.row.deliveryDate)} onChange={(newValue) => {
+                            setRows((prevRows: any) => prevRows.map((row: any) => row.id == params.row.id ? { ...row, deliverydate: newValue.$d } : row));
+                        }} />
+                    </LocalizationProvider>
+                );
+            },
             valueGetter: (params: GridValueGetterParams) => {
                 return new Date(params.row.deliveryDate)
             },
@@ -229,7 +242,7 @@ const Delivery = () => {
             field: 'actions',
             type: 'actions',
             headerName: 'Actions',
-            width: 140,
+            width: 125,
             cellClassName: 'actions',
             align: "right",
             headerAlign: "right",
@@ -239,13 +252,13 @@ const Delivery = () => {
                     return [
                         <GridActionsCellItem icon={<Save />} label="Save" sx={{ color: 'primary.main' }} onClick={() => handleSaveClick(id, rowModesModel, setRowModesModel, validationErrorsRef)} />,
 
-                        <GridActionsCellItem icon={<Close />}  label="Cancel" className="textPrimary" onClick={() => handleCancelClick(id, rowModesModel, setRowModesModel, rows, setRows, setDeleteDisabled)} color="inherit"  />,
+                        <GridActionsCellItem icon={<Close />} label="Cancel" className="textPrimary" onClick={() => handleCancelClick(id, rowModesModel, setRowModesModel, rows, setRows, setDeleteDisabled)} color="inherit" />,
                     ];
                 }
                 return [
                     <GridActionsCellItem icon={<Edit />} label="Edit" className="textPrimary" onClick={() => handleEditClick(id, rowModesModel, setRowModesModel, GridRowModes)} color="inherit" />,
 
-                    <GridActionsCellItem  disabled={deleteDisabled} icon={<Delete />} label="Delete"   onClick={handleDelete(id)}  color="inherit" />
+                    <GridActionsCellItem disabled={deleteDisabled} icon={<Delete />} label="Delete" onClick={handleDelete(id)} color="inherit" />
                 ];
             },
         },
@@ -263,15 +276,16 @@ const Delivery = () => {
     }
 
     const processRowUpdate = React.useCallback(
-        async (newRow: GridRowModel) => {
+        async (savedRow: GridRowModel) => {
 
             //@ts-expect-error
-            const returnedDelivery: any = await dispatch(SaveDelivery(newRow));
+            debugger;
+            const returnedDelivery: any = await dispatch(SaveDelivery(savedRow));
             setSnackbar({ children: 'Successfully saved', severity: 'success' });
-            if (newRow.isNew) {
+            if (savedRow.isNew) {
                 setRows((prevRows: any) => prevRows.map((row: any) => row.id == 0 ? { ...returnedDelivery.payload } : row));
-                getDeliveryList();
             }
+            getDeliveryList();
             setDeleteDisabled(false)
             return returnedDelivery.payload;
 

@@ -172,9 +172,9 @@ const Home = () => {
     ]
 
     const processRowUpdate = React.useCallback(
-        async (newRow: GridRowModel) => {
+        async (savedRow: GridRowModel) => {
             //@ts-expect-error
-            const returnedPharmacy : any = await dispatch(savePharmacy(newRow));
+            const returnedPharmacy: any = await dispatch(savePharmacy(savedRow));
             setSnackbar({ children: 'Successfully saved', severity: 'success' });
      
             dispatch(updatePharmacy({ id: returnedPharmacy.payload.id, newData: returnedPharmacy.payload }));
