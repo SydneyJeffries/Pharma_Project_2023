@@ -7,7 +7,6 @@ import ISharedState from '../Interfaces/ISharedState';
 import axios from 'axios'
 import IDelivery from "../Interfaces/IDelivery";
 
-
 const initialState: ISharedState = {
     data: [],
     status: 'idle',

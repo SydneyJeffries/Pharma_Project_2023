@@ -1,17 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect } from 'react';
-import Loader from '../components/Loader';
+import Loader from '../../components/loader/Loader';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPharmacyData, getPharmacyStatus, getPharmacyError, fetchPharmacyList, savePharmacy, getPharmacySingleData, getPharmacy, updatePharmacy } from '../slicers/PharmacySlice';
+import { getPharmacyData, getPharmacyStatus, getPharmacyError, fetchPharmacyList, savePharmacy, getPharmacySingleData, getPharmacy, updatePharmacy } from '../../slicers/PharmacySlice';
 import { DataGrid, GridActionsCellItem, GridColDef, GridRowModesModel, GridRowModes, GridRowModel, GridPreProcessEditCellProps, GridRowId, GridValueGetterParams } from '@mui/x-data-grid';
 import Snackbar from '@mui/material/Snackbar';
-import { Save, Cancel, Edit, LocalShipping, SupervisorAccount } from '@mui/icons-material';
+import { Save, Close, Edit, LocalShipping, SupervisorAccount } from '@mui/icons-material';
 import { Alert, AlertProps } from '@mui/material';
-import useFetch from '../customHooks/UseFetch';
-import IState from '../Interfaces/IState';
-import { handleEditClick, handleSaveClick, handleCancelClick, handleRowEditStop, handleProcessRowUpdateError } from '../GridUtilties';
+import useFetch from '../../customHooks/UseFetch';
+import IState from '../../Interfaces/IState';
+import { handleEditClick, handleSaveClick, handleCancelClick, handleRowEditStop, handleProcessRowUpdateError } from '../../GridUtilties';
 import { Link } from "react-router-dom";
-import PharmacistModel from '../components/PharmacistModel';
+import PharmacistModel from '../../components/pharmacist/PharmacistModel';
+import './Home.css';
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -159,7 +160,7 @@ const Home = () => {
                             onClick={() => handleSaveClick(id, rowModesModel, setRowModesModel, validationErrorsRef)}
                         />,
                         <GridActionsCellItem
-                            icon={<Cancel />}
+                            icon={<Close />}
                             label="Cancel"
                             className="textPrimary"
                             onClick={() => handleCancelClick(id, rowModesModel, setRowModesModel, rows, setRows)}

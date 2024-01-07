@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import './header.css';
 function Header() {
 
     const env: string = import.meta.env.MODE;

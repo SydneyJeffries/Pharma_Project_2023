@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useDispatch, useSelector } from 'react-redux';
-import { getPharmacySingleData, getPharmacy } from '../slicers/PharmacySlice';
-import IPharmacy from '../Interfaces/IPharmacy';
+import { getPharmacySingleData, getPharmacy } from '../../slicers/PharmacySlice';
+import IPharmacy from '../../Interfaces/IPharmacy';
 import { Box, Modal } from '@mui/material';
-import useFetch from '../customHooks/UseFetch';
-import Loader from './Loader';
+import useFetch from '../../customHooks/UseFetch';
+import Loader from '../loader/Loader';
+import './PharmacistModel.css';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -51,7 +52,7 @@ const PharmacyCard = () => {
                                 </thead>
                                 <tbody>
                                     {pharmasistList && pharmasistList.length > 0 &&
-                                        pharmasistList.map(pharmacist => (
+                                        pharmasistList.map(pharmacist  => (
                                             <tr>
                                                 <td> {pharmacist.fullName}</td>
                                                 <td> {new Date(pharmacist.dateOfHire).toLocaleDateString()}</td>

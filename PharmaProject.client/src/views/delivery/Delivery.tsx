@@ -1,20 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect } from 'react';
-import Loader from '../components/Loader';
+import Loader from '../../components/loader/Loader';
 import { useDispatch, useSelector } from 'react-redux';
-import { getDeliveryData, getDeliveryStatus, getDeliveryError, GetDeliveryList, SaveDelivery, DeleteDelivery, getTotalRowsForPagination } from '../slicers/DeliverySlice';
+import { getDeliveryData, getDeliveryStatus, getDeliveryError, GetDeliveryList, SaveDelivery, DeleteDelivery, getTotalRowsForPagination } from '../../slicers/DeliverySlice';
 import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowModesModel, GridRowModes,  GridRowModel, GridPreProcessEditCellProps, ValueOptions, GridToolbarContainer, GridValueSetterParams, GridValueGetterParams, GridRenderCellParams } from '@mui/x-data-grid';
 import Snackbar from '@mui/material/Snackbar';
 import { Alert, AlertProps, Button } from '@mui/material';
-import IWarehouse from "../Interfaces/IWarehouse";
-import useFetch from '../customHooks/UseFetch';
-import IPharmacy from '../Interfaces/IPharmacy';
-import IDrug from '../Interfaces/IDrug';
-import { handleEditClick, handleSaveClick, handleCancelClick, handleAddNewRecordClick, handleRowEditStop, handleProcessRowUpdateError } from '../GridUtilties';
-import OptionsDropDownList from '../components/OptionsDropDownList';
+import IWarehouse from "../../Interfaces/IWarehouse";
+import useFetch from '../../customHooks/UseFetch';
+import IPharmacy from '../../Interfaces/IPharmacy';
+import IDrug from '../../Interfaces/IDrug';
+import { handleEditClick, handleSaveClick, handleCancelClick, handleAddNewRecordClick, handleRowEditStop, handleProcessRowUpdateError } from '../../GridUtilties';
+import OptionsDropDownList from '../../components/optionsDropDownList/OptionsDropDownList';
 import { useParams } from 'react-router-dom'
-import IDelivery from '../Interfaces/IDelivery';
-import { Save, Cancel, Edit, Delete, Add  } from '@mui/icons-material';
+import IDelivery from '../../Interfaces/IDelivery';
+import { Save, Close, Edit, Delete, Add  } from '@mui/icons-material';
+import './Delivery.css';
 
 const Delivery = () => {
     const { pharmacyId } = useParams<{pharmacyId: string}>();
@@ -110,7 +111,7 @@ const Delivery = () => {
                 return value;
             },
             renderCell: (option: GridRenderCellParams) => {
-                return option.row.warehouseName ? option.row.warehouseName : warehouseKeys.find(x => x.value == option.row.warehouseId)?.label;
+                return option.row.warehouseName;
             },
             valueSetter: (params: GridValueSetterParams) => {
                 return { ...params.row, warehouseId: params.value };
@@ -140,7 +141,7 @@ const Delivery = () => {
                 return value;
             },
             renderCell: (option: GridRenderCellParams) => {
-                return option.row.pharmacyName ? option.row.PharmacyName : pharmacyKeys.find(x => x.value == option.row.pharmacyId)?.label;
+                return option.row.pharmacyName;
             },
             preProcessEditCellProps: (params: GridPreProcessEditCellProps) => {
                 const hasError = params.props.value == 0;
@@ -245,7 +246,7 @@ const Delivery = () => {
                             onClick={() => handleSaveClick(id, rowModesModel, setRowModesModel, validationErrorsRef)}
                         />,
                         <GridActionsCellItem
-                            icon={<Cancel />}
+                            icon={<Close />}
                             label="Cancel"
                             className="textPrimary"
                             onClick={() => handleCancelClick(id, rowModesModel, setRowModesModel, rows, setRows, setDeleteDisabled)}

@@ -49,7 +49,7 @@ export const handleCancelClick = (id: GridRowId, rowModesModel: GridRowModesMode
 
     // if need to disable delete while in add new record mode
     if (setDeleteDisabled) {
-        setDeleteDisabled(false)
+        setDeleteDisabled(false);
     }
     const editedRow = rows.find((row) => row.id === id);
     

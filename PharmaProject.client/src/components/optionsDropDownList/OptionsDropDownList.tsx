@@ -6,15 +6,10 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { ValueOptions } from '@mui/x-data-grid';
+import IOptionsDropDownList from '../../Interfaces/IOptionsDropDownList';
 
-interface OptionsDropDownList {
-    valueKeys: ValueOptions[];
-    setValue: React.Dispatch<React.SetStateAction<number>>;
-    title: string;
-    selectedValue: number;
-}
 
-const OptionsDropDownList: React.FC<OptionsDropDownList> = ({ valueKeys, setValue, title, selectedValue }) => {
+const OptionsDropDownList: React.FC<IOptionsDropDownList> = ({ valueKeys, setValue, title, selectedValue }) => {
 
     const handleChange = (event: SelectChangeEvent) => {
         setValue(Number(event.target.value));

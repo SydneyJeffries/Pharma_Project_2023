@@ -1,8 +1,8 @@
-import Home from '../views/Home';
+import Home from './views/home/Home';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Header from './Header';
-import Footer from './Footer';
-import Delivery from '../views/Delivery';
+import Header from './components/header/Header';
+import Footer from './components/footer/Footer';
+import Delivery from './views/delivery/Delivery';
 
 function App() {
 

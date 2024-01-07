@@ -41,29 +41,15 @@ button {
     transition: border-color 0.25s;
 }
 
-    button:hover {
-        border-color: #646cff;
-    }
-
-    button:focus,
-    button:focus-visible {
-        outline: 4px auto -webkit-focus-ring-color;
-    }
-
-@media (prefers-color-scheme: light) {
-    :root {
-        color: #213547;
-        background-color: #ffffff;
-    }
-
-    a:hover {
-        color: #747bff;
-    }
-
-    button {
-        background-color: #f9f9f9;
-    }
+button:hover {
+    border-color: #646cff;
 }
+
+button:focus,
+button:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+}
+
 
 body {
     background-color: #f8f9fa;
@@ -92,21 +78,6 @@ body {
     padding: 2em;
 }
 
-.read-the-docs {
-    color: #888;
-}
-
-table.cols-lg td, table.cols-lg th {
-    min-width: 230px
-}
-
-    table.cols-lg td.cols-sm, table.cols-lg th.cols-sm {
-        min-width: 90px;
-    }
-
-table tr:last-of-type:not(thead tr:last-of-type) {
-    border-color: white;
-}
 
 .btn {
     padding-left: 3.5rem;
@@ -116,17 +87,6 @@ table tr:last-of-type:not(thead tr:last-of-type) {
 .link-primary {
     background-color: inherit;
     border: none;
-}
-
-.back {
-    position: absolute;
-    top: 10%;
-}
-
-@media (max-width: 800px) {
-    .back {
-        display: none;
-    }
 }
 
 .css-ptkaw2-MuiDataGrid-root {
@@ -161,55 +121,13 @@ table tr:last-of-type:not(thead tr:last-of-type) {
     color: #4da846;
 }
 
-.text-green:hover {
-    color: #4da846;
-}
-
 .underline {
     text-decoration: underline
-}
-
-.navbar {
-    border-bottom: 1px solid rgba(224, 224, 224, 1);
-}
-
-footer {
-    font-size: 17.5px;
 }
 
 .css-sfbrjq-MuiSnackbar-root {
     bottom: 80px !important;
 }
-
-.navbar {
-    padding: 0;
-    margin-bottom: 1rem;
-}
-
-.nav-link {
-    padding: 1.1rem;
-    padding-left: 2rem !important;
-    padding-right: 2rem !important;
-}
-
-@media (max-width: 995px) {
-    .navbar {
-        padding: 1rem;
-    }
-
-    .nav-link {
-        padding: .5rem;
-    }
-}
-
-.active-link {
-    background-color: rgba(77, 168, 70, .6);
-    color: white !important;
-}
-
-    .active-link .link-primary {
-        color: white !important;
-    }
 
 .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
     padding-top: 12px !important;
@@ -225,9 +143,6 @@ footer {
     color: #000000;
 }
 
-#deliveries .MuiDataGrid-root {
-    height: 570px;
-}
 
 .link {
     color: #1976d2;
@@ -238,17 +153,11 @@ footer {
     border: 1px solid rgba(224, 224, 224, 1);
 }
 
-.close {
-    position: absolute;
-    top: -5px;
-    right: -20px;
-}
-
-.relative{
+.relative {
     position: relative;
 }
 
-.bold{
+.bold {
     font-weight: bold !important;
 }
 
@@ -256,7 +165,7 @@ footer {
     position: absolute;
 }
 
-.font-reg{
+.font-reg {
     font-size: 1rem !important;
 }
 
@@ -264,14 +173,6 @@ footer {
     border-bottom: 1px solid rgba(224, 224, 224, 1);
 }
 
-.table td {
-    color: rgba(0, 0, 0, 0.87)  !important;
-}
-
 .css-wnkddu-MuiPaper-root-MuiAlert-root {
     background-color: #dcf3dc !important;
-}
-
-.MuiMenu-list{
-    max-height: 300px;
 }
