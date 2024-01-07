@@ -7,7 +7,7 @@ import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowModesModel
 import Snackbar from '@mui/material/Snackbar';
 import { Alert, AlertProps, Button } from '@mui/material';
 import IWarehouse from "../Interfaces/IWarehouse";
-import useFetch from '../UseFetch';
+import useFetch from '../customHooks/UseFetch';
 import IPharmacy from '../Interfaces/IPharmacy';
 import IDrug from '../Interfaces/IDrug';
 import { handleEditClick, handleSaveClick, handleCancelClick, handleAddNewRecordClick, handleRowEditStop, handleProcessRowUpdateError } from '../GridUtilties';

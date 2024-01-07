@@ -7,7 +7,7 @@ import { DataGrid, GridActionsCellItem, GridColDef, GridRowModesModel, GridRowMo
 import Snackbar from '@mui/material/Snackbar';
 import { Save, Cancel, Edit, LocalShipping, SupervisorAccount } from '@mui/icons-material';
 import { Alert, AlertProps } from '@mui/material';
-import useFetch from '../UseFetch';
+import useFetch from '../customHooks/UseFetch';
 import IState from '../Interfaces/IState';
 import { handleEditClick, handleSaveClick, handleCancelClick, handleRowEditStop, handleProcessRowUpdateError } from '../GridUtilties';
 import { Link } from "react-router-dom";
@@ -58,8 +58,6 @@ const Home = () => {
         dispatch(getPharmacy(Number(pharmacyId)));
         setIsPharmacySelected(true)
     }
-
-
 
     const columns: GridColDef[] = [
         {
@@ -200,7 +198,6 @@ const Home = () => {
         //@ts-expect-error
         [dispatch(savePharmacy)],
     );
-
 
     return (
         <>

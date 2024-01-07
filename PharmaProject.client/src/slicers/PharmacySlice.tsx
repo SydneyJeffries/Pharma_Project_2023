@@ -32,7 +32,6 @@ export const savePharmacy = createAsyncThunk<IPharmacy>( 'pharmacy/savePharmacy'
     }
 );
 
-
 export const PharmacySlice = createSlice({
     name: 'pharmacy',
     initialState,
@@ -48,8 +47,8 @@ export const PharmacySlice = createSlice({
         },
         updatePharmacy(state, action: PayloadAction<any>) {
             const { id, newData } = action.payload;
-            const index = state.data.findIndex(pharmacy => pharmacy.pharmacyId === id);
-            if (index !== -1) {
+            const pharmacy = state.data.find(pharmacy => pharmacy.pharmacyId === id);
+            if (pharmacy) {
                 // Update the existing pharmacy data
               state.data =  state.data.map(pharmacy => {
                     return pharmacy.pharmacyId === id ? newData : pharmacy;
