@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getDeliveryData, getDeliveryStatus, getDeliveryError, GetDeliveryList, SaveDelivery, DeleteDelivery, getTotalRowsForPagination } from '../../slicers/DeliverySlice';
 import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowModesModel, GridRowModes, GridRowModel, GridPreProcessEditCellProps, ValueOptions, GridToolbarContainer, GridValueSetterParams, GridValueGetterParams, GridRenderCellParams } from '@mui/x-data-grid';
 import Snackbar from '@mui/material/Snackbar';
-import { Alert, AlertProps, Button, TextField } from '@mui/material';
+import { Alert, AlertProps, Button } from '@mui/material';
 import IWarehouse from "../../Interfaces/IWarehouse";
 import useFetch from '../../customHooks/UseFetch';
 import IPharmacy from '../../Interfaces/IPharmacy';
@@ -19,7 +19,7 @@ import './Delivery.css';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 
 const Delivery = () => {
     const { pharmacyId } = useParams<{ pharmacyId: string }>();
@@ -218,7 +218,11 @@ const Delivery = () => {
                 return (
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker value={dayjs(params.row.deliveryDate)} onChange={(newValue) => {
-                            setRows((prevRows: any) => prevRows.map((row: any) => row.id == params.row.id ? { ...row, deliverydate: newValue.$d } : row));
+                            params.api.setEditCellValue({
+                                id: params.id,
+                                field: 'deliveryDate',
+                                value: newValue.$d,
+                            });
                         }} />
                     </LocalizationProvider>
                 );
@@ -288,7 +292,6 @@ const Delivery = () => {
             getDeliveryList();
             setDeleteDisabled(false)
             return returnedDelivery.payload;
-
         },
         //@ts-expect-error
         [dispatch(SaveDelivery)],
@@ -325,21 +328,15 @@ const Delivery = () => {
                             paginationMode="server"
                             rowCount={totalRowsForPagination}
                             onProcessRowUpdateError={handleProcessRowUpdateError(setSnackbar)}
-                            slots={{
-                                toolbar: EditToolbar,
-                            }}
-                            slotProps={{
-                                toolbar: { setRows, setRowModesModel },
-                            }}
+                            slots={{ toolbar: EditToolbar, }}
+                            slotProps={{   toolbar: { setRows, setRowModesModel }  }}
                         />
                         {!!snackbar && (
-                            <Snackbar
-                                open
+                            <Snackbar  open
                                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                                 onClose={() => setSnackbar(null)}
                                 autoHideDuration={6000}  >
-                                <Alert {...snackbar}
-                                    onClose={() => setSnackbar(null)} />
+                                <Alert {...snackbar} onClose={() => setSnackbar(null)} />
                             </Snackbar>
                         )}
                     </div>
