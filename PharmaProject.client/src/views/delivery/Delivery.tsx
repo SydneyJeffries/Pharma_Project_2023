@@ -237,38 +237,15 @@ const Delivery = () => {
                 const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
                 if (isInEditMode) {
                     return [
-                        <GridActionsCellItem
-                            icon={<Save />}
-                            label="Save"
-                            sx={{
-                                color: 'primary.main',
-                            }}
-                            onClick={() => handleSaveClick(id, rowModesModel, setRowModesModel, validationErrorsRef)}
-                        />,
-                        <GridActionsCellItem
-                            icon={<Close />}
-                            label="Cancel"
-                            className="textPrimary"
-                            onClick={() => handleCancelClick(id, rowModesModel, setRowModesModel, rows, setRows, setDeleteDisabled)}
-                            color="inherit"
-                        />,
+                        <GridActionsCellItem icon={<Save />} label="Save" sx={{ color: 'primary.main' }} onClick={() => handleSaveClick(id, rowModesModel, setRowModesModel, validationErrorsRef)} />,
+
+                        <GridActionsCellItem icon={<Close />}  label="Cancel" className="textPrimary" onClick={() => handleCancelClick(id, rowModesModel, setRowModesModel, rows, setRows, setDeleteDisabled)} color="inherit"  />,
                     ];
                 }
                 return [
-                    <GridActionsCellItem
-                        icon={<Edit />}
-                        label="Edit"
-                        className="textPrimary"
-                        onClick={() => handleEditClick(id, rowModesModel, setRowModesModel, GridRowModes)}
-                        color="inherit"
-                    />,
-                    <GridActionsCellItem
-                        disabled={deleteDisabled}
-                        icon={<Delete />}
-                        label="Delete"
-                        onClick={handleDelete(id)}
-                        color="inherit"
-                    />
+                    <GridActionsCellItem icon={<Edit />} label="Edit" className="textPrimary" onClick={() => handleEditClick(id, rowModesModel, setRowModesModel, GridRowModes)} color="inherit" />,
+
+                    <GridActionsCellItem  disabled={deleteDisabled} icon={<Delete />} label="Delete"   onClick={handleDelete(id)}  color="inherit" />
                 ];
             },
         },
@@ -302,7 +279,6 @@ const Delivery = () => {
         //@ts-expect-error
         [dispatch(SaveDelivery)],
     );
-
 
     return (
         <div className="container-xxl  ">

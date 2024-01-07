@@ -151,35 +151,19 @@ const Home = () => {
                 const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
                 if (isInEditMode) {
                     return [
-                        <GridActionsCellItem
-                            icon={<Save />}
-                            label="Save"
-                            sx={{
-                                color: 'primary.main',
-                            }}
-                            onClick={() => handleSaveClick(id, rowModesModel, setRowModesModel, validationErrorsRef)}
-                        />,
-                        <GridActionsCellItem
-                            icon={<Close />}
-                            label="Cancel"
-                            className="textPrimary"
-                            onClick={() => handleCancelClick(id, rowModesModel, setRowModesModel, rows, setRows)}
-                            color="inherit"
-                        />,
+                        <GridActionsCellItem icon={<Save />} label="Save" sx={{ color: 'primary.main', }} onClick={() => handleSaveClick(id, rowModesModel, setRowModesModel, validationErrorsRef)} />,
+
+                        <GridActionsCellItem icon={<Close />} label="Cancel" className="textPrimary" onClick={() => handleCancelClick(id, rowModesModel, setRowModesModel, rows, setRows)} color="inherit" />,
                     ];
                 }
                 return [
                     <>
-                        <GridActionsCellItem
-                            icon={<Edit />}
-                            label="Edit"
-                            className="textPrimary"
-                            onClick={() => handleEditClick(id, rowModesModel, setRowModesModel, GridRowModes)}
-                            color="inherit"
-                        />
+                        <GridActionsCellItem icon={<Edit />} label="Edit" className="textPrimary" onClick={() => handleEditClick(id, rowModesModel, setRowModesModel, GridRowModes)} color="inherit" />
+
                         <Link to={`/delivey/${id}`} className="text-black" >
                             <LocalShipping />
                         </Link>
+
                         &nbsp; <span className="underline link  text-black" onClick={() => onClickPharmisists(id)}> <SupervisorAccount/> </span>
                     </>
                 ];
