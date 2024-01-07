@@ -55,10 +55,10 @@ const Home = () => {
         }
     }, [])
 
-    function onClickPharmisists(pharmacyId: GridRowId) {
+    const onClickPharmisists = (pharmacyId: GridRowId) => {
         dispatch(getPharmacy(Number(pharmacyId)));
-        setIsPharmacySelected(true)
-    }
+        setIsPharmacySelected(true);
+    };
 
     const columns: GridColDef[] = [
         {
