@@ -4,7 +4,7 @@
 import { pharmacyService } from "../api/PharmacyService";
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import ISharedState from '../Interfaces/ISharedState';
-import IPharmacy from '../Interfaces/IPharmacy';
+import { IPharmacy } from '../Interfaces/IPharmacy';
 import axios from 'axios'
 
 const initialState: ISharedState = {
@@ -37,7 +37,6 @@ export const PharmacySlice = createSlice({
     initialState,
     reducers: {
         getPharmacy(state, action: PayloadAction<number | null>) {
-            debugger;
             if (action.payload != null) {
                 const selectedPharmacy = state.data.find(pharmacy => pharmacy.id === action.payload);
                  state.singleData = selectedPharmacy;

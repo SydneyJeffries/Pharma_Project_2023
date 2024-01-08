@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
-import  IPharmacy  from "../Interfaces/IPharmacy";
+import { IPharmacy }  from "../Interfaces/IPharmacy";
 
 const requestConfig: AxiosRequestConfig = {
      baseURL: import.meta.env.VITE_BASE_URL

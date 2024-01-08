@@ -50,20 +50,11 @@ namespace PharmaProject.Services
 
         public async Task<List<Drug>> GetDrugListAsync()
         {
-            //check if data is in cache
-            if (_cache.TryGetValue("GetDrugsList", out List<Drug> data))
-            {
-                return data;
-            }
 
-            data = await _dbContext.Drug.ToListAsync();
-
-            _cache.Set("GetDrugsList", data, GetDefaultCacheOptions());
+            var data = await _dbContext.Drug.ToListAsync();
 
             return data;
-
         }
-
 
     }
 }

@@ -16,5 +16,3 @@ export interface IDelivery {
     createdBy: string;
     updatedBy?: string | null;
 }
-
-export default IDelivery;

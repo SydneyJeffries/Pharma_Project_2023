@@ -6,14 +6,14 @@ import { getDeliveryData, getDeliveryStatus, getDeliveryError, GetDeliveryList, 
 import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowModesModel, GridRowModes, GridRowModel, GridPreProcessEditCellProps, ValueOptions, GridToolbarContainer, GridValueSetterParams, GridValueGetterParams, GridRenderCellParams } from '@mui/x-data-grid';
 import Snackbar from '@mui/material/Snackbar';
 import { Alert, AlertProps, Button } from '@mui/material';
-import IWarehouse from "../../Interfaces/IWarehouse";
+import { IWarehouse } from "../../Interfaces/IWarehouse";
 import useFetch from '../../customHooks/UseFetch';
-import IPharmacy from '../../Interfaces/IPharmacy';
+import { IPharmacy } from '../../Interfaces/IPharmacy';
 import IDrug from '../../Interfaces/IDrug';
 import { handleEditClick, handleSaveClick, handleCancelClick, handleAddNewRecordClick, handleRowEditStop, handleProcessRowUpdateError } from '../../GridUtilties';
 import OptionsDropDownList from '../../components/optionsDropDownList/OptionsDropDownList';
 import { useParams } from 'react-router-dom'
-import IDelivery from '../../Interfaces/IDelivery';
+import { IDelivery } from '../../Interfaces/IDelivery';
 import { Save, Close, Edit, Delete, Add } from '@mui/icons-material';
 import './Delivery.css';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -268,7 +268,7 @@ const Delivery = () => {
         },
     ]
 
-    const EditToolbar = () => {
+    const editToolbar = () => {
         const newRow: IDelivery = { deliveryId: 0, warehouseId: 0, pharmacyId: 0, drugId: 0, unitCount: 0, unitPrice: 0, totalPrice: 0, deliveryDate: new Date(), active: true, Id: 0, updatedDate: null, createdDate: new Date(), createdBy: "", updatedBy: null, isNew: true }
         return (
             <GridToolbarContainer>
@@ -328,7 +328,7 @@ const Delivery = () => {
                             paginationMode="server"
                             rowCount={totalRowsForPagination}
                             onProcessRowUpdateError={handleProcessRowUpdateError(setSnackbar)}
-                            slots={{ toolbar: EditToolbar, }}
+                            slots={{ toolbar: editToolbar, }}
                             slotProps={{   toolbar: { setRows, setRowModesModel }  }}
                         />
                         {!!snackbar && (

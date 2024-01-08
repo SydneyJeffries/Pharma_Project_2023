@@ -14,4 +14,3 @@ export interface IPharmacy {
 
 }
 
-export default IPharmacy;

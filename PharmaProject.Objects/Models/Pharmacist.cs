@@ -21,7 +21,6 @@ namespace PharmaProject.Objects.Models
         public string CreatedBy { get; set; } = string.Empty;
         public DateTimeOffset? UpdatedDate { get; set; }
         public string? UpdatedBy { get; set; }
-
         [NotMapped]
         public string FullName { get { return FirstName + ' ' +  LastName; } }
 

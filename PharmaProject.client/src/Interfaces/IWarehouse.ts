@@ -12,4 +12,3 @@ export interface IWarehouse {
     updatedBy?: string | null;
 }
 
-export default IWarehouse;

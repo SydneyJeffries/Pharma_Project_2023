@@ -12,11 +12,8 @@ namespace PharmaProject.Objects.Models
         public string Zip { get; set; } = string.Empty;
         public bool Active { get; set; }
         public string CreatedBy { get; set; } = string.Empty;
-
         public DateTimeOffset CreatedDate { get; set; }
-
         public DateTimeOffset? UpdatedDate { get; set; }
-
         public string? UpdatedBy {get; set; }
     }
 }

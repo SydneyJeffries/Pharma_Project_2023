@@ -24,7 +24,5 @@ namespace PharmaProject.Services
 
             return data;
         }
-
-
     }
 }

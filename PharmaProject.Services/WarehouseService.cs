@@ -11,39 +11,17 @@ namespace PharmaProject.Services
 
         private readonly AppSettingsDbContext _dbContext;
 
-        private readonly TimeSpan _defaultCacheDuration = TimeSpan.FromMinutes(30);
-
-        private readonly IMemoryCache _cache;
-
-        public WarehouseService(AppSettingsDbContext context, IMemoryCache cache)
+        public WarehouseService(AppSettingsDbContext context)
         {
             _dbContext = context;
-            _cache = cache;
-        }
-
-        private MemoryCacheEntryOptions GetDefaultCacheOptions()
-        {
-            return new MemoryCacheEntryOptions
-            {
-                AbsoluteExpirationRelativeToNow = _defaultCacheDuration
-            };
         }
 
         public async Task<List<Warehouse>> GetWarehouseListAsync()
         {
-            //check if data is in cache
-            if (_cache.TryGetValue("GetWarehouseList", out List<Warehouse> data))
-            {
-                return data;
-            }
 
-            data =  await _dbContext.Warehouse.ToListAsync();
-
-            _cache.Set("GetWarehouseList", data, GetDefaultCacheOptions());
+            var data =  await _dbContext.Warehouse.ToListAsync();
 
             return data;
         }
-
-   
     }
 }

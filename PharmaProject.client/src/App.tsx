@@ -10,16 +10,16 @@ function App() {
         <div className="app  ">
             <Router>
                 <Header />
-                    <Switch>
-                        <Route exact path="/">
-                            <Home />
-                        </Route>
-                        <Route exact path="/delivey/:pharmacyId">
-                            <Delivery />
-                        </Route>
-                    </Switch>
+                <Switch>
+                    <Route exact path="/">
+                        <Home />
+                    </Route>
+                    <Route exact path="/delivey/:pharmacyId">
+                        <Delivery />
+                    </Route>
+                </Switch>
+                <Footer />
             </Router>
-            <Footer />
         </div>
     )
 }

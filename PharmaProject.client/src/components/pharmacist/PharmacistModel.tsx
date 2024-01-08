@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useDispatch, useSelector } from 'react-redux';
 import { getPharmacySingleData, getPharmacy } from '../../slicers/PharmacySlice';
-import IPharmacy from '../../Interfaces/IPharmacy';
+import { IPharmacy } from '../../Interfaces/IPharmacy';
 import { Box, Modal } from '@mui/material';
 import useFetch from '../../customHooks/UseFetch';
 import Loader from '../loader/Loader';

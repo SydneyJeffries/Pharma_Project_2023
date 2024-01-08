@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
-import IDelivery from "../Interfaces/IDelivery";
+import { IDelivery } from "../Interfaces/IDelivery";
 
 const requestConfig: AxiosRequestConfig = {
      baseURL: import.meta.env.VITE_BASE_URL
