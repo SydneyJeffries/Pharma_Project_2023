@@ -7,7 +7,8 @@ export interface IPharmacy {
     stateCode: string;
     zip: string;
     createdDate: Date;
-    updatedDate: Date;
+    updatedDate?: Date | null;
+    updateby?: string | null;
     createdBy: string;
     id: number;
 
