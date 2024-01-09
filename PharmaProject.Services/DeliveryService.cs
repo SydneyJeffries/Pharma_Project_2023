@@ -8,6 +8,7 @@ using PharmaProject.Services.Utilities.Interfaces;
 using PharmaProject.Services.Utilities;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System;
+using System.Linq;
 
 namespace PharmaProject.Services
 {
@@ -22,10 +23,10 @@ namespace PharmaProject.Services
             _dbContext = context;
         }
 
-        public async Task<IPagedResult<Delivery>> GetPagedDeliveryListAsync(int pageNumber, int pageSize, int pharmacyId, int warehouseId)
+        public async Task<IPagedResult<Delivery>> GetPagedDeliveryListAsync(PagingInfo pagingInfo, int pharmacyId, int warehouseId)
         {
 
-            var startRow = pageNumber * pageSize;
+            var startRow = pagingInfo.PageNumber * pagingInfo.PageSize;
 
             var query = from delivery in _dbContext.Delivery
                         join pharmacy in _dbContext.Pharmacy on delivery.PharmacyId equals pharmacy.PharmacyId into p
@@ -57,17 +58,17 @@ namespace PharmaProject.Services
 
             var entities = await query
                 .Skip(startRow)
-                .Take(pageSize)
+                .Take(pagingInfo.PageSize)
                 .ToListAsync();
 
             var totalCount = await query.CountAsync();
 
             var pagedResult = new PagedResult<Delivery>
             {
-                CurrentPage = pageNumber,
-                PageSize = pageSize,
+                CurrentPage = pagingInfo.PageNumber,
+                PageSize = pagingInfo.PageSize,
                 TotalCount = await query.CountAsync(),
-                TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize),
+                TotalPages = (int)Math.Ceiling(totalCount / (double)pagingInfo.PageSize),
                 Data = entities,
             };
 
