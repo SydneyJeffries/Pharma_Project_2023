@@ -18,6 +18,8 @@ namespace PharmaProject.Services
 
         private readonly IMemoryCache _cache;
 
+        private readonly SemaphoreSlim _cacheLock = new SemaphoreSlim(1);
+
         public LookupService(AppSettingsDbContext context, IMemoryCache cache)
         {
             _dbContext = context;
@@ -34,18 +36,25 @@ namespace PharmaProject.Services
 
         public async Task<List<State>> GetStateListAsync()
         {
-            //check if data is in cache
-            if (_cache.TryGetValue("GetStateList", out List<State> data))
+            try
             {
+                //check if data is in cache
+                if (_cache.TryGetValue("GetStateList", out List<State> data))
+                {
+                    return data;
+                }
+                // lock so only request can update cache at a time to handle race condition.
+                await _cacheLock.WaitAsync();
+                data = await _dbContext.State.ToListAsync();
+                _cache.Set("GetStateList", data, GetDefaultCacheOptions());
+
                 return data;
             }
-
-            data = await _dbContext.State.ToListAsync();
-
-            _cache.Set("GetStateList", data, GetDefaultCacheOptions());
-
-            return data;
-
+            finally
+            {
+                // lock is released
+                _cacheLock.Release();
+            }
         }
 
         public async Task<List<Drug>> GetDrugListAsync()

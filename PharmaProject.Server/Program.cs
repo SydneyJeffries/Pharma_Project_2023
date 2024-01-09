@@ -17,7 +17,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 string connectionString = builder.Configuration.GetConnectionString("AppSettingsDbContext");
 
-builder.Services.AddDbContext<AppSettingsDbContext>(options =>
+builder.Services.AddDbContextPool<AppSettingsDbContext>(options =>
             options.UseSqlServer(connectionString, b => b.MigrationsAssembly("PharmaProject.Server"))
     );
 

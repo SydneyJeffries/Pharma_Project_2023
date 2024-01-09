@@ -283,7 +283,6 @@ const Delivery = () => {
         async (savedRow: GridRowModel) => {
 
             //@ts-expect-error
-            debugger;
             const returnedDelivery: any = await dispatch(SaveDelivery(savedRow));
             setSnackbar({ children: 'Successfully saved', severity: 'success' });
             if (savedRow.isNew) {
