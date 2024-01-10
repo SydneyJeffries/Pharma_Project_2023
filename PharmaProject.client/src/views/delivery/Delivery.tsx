@@ -41,11 +41,12 @@ const Delivery = () => {
     const [selectedPharma, setSlectedPharmal] = React.useState<number>(Number(pharmacyId));
     const [selectedWarehouse, setSelectedWarehouse] = React.useState<number>(0);
     const totalRowsForPagination = useSelector(getTotalRowsForPagination);
-    const [deleteDisabled, setDeleteDisabled] = React.useState<boolean>(false);
+    const [girdActionsDisabled, setgirdActionsDisabled] = React.useState<boolean>(false);
     const [snackbar, setSnackbar] = React.useState<Pick<AlertProps, 'children' | 'severity'> | null>(null);
 
     // set rows on grid
     useEffect(() => {
+        debugger;
         setRows([...deliveryList]);
     }, [deliveryList]);
 
@@ -91,12 +92,20 @@ const Delivery = () => {
     }, [selectedPharma, selectedWarehouse, paginationModel]);
 
 
-    const handleDelete = (id: GridRowId) => () => {
-        const rowToDelete = rows.filter((row: any) => row.id == id)[0]
-        dispatch(DeleteDelivery(rowToDelete));
-        setSnackbar({ children: 'Successfully deleted', severity: 'success' });
-        getDeliveryList();
-    };
+    const handleDelete = React.useCallback(
+        async (id: GridRowId) => {
+            debugger;
+            //@ts-expect-error
+            const rowToDelete = rows.filter((row: any) => row.id == id)[0]
+
+            await dispatch(DeleteDelivery(rowToDelete));
+            getDeliveryList();
+            setSnackbar({ children: 'Successfully deleted', severity: 'success' });
+        },
+        //@ts-expect-error
+        [dispatch(DeleteDelivery)],
+    );
+
 
     const formatCurrency = (value: number) =>
         new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
@@ -256,23 +265,23 @@ const Delivery = () => {
                     return [
                         <GridActionsCellItem icon={<Save />} label="Save" sx={{ color: 'primary.main' }} onClick={() => handleSaveClick(id, rowModesModel, setRowModesModel, validationErrorsRef)} />,
 
-                        <GridActionsCellItem icon={<Close />} label="Cancel" className="textPrimary" onClick={() => handleCancelClick(id, rowModesModel, setRowModesModel, rows, setRows, setDeleteDisabled)} color="inherit" />,
+                        <GridActionsCellItem icon={<Close />} label="Cancel" className="textPrimary" onClick={() => handleCancelClick(id, rowModesModel, setRowModesModel, rows, setRows, validationErrorsRef, setgirdActionsDisabled)} color="inherit" />,
                     ];
                 }
                 return [
-                    <GridActionsCellItem icon={<Edit />} label="Edit" className="textPrimary" onClick={() => handleEditClick(id, rowModesModel, setRowModesModel, GridRowModes)} color="inherit" />,
+                    <GridActionsCellItem icon={<Edit />} label="Edit" className="textPrimary" onClick={() => handleEditClick(id, rowModesModel, setRowModesModel, GridRowModes)} color="inherit" disabled={girdActionsDisabled} />,
 
-                    <GridActionsCellItem disabled={deleteDisabled} icon={<Delete />} label="Delete" onClick={handleDelete(id)} color="inherit" />
+                    <GridActionsCellItem disabled={girdActionsDisabled} icon={<Delete />} label="Delete" onClick={() => handleDelete(id)} color="inherit" />
                 ];
             },
         },
     ]
 
     const editToolbar = () => {
-        const newRow: IDelivery = { deliveryId: 0, warehouseId: 0, pharmacyId: 0, drugId: 0, unitCount: 0, unitPrice: 0, totalPrice: 0, deliveryDate: new Date(), active: true, Id: 0, updatedDate: null, createdDate: new Date(), createdBy: "", updatedBy: null, isNew: true }
+        const newRow: any = { deliveryId: 0, warehouseId: 0, pharmacyId: 0, drugId: 0, unitCount: 0, unitPrice: 0, totalPrice: 0, deliveryDate: new Date(), active: true, id: 0, updatedDate: null, createdDate: new Date(), createdBy: "", updatedBy: null, isNew: true }
         return (
             <GridToolbarContainer>
-                <Button color="primary" startIcon={<Add />} onClick={() => handleAddNewRecordClick(rowModesModel, rows, setRows, setRowModesModel, 'warehouseId', setDeleteDisabled, newRow)}>
+                <Button color="primary" startIcon={<Add />} onClick={() => handleAddNewRecordClick(rowModesModel, rows, setRows, setRowModesModel, 'warehouseId', setgirdActionsDisabled, newRow)} disabled={girdActionsDisabled}>
                     Add record
                 </Button>
             </GridToolbarContainer>
@@ -289,7 +298,7 @@ const Delivery = () => {
                 setRows((prevRows: any) => prevRows.map((row: any) => row.id == 0 ? { ...returnedDelivery.payload } : row));
             }
             getDeliveryList();
-            setDeleteDisabled(false)
+            setgirdActionsDisabled(false)
             return returnedDelivery.payload;
         },
         //@ts-expect-error
@@ -328,10 +337,10 @@ const Delivery = () => {
                             rowCount={totalRowsForPagination}
                             onProcessRowUpdateError={handleProcessRowUpdateError(setSnackbar)}
                             slots={{ toolbar: editToolbar, }}
-                            slotProps={{   toolbar: { setRows, setRowModesModel }  }}
+                            slotProps={{ toolbar: { setRows, setRowModesModel } }}
                         />
                         {!!snackbar && (
-                            <Snackbar  open
+                            <Snackbar open
                                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                                 onClose={() => setSnackbar(null)}
                                 autoHideDuration={6000}  >

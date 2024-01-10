@@ -12,6 +12,7 @@ export const handleEditClick = (id: GridRowId, rowModesModel: GridRowModesModel,
 };
 
 export const handleSaveClick = (id: GridRowId, rowModesModel: GridRowModesModel, setRowModesModel: Dispatch<SetStateAction<GridRowModesModel>>, validationErrorsRef: React.MutableRefObject<{ [key: string]: { [key: string]: boolean } }>) => {
+    debugger;
     const rowValidationErrors = validationErrorsRef.current[id];
 
     // if there are no validation errors on an update
@@ -32,6 +33,8 @@ export const handleSaveClick = (id: GridRowId, rowModesModel: GridRowModesModel,
 
     // can return to view bc no errors
     if (hasRowError.length === 0) {
+        // clear validation for that row
+        validationErrorsRef.current[id] = undefined;
         setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
     } else {
         // highlight the columns with validation errors 
@@ -41,31 +44,35 @@ export const handleSaveClick = (id: GridRowId, rowModesModel: GridRowModesModel,
     }
 };
 
-export const handleCancelClick = (id: GridRowId, rowModesModel: GridRowModesModel, setRowModesModel: Dispatch<SetStateAction<GridRowModesModel>>, rows: any[], setRows: Dispatch<SetStateAction<any>>, setDeleteDisabled?: Dispatch<SetStateAction<boolean>>) => {
+export const handleCancelClick = (id: GridRowId, rowModesModel: GridRowModesModel, setRowModesModel: Dispatch<SetStateAction<GridRowModesModel>>, rows: any[], setRows: Dispatch<SetStateAction<any>>, validationErrorsRef: React.MutableRefObject<{ [key: string]: { [key: string]: boolean } }>, setgirdActionsDisabled?: Dispatch<SetStateAction<boolean>>  ) => {
+
+    debugger;
     setRowModesModel({
         ...rowModesModel,
         [id]: { mode: GridRowModes.View, ignoreModifications: true },
     });
 
-    // if need to disable delete while in add new record mode
-    if (setDeleteDisabled) {
-        setDeleteDisabled(false);
-    }
+
     const editedRow = rows.find((row) => row.id === id);
-    
+
+    // delete if is new
     if (editedRow?.isNew) {
         setRows(rows.filter((row) => row.id !== id));
+        setgirdActionsDisabled(false);
     }
+
+    // clear validation for that row
+    validationErrorsRef.current[id] = undefined;
 };
 
 export const handleAddNewRecordClick = (rowModesModel: GridRowModesModel, rows: any[], setRows: Dispatch<SetStateAction<any>>, setRowModesModel: Dispatch<SetStateAction<GridRowModesModel>>,
-    fieldToFocus: string, setDeleteDisabled: Dispatch<SetStateAction<boolean>>, newRow: any) => {
+    fieldToFocus: string, setgirdActionsDisabled: Dispatch<SetStateAction<boolean>>, newRow: any) => {
 
     // check if a new record is already beening created.
     const hasRowWithIdZero = rows.some((row) => row.id === 0);
 
     // don't allow delete when new record is being created bc it will mess things up
-    setDeleteDisabled(true)
+    setgirdActionsDisabled(true)
 
     // if new record isn't already being created, then you can add another one.
     if (!hasRowWithIdZero) {

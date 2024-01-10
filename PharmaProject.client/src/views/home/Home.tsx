@@ -153,7 +153,7 @@ const Home = () => {
                     return [
                         <GridActionsCellItem icon={<Save />} label="Save" sx={{ color: 'primary.main', }} onClick={() => handleSaveClick(id, rowModesModel, setRowModesModel, validationErrorsRef)} />,
 
-                        <GridActionsCellItem icon={<Close />} label="Cancel" className="textPrimary" onClick={() => handleCancelClick(id, rowModesModel, setRowModesModel, rows, setRows)} color="inherit" />,
+                        <GridActionsCellItem icon={<Close />} label="Cancel" className="textPrimary" onClick={() => handleCancelClick(id, rowModesModel, setRowModesModel, rows, setRows, validationErrorsRef)} color="inherit" />,
                     ];
                 }
                 return [

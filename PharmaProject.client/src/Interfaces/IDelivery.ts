@@ -1,5 +1,5 @@
 export interface IDelivery {
-    Id: number;
+    id: number;
     deliveryId: number;
     warehouseId: number;
     pharmacyId: number;
