@@ -32,25 +32,58 @@ CREATE TABLE Pharmacy (
     FOREIGN KEY (StateCode) REFERENCES State(StateCode) ON DELETE NO ACTION
 );
 
--- Insert data into State table
-INSERT INTO State (StateName, StateCode)
+INSERT INTO State (StateName, StateCode, CreatedDate, CreatedBy, Active)
 VALUES
-('Alabama', 'AL'),('Alaska', 'AK'),
-('Arizona', 'AZ'),('Arkansas', 'AR'),('California', 'CA'),('Colorado', 'CO'),('Connecticut', 'CT'),
-('Delaware', 'DE'),('Florida', 'FL'),('Georgia', 'GA'),('Hawaii', 'HI'),('Idaho', 'ID'),('Illinois', 'IL'),('Indiana', 'IN'),
-('Iowa', 'IA'),('Kansas', 'KS'),('Kentucky', 'KY'),('Louisiana', 'LA'),('Maine', 'ME'),('Maryland', 'MD'),('Massachusetts', 'MA'),
-('Michigan', 'MI'),('Minnesota', 'MN'),('Mississippi', 'MS'),('Missouri', 'MO'),('Montana', 'MT'),('Nebraska', 'NE'),('Nevada', 'NV'),
-('New Hampshire', 'NH'),('New Jersey', 'NJ'),('New Mexico', 'NM'),('New York', 'NY'),('North Carolina', 'NC'),('North Dakota', 'ND'),
-('Ohio', 'OH'),('Oklahoma', 'OK'),('Oregon', 'OR'),('Pennsylvania', 'PA'),('Rhode Island', 'RI'),('South Carolina', 'SC'),('South Dakota', 'SD'),
-('Tennessee', 'TN'),('Texas', 'TX'),('Utah', 'UT'),('Vermont', 'VT'),('Virginia', 'VA'),('Washington', 'WA'),('West Virginia', 'WV'),('Wisconsin', 'WI'),('Wyoming', 'WY');
-
-
--- Update State table
-UPDATE State
-SET
-    CreatedDate = SYSDATETIMEOFFSET(),
-    CreatedBy = 'Sydney.Jeffriess@gmail.com',
-    Active = 1;
+('Alabama', 'AL', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Alaska', 'AK', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Arizona', 'AZ', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Arkansas', 'AR', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('California', 'CA', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Colorado', 'CO', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Connecticut', 'CT', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Delaware', 'DE', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Florida', 'FL', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Georgia', 'GA', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Hawaii', 'HI', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Idaho', 'ID', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Illinois', 'IL', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Indiana', 'IN', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Iowa', 'IA', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Kansas', 'KS', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Kentucky', 'KY', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Louisiana', 'LA', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Maine', 'ME', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Maryland', 'MD', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Massachusetts', 'MA', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Michigan', 'MI', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Minnesota', 'MN', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Mississippi', 'MS', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Missouri', 'MO', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Montana', 'MT', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Nebraska', 'NE', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Nevada', 'NV', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('New Hampshire', 'NH', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('New Jersey', 'NJ', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('New Mexico', 'NM', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('New York', 'NY', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('North Carolina', 'NC', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('North Dakota', 'ND', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Ohio', 'OH', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Oklahoma', 'OK', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Oregon', 'OR', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Pennsylvania', 'PA', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Rhode Island', 'RI', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('South Carolina', 'SC', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('South Dakota', 'SD', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Tennessee', 'TN', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Texas', 'TX', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Utah', 'UT', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Vermont', 'VT', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Virginia', 'VA', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Washington', 'WA', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('West Virginia', 'WV', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Wisconsin', 'WI', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1),
+('Wyoming', 'WY', SYSDATETIMEOFFSET(), 'Sydney.Jeffriess@gmail.com', 1);
 
 
 -- Insert data into Pharmacy table
@@ -66,7 +99,7 @@ VALUES
 
 CREATE TABLE Drug
 (
-    DrugId INT PRIMARY KEY,
+    DrugId INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
     DrugName VARCHAR(250) NOT NULL,
 	Active BIT, 
 	CreatedDate DATETIMEOFFSET NOT NULL, 
@@ -75,18 +108,18 @@ CREATE TABLE Drug
 	UpdatedBy VARCHAR(250) NULL
 );
 
-INSERT INTO Drug (DrugId, DrugName, Active, CreatedDate, CreatedBy, UpdatedDate, UpdatedBy)
+INSERT INTO Drug (DrugName, Active, CreatedDate, CreatedBy, UpdatedDate, UpdatedBy)
 VALUES
-    (1, 'Aspirin', 1, @CurrentDate, 'Sydney.Jeffries@gmail.com', null, null ),
-    (2, 'Tylenol', 1, @CurrentDate, 'Sydney.Jeffries@gmail.com', null, null),
-    (3, 'Advil', 1, @CurrentDate, 'Sydney.Jeffries@gmail.com', null, null),
-    (4, 'Motrin', 1, @CurrentDate, 'Sydney.Jeffries@gmail.com', null, null),
-    (5, 'Aleve', 1, @CurrentDate, 'Sydney.Jeffries@gmail.com', null, null),
-    (6, 'Celebrex', 1, @CurrentDate, 'Sydney.Jeffries@gmail.com', null, null),
-    (7, 'Zyrtec', 1, @CurrentDate, 'Sydney.Jeffries@gmail.com', null, null),
-    (8, 'Claritin', 1, @CurrentDate, 'Sydney.Jeffries@gmail.com', null, null),
-    (9, 'Allegra', 1, @CurrentDate, 'Sydney.Jeffries@gmail.com', null, null),
-    (10, 'Benadryl', 1, @CurrentDate, 'Sydney.Jeffries@gmail.com', null, null);
+    ( 'Aspirin', 1, @CurrentDate, 'Sydney.Jeffries@gmail.com', null, null ),
+    ( 'Tylenol', 1, @CurrentDate, 'Sydney.Jeffries@gmail.com', null, null),
+    ( 'Advil', 1, @CurrentDate, 'Sydney.Jeffries@gmail.com', null, null),
+    ( 'Motrin', 1, @CurrentDate, 'Sydney.Jeffries@gmail.com', null, null),
+    ( 'Aleve', 1, @CurrentDate, 'Sydney.Jeffries@gmail.com', null, null),
+    ( 'Celebrex', 1, @CurrentDate, 'Sydney.Jeffries@gmail.com', null, null),
+    ( 'Zyrtec', 1, @CurrentDate, 'Sydney.Jeffries@gmail.com', null, null),
+    ( 'Claritin', 1, @CurrentDate, 'Sydney.Jeffries@gmail.com', null, null),
+    ( 'Allegra', 1, @CurrentDate, 'Sydney.Jeffries@gmail.com', null, null),
+    ( 'Benadryl', 1, @CurrentDate, 'Sydney.Jeffries@gmail.com', null, null);
 
 
 CREATE TABLE Pharmacist
