@@ -53,7 +53,7 @@ const PharmacyCard = () => {
                                 <tbody>
                                     {pharmasistList && pharmasistList.length > 0 &&
                                         pharmasistList.map(pharmacist  => (
-                                            <tr>
+                                            <tr key={pharmacist.pharmacistId}>
                                                 <td> {pharmacist.fullName}</td>
                                                 <td> {new Date(pharmacist.dateOfHire).toLocaleDateString()}</td>
                                                 <td> {pharmacist.age}</td>
