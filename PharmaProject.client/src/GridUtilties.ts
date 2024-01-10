@@ -12,7 +12,7 @@ export const handleEditClick = (id: GridRowId, rowModesModel: GridRowModesModel,
 };
 
 export const handleSaveClick = (id: GridRowId, rowModesModel: GridRowModesModel, setRowModesModel: Dispatch<SetStateAction<GridRowModesModel>>, validationErrorsRef: React.MutableRefObject<{ [key: string]: { [key: string]: boolean } }>) => {
-    debugger;
+
     const rowValidationErrors = validationErrorsRef.current[id];
 
     // if there are no validation errors on an update
@@ -46,7 +46,6 @@ export const handleSaveClick = (id: GridRowId, rowModesModel: GridRowModesModel,
 
 export const handleCancelClick = (id: GridRowId, rowModesModel: GridRowModesModel, setRowModesModel: Dispatch<SetStateAction<GridRowModesModel>>, rows: any[], setRows: Dispatch<SetStateAction<any>>, validationErrorsRef: React.MutableRefObject<{ [key: string]: { [key: string]: boolean } }>, setgirdActionsDisabled?: Dispatch<SetStateAction<boolean>>  ) => {
 
-    debugger;
     setRowModesModel({
         ...rowModesModel,
         [id]: { mode: GridRowModes.View, ignoreModifications: true },

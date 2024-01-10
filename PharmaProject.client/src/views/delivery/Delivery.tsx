@@ -46,7 +46,6 @@ const Delivery = () => {
 
     // set rows on grid
     useEffect(() => {
-        debugger;
         setRows([...deliveryList]);
     }, [deliveryList]);
 
@@ -94,7 +93,6 @@ const Delivery = () => {
 
     const handleDelete = React.useCallback(
         async (id: GridRowId) => {
-            debugger;
             //@ts-expect-error
             const rowToDelete = rows.filter((row: any) => row.id == id)[0]
 

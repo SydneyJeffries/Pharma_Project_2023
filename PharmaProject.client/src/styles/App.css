@@ -176,3 +176,7 @@ body {
 .css-wnkddu-MuiPaper-root-MuiAlert-root {
     background-color: #dcf3dc !important;
 }
+
+.MuiSvgIcon-root{
+    cursor: pointer;
+}
