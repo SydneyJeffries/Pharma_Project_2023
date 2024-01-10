@@ -175,6 +175,14 @@ const Delivery = () => {
                 const value = option.row.drugId;
                 return value;
             },
+            renderCell: (option) => {
+                const foundDrug: ValueOptions | undefined = drugKeys.find((x: any) => x.value == option.row.drugId);
+                if (foundDrug) {
+                    return <span>{foundDrug?.label}</span>;
+                } else {
+                    return <span> </span>;
+                }
+            },
             valueSetter: (params: GridValueSetterParams) => {
                 return { ...params.row, drugId: params.value };
             },
