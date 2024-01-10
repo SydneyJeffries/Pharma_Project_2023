@@ -86,7 +86,6 @@ const Delivery = () => {
     // Get grid rows data
     useEffect(() => {
         getDeliveryList()
-        console.log(deliveryList);
 
     }, [selectedPharma, selectedWarehouse, paginationModel]);
 
