@@ -15,7 +15,7 @@ const initialState: ISharedState = {
     singleData: null,
 };
 
-export const GetDeliveryList = createAsyncThunk<IDelivery[], { pageNumber: number, pageSize: number, pharmacyId?: number, warehouseId?: number }>(
+export const GetDeliveryList = createAsyncThunk<any, { pageNumber: number, pageSize: number, pharmacyId?: number, warehouseId?: number }>(
     'delivery/GetDeliveryList',
     async ({ pageNumber, pageSize, pharmacyId, warehouseId }, { signal }) => {
         const source = axios.CancelToken.source()
@@ -28,14 +28,14 @@ export const GetDeliveryList = createAsyncThunk<IDelivery[], { pageNumber: numbe
 );
 
 export const SaveDelivery = createAsyncThunk<IDelivery>('delivery/SaveDelivery',
-    async (delivery: IDelivery) => {
+    async (delivery: any) => {
         const result = await DeliveryService.saveDelivery(delivery);
         return result;
     }
 );
 
 export const DeleteDelivery = createAsyncThunk<IDelivery>('delivery/DeleteDelivery',
-    async (delivery: IDelivery) => {
+    async (delivery: any) => {
         const result = await DeliveryService.deleteDelivery(delivery);
         return result;
     }

@@ -26,7 +26,7 @@ export const fetchPharmacyList = createAsyncThunk<IPharmacy[]>('pharmacy/fetchLi
 });
 
 export const savePharmacy = createAsyncThunk<IPharmacy>( 'pharmacy/savePharmacy',
-    async (pharmacy: ISharedState) => {
+    async (pharmacy: any) => {
         const updatedPharmacy = await pharmacyService.savePharmacy(pharmacy);
         return updatedPharmacy;
     }

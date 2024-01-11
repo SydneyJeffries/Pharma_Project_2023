@@ -235,7 +235,7 @@ const Delivery = () => {
                             params.api.setEditCellValue({
                                 id: params.id,
                                 field: 'deliveryDate',
-                                value: newValue.$d,
+                                value: newValue?.$d,
                             });
                         }} />
                     </LocalizationProvider>
