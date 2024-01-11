@@ -13,7 +13,6 @@ import IDrug from '../../Interfaces/IDrug';
 import { handleEditClick, handleSaveClick, handleCancelClick, handleAddNewRecordClick, handleRowEditStop, handleProcessRowUpdateError } from '../../GridUtilties';
 import OptionsDropDownList from '../../components/optionsDropDownList/OptionsDropDownList';
 import { useParams } from 'react-router-dom'
-import { IDelivery } from '../../Interfaces/IDelivery';
 import { Save, Close, Edit, Delete, Add } from '@mui/icons-material';
 import './Delivery.css';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
