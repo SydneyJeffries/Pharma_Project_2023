@@ -175,7 +175,7 @@ const Delivery = () => {
                 return value;
             },
             renderCell: (option) => {
-                const foundDrug: ValueOptions | undefined = drugKeys.find((x: any) => x.value == option.row.drugId);
+                const foundDrug: any | undefined = drugKeys.find((x: any) => x.value == option.row.drugId);
                 if (foundDrug) {
                     return <span>{foundDrug?.label}</span>;
                 } else {
