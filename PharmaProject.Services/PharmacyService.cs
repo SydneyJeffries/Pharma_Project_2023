@@ -1,8 +1,9 @@
 ﻿using PharmaProject.Objects.Models;
-using PharmaProject.Objects.Interfaces;
 using PharmaProject.Objects;
 using Microsoft.EntityFrameworkCore;
 using PharmaProject.Services.Interfaces;
+using Microsoft.Extensions.Caching.Memory;
+using System.Collections.Generic;
 
 namespace PharmaProject.Services
 {
@@ -15,28 +16,27 @@ namespace PharmaProject.Services
             _dbContext = context;
         }
 
-        public async Task<List<Pharmacy>> GetPharmacyList()
+        public async Task<List<Pharmacy>> GetPharmacyListAsync()
         {
-            return await _dbContext.Pharmacy.ToListAsync();
+            var data =  await _dbContext.Pharmacy.ToListAsync();
+
+            return data;
         }
 
-        public async Task<Pharmacy?> GetPharmacyById(int pharmacyId)
+        public async Task<Pharmacy?> GetPharmacyByIdAsync(int pharmacyId)
         {
+
             return await _dbContext.Pharmacy.FirstOrDefaultAsync(x => x.PharmacyId == pharmacyId);
         }
 
-        public async Task<Pharmacy> SavePharmacy(Pharmacy pharmacy)
+        public async Task<Pharmacy> SavePharmacyAsync(Pharmacy pharmacy)
         {
-            pharmacy.UpdatedDate = DateTime.Now;
+
+            pharmacy.UpdatedDate = DateTimeOffset.Now;
             _dbContext.Update(pharmacy);
             await _dbContext.SaveChangesAsync();
+
             return pharmacy;
-        }
-
-        public async Task<List<State>> GetStateList()
-        {
-            return await _dbContext.State.ToListAsync();
-        }
-
+        }   
     }
 }

@@ -17,12 +17,16 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 string connectionString = builder.Configuration.GetConnectionString("AppSettingsDbContext");
 
-builder.Services.AddDbContext<AppSettingsDbContext>(options =>
-            options.UseSqlServer(connectionString, b => b.MigrationsAssembly("PharmaProject.Objects"))
-       );
+builder.Services.AddDbContextPool<AppSettingsDbContext>(options =>
+            options.UseSqlServer(connectionString, b => b.MigrationsAssembly("PharmaProject.Server"))
+    );
 
 builder.Services.AddScoped<IPharmacyService, PharmacyService>();
-
+builder.Services.AddScoped<IDeliveryService, DeliveryService>();
+builder.Services.AddScoped<IWarehouseService,WarehouseService>();
+builder.Services.AddScoped<ILookupService, LookupService>();
+builder.Services.AddScoped<IPharmacistService, PharmacistService>();
+builder.Services.AddMemoryCache();
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
     options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en-US");

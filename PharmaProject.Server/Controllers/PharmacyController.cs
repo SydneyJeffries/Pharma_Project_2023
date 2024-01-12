@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PharmaProject.Services.Interfaces;
 using PharmaProject.Objects.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace PharmaProject.Server.Controllers
 {
@@ -20,13 +21,14 @@ namespace PharmaProject.Server.Controllers
         [HttpGet]
         [ProducesResponseType<Pharmacy>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Produces("application/json")]
         public async Task<IActionResult> GetPharmacyList()
         {
             try
             {
-                List<Pharmacy> results = await _pharmacyService.GetPharmacyList();
+                List<Pharmacy> results = await _pharmacyService.GetPharmacyListAsync();
 
-                return Ok(results);
+                return  Ok(results);
             }
             catch (Exception ex)
             {
@@ -35,15 +37,16 @@ namespace PharmaProject.Server.Controllers
             }
         }
 
-        [HttpGet("{Id}")]
+        [HttpGet("{pharmacyId}")]
         [ProducesResponseType<Pharmacy>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Produces("application/json")]
         public async Task<IActionResult> GetPharmacyById(int pharmacyId)
         {
             try
             {
-                Pharmacy? result = await _pharmacyService.GetPharmacyById(pharmacyId);
+                Pharmacy? result = await _pharmacyService.GetPharmacyByIdAsync(pharmacyId);
                 return result == null ? NotFound() : Ok(result);
             }
             catch(Exception ex)
@@ -56,13 +59,14 @@ namespace PharmaProject.Server.Controllers
         [HttpPost]
         [ProducesResponseType<Pharmacy>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Produces("application/json")]
         public async Task<IActionResult> SavePharmacy(Pharmacy pharmacy)
         {
             try
             {
-                await _pharmacyService.SavePharmacy(pharmacy);
+                Pharmacy result = await _pharmacyService.SavePharmacyAsync(pharmacy);
 
-                return Ok(pharmacy);
+                return Ok(result);
             }
             catch(Exception ex)
             {
@@ -72,25 +76,7 @@ namespace PharmaProject.Server.Controllers
      
         }
 
-        [HttpGet("GetStateList")]
-        [ProducesResponseType<Pharmacy>(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetStateList()
-        {
-            try
-            {
-                List<State> results = await _pharmacyService.GetStateList();
-
-                return  Ok(results);
-
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return BadRequest(ex.Message);
-            }
-        
-        }
+    
 
     }
 }

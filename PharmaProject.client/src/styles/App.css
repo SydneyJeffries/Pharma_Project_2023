@@ -1,0 +1,182 @@
+:root {
+    line-height: 1.5;
+    font-weight: 400;
+    color-scheme: light dark;
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #f8f9fa;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+    font-size: 18px;
+}
+
+a {
+    font-weight: 500;
+    color: #1976d2;
+    text-decoration: inherit;
+}
+
+a:hover {
+    color: #2c4bb3;
+}
+
+h1 {
+    font-size: 3.2em;
+    line-height: 1.1;
+}
+
+button {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: #1a1a1a;
+    cursor: pointer;
+    transition: border-color 0.25s;
+}
+
+button:hover {
+    border-color: #646cff;
+}
+
+button:focus,
+button:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+}
+
+
+body {
+    background-color: #f8f9fa;
+    background-image: url('/pills.png');
+    background-repeat: no-repeat;
+    background-position: 98% 10%;
+    background-size: 180px 180px;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: space-between;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.text-lg {
+    font-size: 1rem;
+}
+
+.card {
+    padding: 2em;
+}
+
+
+.btn {
+    padding-left: 3.5rem;
+    padding-right: 3.5rem;
+}
+
+.link-primary {
+    background-color: inherit;
+    border: none;
+}
+
+.css-ptkaw2-MuiDataGrid-root {
+    background-color: white;
+}
+
+.MuiDataGrid-cell.MuiDataGrid-cell--editing:focus-within {
+    outline: solid #1976d2 2px !important;
+}
+
+.MuiDataGrid-cell {
+    outline: none !important;
+}
+
+.MuiDataGrid-columnHeaderTitle {
+    font-weight: bold !important;
+}
+
+.MuiDataGrid-cell:has(.Mui-error.validation-ran) {
+    border-bottom: 2px solid red !important;
+}
+
+.MuiOutlinedInput-input {
+    outline: none !important;
+}
+
+.Mui-error .MuiOutlinedInput-notchedOutline {
+    border-color: rgba(0, 0, 0, 0.23) !important;
+}
+
+.text-green {
+    color: #4da846;
+}
+
+.underline {
+    text-decoration: underline
+}
+
+.css-sfbrjq-MuiSnackbar-root {
+    bottom: 80px !important;
+}
+
+.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+    font-size: .9rem !important;
+}
+
+.css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
+    background-color: white;
+}
+
+.text-black {
+    color: #000000;
+}
+
+
+.link {
+    color: #1976d2;
+}
+
+.css-1xjqtcb-MuiPaper-root-MuiCard-root {
+    box-shadow: none !important;
+    border: 1px solid rgba(224, 224, 224, 1);
+}
+
+.relative {
+    position: relative;
+}
+
+.bold {
+    font-weight: bold !important;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.font-reg {
+    font-size: 1rem !important;
+}
+
+.border-bottom-1 {
+    border-bottom: 1px solid rgba(224, 224, 224, 1);
+}
+
+.css-wnkddu-MuiPaper-root-MuiAlert-root {
+    background-color: #dcf3dc !important;
+}
+
+.MuiSvgIcon-root{
+    cursor: pointer;
+}

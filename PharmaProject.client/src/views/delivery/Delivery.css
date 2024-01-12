@@ -1,0 +1,8 @@
+
+.MuiMenu-list {
+    max-height: 300px;
+}
+
+#deliveries .MuiDataGrid-root {
+    height: 570px;
+}
